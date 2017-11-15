@@ -49,35 +49,21 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz
 void calculateMeanTestFormat(string name);
 void generateExecutable(vector<string> argv);
 
+
+
 int main(int argc, char *argv[])
 {
 	//cout << "WARNING - only cluster 26" << endl;
 	//cout << "change void ClustersFitness::optimize(int ind_i) to normalize" << endl;
-	int size = 7;
-	vector<string> name(size);
-	for (size_t i = 0; i < size; i++)
-	{
-		stringstream convert;
-		convert << (i + 1);
 
-		name[i] = "cluster-result-"
-			+ convert.str()
-			+ ".csv";
-	}
-	//for (int i = 0; i < name.size(); i++)
-		//calculateMeanTestFormat(name[i]);
-
-	calculateMeanTestFormat("cluster-result-previousPaper.csv");
-	return 0;
-
-	/*
 	stringstream convert0;
 	convert0 << argv[1] << "  " << argv[2];
 	string experimentMethod;
 	int seed;
 	convert0 >> experimentMethod >> seed;
 	Experiment exp_;
-	exp_.makeExperiment(seed, experimentMethod);
+	vector <double> inputParams;
+	exp_.makeExperiment(seed, experimentMethod, inputParams);
 	stringstream convert1;
 	vector<double> additionalParams;
 	double aux1, aux2, aux3;
@@ -103,75 +89,83 @@ int main(int argc, char *argv[])
 		additionalParams.push_back(aux1);
 		additionalParams.push_back(aux2);
 	}
+	else if (experimentMethod == "CalculateMean")
+	{
+		int size = 7;
+		vector<string> name(size);
+		for (size_t i = 0; i < size; i++)
+		{
+			stringstream convert;
+			convert << (i + 1);
 
-        ofstream histogram_;
-        histogram_.open("creation-histogram.txt", std::ofstream::out | std::ofstream::app);
-	histogram_ << "run:  " << experimentMethod << "  seed:  " <<  seed << endl;
-	histogram_.close();
+			name[i] = "cluster-result-"
+				+ convert.str()
+				+ ".csv";
+		}
+		//for (int i = 0; i < name.size(); i++)
+		//calculateMeanTestFormat(name[i]);
+		calculateMeanTestFormat("cluster-result-previousPaper.csv");
+	}
+	else if (experimentMethod == "experiment")
+	{
+		ofstream histogram_;
+		histogram_.open("creation-histogram.txt", std::ofstream::out | std::ofstream::app);
+		histogram_ << "run:  " << experimentMethod << "  seed:  " << seed << endl;
+		histogram_.close();
+		Experiment exp_;
+		exp_.makeExperiment(seed, experimentMethod, additionalParams);
+	}
+	else if (experimentMethod == "inputRun")
+	{
+		ReadGaInput readGa_;
+		string gaInput;
+		gaInput = argv[1];
+		readGa_.inputName = gaInput;
 
-	Experiment exp_;
+		readGa_.readGaInput();
 
-	exp_.makeExperiment(seed, experimentMethod, additionalParams);
+		AuxMathGa::set_seed(readGa_.getSeed());
+
+		zerg::GaParameters gaParam = readGa_.getGaParameters();
+
+		vector<string> options = readGa_.getOptions();
+
+		ClustersFitness clFit_(
+			gaParam,
+			options,
+			readGa_.getGamessPath(),
+			readGa_.getGamessScr(),
+			readGa_.getGamessNprocess());
+
+		GeneticAlgorithm ga1(clFit_, gaParam);
+		ga1.ga_start();
+
+		clFit_.printAllIndividuals("finalPopulation.xyz");
+
+	}
 
 	return 0;
-	*/
 }
-
 
 void generateExecutable(vector<string> argv)
 {
-        stringstream conv;
-        conv << argv[1] << "  " << argv[2] << "  " << argv[3];
-        string auxName;
-        double param1, param2;
-        conv >> auxName >> param1 >> param2;
-        string name = "./zerg.exe " + auxName + "  ";
-        ofstream roda_("roda");
-        roda_ << "#!/bin/bash" << endl;
-        for(int i = 1; i <= 50; i++)
-        {
-                roda_ << name << i << "  " << param1
-                        << "  " << param2 << endl;
-        }
-        roda_.close();
-        system("chmod u+x roda");
-}
-
-
-
-	//EXEMPLO DE EXECUCAO DO GA
-	/*
-	ReadGaInput readGa_;
-	string gaInput;
-	if (argc != 1)
+	stringstream conv;
+	conv << argv[1] << "  " << argv[2] << "  " << argv[3];
+	string auxName;
+	double param1, param2;
+	conv >> auxName >> param1 >> param2;
+	string name = "./zerg.exe " + auxName + "  ";
+	ofstream roda_("roda");
+	roda_ << "#!/bin/bash" << endl;
+	for (int i = 1; i <= 50; i++)
 	{
-		gaInput = argv[1];
-		readGa_.inputName = gaInput;
+		roda_ << name << i << "  " << param1
+			<< "  " << param2 << endl;
 	}
-
-	readGa_.readGaInput();
-
-	AuxMathGa::set_seed(readGa_.getSeed());
-
-	zerg::GaParameters gaParam = readGa_.getGaParameters();
-
-	vector<string> options = readGa_.getOptions();
-
-	ClustersFitness clFit_(
-		gaParam,
-		options,
-		readGa_.getGamessPath(),
-		readGa_.getGamessScr(),
-		readGa_.getGamessNprocess());
-
-	GeneticAlgorithm ga1(clFit_, gaParam);
-	ga1.ga_start();
-
-	clFit_.printAllIndividuals("finalPopulation.xyz");
-
-	return 0;
+	roda_.close();
+	system("chmod u+x roda");
 }
-*/
+
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName)
 {
