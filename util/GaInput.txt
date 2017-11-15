@@ -1,0 +1,37 @@
+number_of_cores = 1
+restart = no
+project_name = teste-com-input
+population_size = 40
+maximum_number_of_generations = 300
+highlander_initial_energy = 1.0e99
+highlander_max_iteration = 50
+large_energy_value = 2
+maximum_creation_operators_boost = 0.9
+predator_method = 0
+mutation_value = 0.1e0
+crossover_weight = 0.7e0
+crossover_probability = 0.7e0
+number_of_atoms = 5
+gamma_creation_radius = 0.2
+radius_factor = 1.0
+max_distance_between_atoms = 1.0e99
+iterations_to_repeat_if_it_is_similar = 30
+interaction_potential = gamess
+gamess_executable_path = /home/programas/rungms
+bases_files_number = 3
+base = li-base.txt
+base = li-base.txt
+base = li-base.txt
+gamess_header_file = li-header.txt
+
+
+
+
+
+!./zerg.exe GeometricCenterDisplacement  2  0.2  0.5  1
+
+
+
+
+
+
