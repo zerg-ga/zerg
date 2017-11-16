@@ -10,7 +10,10 @@ INCLUDES = -I. -Iclusters/ -I../dlib-19.4/
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -O3 -lpthread -lX11
+LFLAGS = -O3 -lpthread 
+
+#c++ 11
+#-lX11
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 

@@ -58,8 +58,8 @@ double Fitness::lennardJones(vector<double> &x)
 			vlj += 4.0e0 * (-1 / r6 + 1 / r12);
 		}
 	}
-	if (isnan(vlj))
-		return 1.0e99;
+	//if (isnan(vlj))
+	//	return 1.0e99;
 	return vlj;
 }
 
