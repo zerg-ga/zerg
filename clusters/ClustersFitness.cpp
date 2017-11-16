@@ -106,6 +106,7 @@ void ClustersFitness::optimize(int ind_i)
 			gamessScr,
 			nProc);
 
+
 	numberOfLocalMinimizations++;
 
 	if (makeExperiment)

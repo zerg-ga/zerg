@@ -88,7 +88,7 @@ void ReadQuantumOutput::readOutput(string outName)
 	firstFrequency = -1.0e99;
 	energy = 0.0e0;
 	ionizationPotential = 0.0e0;
-	string name = outName + ".log";
+	string name = outName;
 	ifstream quantumOut_;
 	quantumOut_.open(name.c_str());
 
@@ -100,6 +100,7 @@ void ReadQuantumOutput::readOutput(string outName)
 
 		if (auxline == "")
 			continue;
+
 
 		if (haveToReadCoordinates(auxline) && coordinatesActivation)
 		{
