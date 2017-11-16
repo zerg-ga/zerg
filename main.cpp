@@ -57,16 +57,13 @@ int main(int argc, char *argv[])
 	//cout << "change void ClustersFitness::optimize(int ind_i) to normalize" << endl;
 
 	stringstream convert0;
-	convert0 << argv[1] << "  " << argv[2];
+	convert0 << argv[1];
 	string experimentMethod;
-	int seed;
-	convert0 >> experimentMethod >> seed;
-	Experiment exp_;
-	vector <double> inputParams;
-	exp_.makeExperiment(seed, experimentMethod, inputParams);
-	stringstream convert1;
+	convert0 >> experimentMethod;
 	vector<double> additionalParams;
-	double aux1, aux2, aux3;
+	double aux1,aux2,aux3;
+	stringstream convert1;
+	int seed;
 	if(experimentMethod == "TwistOperator")
 	{
 		convert1 << argv[3] << "  " << argv[4];
@@ -119,7 +116,11 @@ int main(int argc, char *argv[])
 	{
 		ReadGaInput readGa_;
 		string gaInput;
-		gaInput = argv[1];
+		if(argc == 3)
+			gaInput = argv[2];
+		else
+			gaInput = "GaInput.txt";
+
 		readGa_.inputName = gaInput;
 
 		readGa_.readGaInput();
