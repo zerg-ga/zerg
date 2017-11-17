@@ -15,6 +15,8 @@ public:
 
 	void makeExperiment(int seed, std::string experimentMethod, std::vector<double> & additionalParams);
 
+private:
+
 	void setExperiment(std::string experimentMethod, zerg::GaParameters & gaParam);
 
 };

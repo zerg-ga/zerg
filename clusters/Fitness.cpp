@@ -80,13 +80,12 @@ double Fitness::runGamess(
 		mol[i].y = x[i + nAtoms];
 		mol[i].z = x[i + 2 * nAtoms];
 	}
+
 	writeInp_.createInput(mol);
 
 	system(("rm /scr/" + options[1] + "*").c_str());
 
 	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
-
-	
 
 	ReadQuantumOutput readQ_("gamess");
 

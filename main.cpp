@@ -49,48 +49,47 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz
 void calculateMeanTestFormat(string name);
 void generateExecutable(vector<string> argv);
 
-
-
 int main(int argc, char *argv[])
 {
-	//cout << "WARNING - only cluster 26" << endl;
-	//cout << "change void ClustersFitness::optimize(int ind_i) to normalize" << endl;
-
 	string experimentMethod;
 	if (argc > 1)
 	{
 		stringstream convert0;
-		convert0 >> experimentMethod;
 		convert0 << argv[1];
+		convert0 >> experimentMethod;
 	}
 	vector<double> additionalParams;
 	double aux1,aux2,aux3;
 	stringstream convert1;
 	int seed = 3;
 
-	experimentMethod = "inputRun";
-
 	if(experimentMethod == "TwistOperator")
 	{
-		convert1 << argv[3] << "  " << argv[4];
-		convert1 >> aux1 >> aux2;
+		convert1 << argv[2] << "  " << argv[3] << "  " << argv[4];
+		convert1 >> seed >> aux1 >> aux2;
 		additionalParams.push_back(aux1);
 		additionalParams.push_back(aux2);
+		Experiment exp_;
+		exp_.makeExperiment(seed, experimentMethod, additionalParams);
 	}
 	else if(experimentMethod == "GeometricCenterDisplacement")
 	{
-		convert1 << argv[3] << "  " << argv[4] << "  " << argv[5];
-		convert1 >> aux1 >> aux2 >> aux3;
+		convert1 << argv[2] << "  " << argv[3] << "  " << argv[4] << "  " << argv[5];
+		convert1 >> seed >> aux1 >> aux2 >> aux3;
 		additionalParams.push_back(aux1);
 		additionalParams.push_back(aux2);
 		additionalParams.push_back(aux3);
+		Experiment exp_;
+		exp_.makeExperiment(seed, experimentMethod, additionalParams);
 	}
 	else if(experimentMethod == "AutoAdjust")
 	{
-		convert1 << argv[3] << "  " << argv[4];
-		convert1 >> aux1 >> aux2;
+		convert1 << argv[2] << "  " << argv[3] << "  " << argv[4];
+		convert1 >> seed >> aux1 >> aux2;
 		additionalParams.push_back(aux1);
 		additionalParams.push_back(aux2);
+		Experiment exp_;
+		exp_.makeExperiment(seed, experimentMethod, additionalParams);
 	}
 	else if (experimentMethod == "CalculateMean")
 	{
@@ -118,7 +117,7 @@ int main(int argc, char *argv[])
 		Experiment exp_;
 		exp_.makeExperiment(seed, experimentMethod, additionalParams);
 	}
-	else if (experimentMethod == "inputRun")
+	else
 	{
 		ReadGaInput readGa_;
 		string gaInput;
@@ -145,6 +144,7 @@ int main(int argc, char *argv[])
 			readGa_.getGamessNprocess());
 
 		GeneticAlgorithm ga1(clFit_, gaParam);
+
 		ga1.ga_start();
 
 		clFit_.printAllIndividuals("finalPopulation.xyz");
