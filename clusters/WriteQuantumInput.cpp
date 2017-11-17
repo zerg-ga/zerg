@@ -127,6 +127,7 @@ void WriteQuantumInput::readGamessAuxFiles()
 	}
 }
 
+
 string WriteQuantumInput::createInput(
 	vector<CoordXYZ> &coordinates,
 	int indexAddedAtFinalOfInputToSaveItsName)

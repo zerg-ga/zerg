@@ -222,9 +222,9 @@ void ReadGaInput::setDefaults()
 	gaParam.maxGeneration = 300;
 	gaParam.highlanderInitialFitness = 1.0e99;
 	gaParam.highlanderMaxIteration = 50;
+	gaParam.insistOnSimilar = 30;
 	gaParam.adminLargeEnergyVariation = 2.0e0;
 	gaParam.adminMaxCreationVariation = 0.9e0;
-	gaParam.insistOnSimilar = 30;
 	gaParam.predatorMethod = 0;
 	gaParam.n_process = 1;
 	gaParam.mutationValue = 0.1e0;
@@ -238,12 +238,13 @@ void ReadGaInput::setDefaults()
 	AuxMath auxMath_;
 
 	// OPERATORS PARAMETERS
-	gaParam.scdo = 0.1e0;
 	gaParam.alfaMinGcdo = 0.2e0;
-	gaParam.alfaMaxGcdo = 0.45e0;
+	gaParam.alfaMaxGcdo = 0.7e0;
 	gaParam.wGcdo = 2;
-	gaParam.tetaMinTwisto = auxMath_._pi / 6;
-	gaParam.tetaMaxTwisto = auxMath_._pi;
+	gaParam.tetaMinTwisto = 0.1e0 * auxMath_._pi;
+	gaParam.tetaMaxTwisto = 0.5e0 *auxMath_._pi;
+
+	gaParam.scdo = 0.1e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
 }

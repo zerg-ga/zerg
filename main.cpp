@@ -56,14 +56,20 @@ int main(int argc, char *argv[])
 	//cout << "WARNING - only cluster 26" << endl;
 	//cout << "change void ClustersFitness::optimize(int ind_i) to normalize" << endl;
 
-	stringstream convert0;
-	convert0 << argv[1];
 	string experimentMethod;
-	convert0 >> experimentMethod;
+	if (argc > 1)
+	{
+		stringstream convert0;
+		convert0 >> experimentMethod;
+		convert0 << argv[1];
+	}
 	vector<double> additionalParams;
 	double aux1,aux2,aux3;
 	stringstream convert1;
-	int seed;
+	int seed = 3;
+
+	experimentMethod = "inputRun";
+
 	if(experimentMethod == "TwistOperator")
 	{
 		convert1 << argv[3] << "  " << argv[4];
