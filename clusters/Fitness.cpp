@@ -75,7 +75,7 @@ double Fitness::runGamess(
 	vector<CoordXYZ> mol(nAtoms);
 	for (int i = 0; i < nAtoms; i++)
 	{
-		mol[i].atomlabel = "N";
+		mol[i].atomlabel = writeInp_.getAtomName(i);
 		mol[i].x = x[i];
 		mol[i].y = x[i + nAtoms];
 		mol[i].z = x[i + 2 * nAtoms];

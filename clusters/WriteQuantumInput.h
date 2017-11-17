@@ -23,6 +23,9 @@ public:
 	//MOPAC PUBLIC FUNCTIONS
 	void changeMopacHeader(std::string newHeader) { mopacHeader = newHeader; }
 
+	//GAMESS PUBLIC FUNCIONS
+	std::string getAtomName(int i);
+
 private:
 	//GLOBAL
 	std::string type;
@@ -40,6 +43,8 @@ private:
 	std::vector<std::string> gamessAtomBasisFiles;
 	std::vector<std::string> gamessEcpFiles;
 	void readGamessAuxFiles();
+	std::vector< std::string > atomName;
+
 	std::vector< std::vector<std::string> > atomBasis;
 	std::vector< std::vector<std::string> > atomEcp;
 	void buildGamessInput(std::vector<CoordXYZ> &coordinates, std::string inputName);

@@ -23,6 +23,11 @@ WriteQuantumInput::WriteQuantumInput(
 
 WriteQuantumInput::~WriteQuantumInput() {}
 
+string WriteQuantumInput::getAtomName(int i)
+{
+	return atomName[i];
+}
+
 void WriteQuantumInput::setInputProperties(vector<string> &options)
 {
 	if ((type == "mopac") || (type == "mopac2009"))
@@ -85,16 +90,20 @@ void WriteQuantumInput::setInputProperties(vector<string> &options)
 
 void WriteQuantumInput::readGamessAuxFiles()
 {
-	bool ecp = gamessEcpFiles.size() != 0;
+	bool ecp = false;
 	int nAtoms = gamessAtomBasisFiles.size();
 	atomBasis.resize(nAtoms);
-	if (ecp)
-		atomEcp.resize(nAtoms);
-
 	for (int i = 0; i < nAtoms; i++)
 	{
 		ifstream readBasis_(("auxFiles/" + gamessAtomBasisFiles[i]).c_str());
 		string auxline;
+		getline(readBasis_, auxline);
+		stringstream convert0;
+		convert0 << auxline;
+		string atomLabel;
+		convert0 >> atomLabel;
+		atomName.push_back(atomLabel);
+
 		while (getline(readBasis_, auxline))
 		{
 			stringstream line;
@@ -104,14 +113,19 @@ void WriteQuantumInput::readGamessAuxFiles()
 			if (aux == "end")
 				break;
 
+			if (aux == "startEcp")
+			{
+				ecp = true;
+				break;
+			}
+
 			atomBasis[i].push_back(auxline);
 		}
-		readBasis_.close();
 		if (ecp)
 		{
-			ifstream readEcp_(("auxFiles/" + gamessEcpFiles[i]).c_str());
+			atomEcp.resize(nAtoms);
 			string auxlineEcp;
-			while (getline(readEcp_, auxlineEcp))
+			while (getline(readBasis_, auxlineEcp))
 			{
 				stringstream line;
 				string aux;
@@ -122,10 +136,11 @@ void WriteQuantumInput::readGamessAuxFiles()
 
 				atomEcp[i].push_back(auxlineEcp);
 			}
-			readEcp_.close();
 		}
+		readBasis_.close();
 	}
 }
+
 
 
 string WriteQuantumInput::createInput(
@@ -167,7 +182,8 @@ void WriteQuantumInput::buildGamessInput(vector<CoordXYZ> &coordinates, string i
 	if (gamessAtomBasisFiles.size() != coordinates.size())
 	{
 		cout << "basis quantity and atoms quantity dont match" << endl;
-		throw 0;
+		exit(1);
+		//throw 0;
 	}
 
 	//writing coordinates and basis
@@ -185,7 +201,7 @@ void WriteQuantumInput::buildGamessInput(vector<CoordXYZ> &coordinates, string i
 		gamessInput_ << endl;
 	}
 	gamessInput_ << " $END" << endl;
-	if (gamessEcpFiles.size() != 0)
+	if (atomEcp.size() != 0)
 	{
 		gamessInput_ << " $ECP" << endl;
 		string ecpUsed = "";
@@ -212,7 +228,6 @@ void WriteQuantumInput::buildGamessInput(vector<CoordXYZ> &coordinates, string i
 					gamessInput_ << atomEcp[i][j] << endl;
 			}
 		}
-
 		gamessInput_ << " $END" << endl;
 	}
 
