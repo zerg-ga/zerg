@@ -27,15 +27,12 @@ using namespace zerg;
 - (TESTAR)se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
 
 alteracoes do qga
-- comando que pega um xyz, roda outra otimizacao e depois roda uma frequencia
 - portabilildade no fitness.cpp e no makefile (isnan)
-- desativar leuituras desnecessarias - como frequencias
 
 proximo paper
 - o highlander sai passando pela populacao com um raio maior e subindo energias - algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
-- pensar sobre o highlander max iteration está 1.0e99.
 
-
+- fazer um estudo sobre o hidrogenio, avaliar os efeitos da base e etc, escolher uma base que presta para descrever os clusters.
 
 estudo das formas de gerar clusters iniciais:
 - Tem o de Sao Carlos, esfera, cubo e árvore.
@@ -43,6 +40,7 @@ estudo das formas de gerar clusters iniciais:
   gerar todos e avaliar suas diferencas.
 - colocar const no cluster operators por seguranca
 
+- pensar sobre o highlander max iteration está 1.0e99.
 - pop_size has to be multiple of four.
 
 */
@@ -50,6 +48,7 @@ estudo das formas de gerar clusters iniciais:
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
 void calculateMeanTestFormat(string name);
 void generateExecutable(vector<string> argv);
+vector<double> readXyz(string xyzName);
 
 int main(int argc, char *argv[])
 {
@@ -95,7 +94,7 @@ int main(int argc, char *argv[])
 	}
 	else if (experimentMethod == "CalculateMean")
 	{
-		int size = 7;
+		size_t size = 7;
 		vector<string> name(size);
 		for (size_t i = 0; i < size; i++)
 		{
@@ -120,6 +119,44 @@ int main(int argc, char *argv[])
 		histogram_.close();
 		Experiment exp_;
 		exp_.makeExperiment(seed, experimentMethod, additionalParams);
+	}
+	else if (experimentMethod == "frequency")
+	{
+		ReadGaInput readGa_;
+		string xyzName;
+		string gaInput;
+		gaInput = "GaInput.txt";
+		convert1 << argv[2];
+		convert1 >> xyzName;
+
+		readGa_.inputName = gaInput;
+		readGa_.readGaInput();
+		zerg::GaParameters gaParam = readGa_.getGaParameters();
+		vector<string> options = readGa_.getOptions();
+		if (options.size() == 0)
+		{
+			cout << "Gamess options not found - check GaInput" << endl;
+			exit(1);
+		}
+		Fitness fit_;
+		vector<double> xCoordinates = readXyz(xyzName);
+		options[1] = xyzName + "-";
+		double energy = fit_.runGamess(
+			xCoordinates,
+			options,
+			readGa_.getGamessPath(),
+			readGa_.getGamessScr(),
+			readGa_.getGamessNprocess());
+
+		double frequency = fit_.runGamessFrequency(
+			0,
+			xCoordinates,
+			options,
+			readGa_.getGamessPath(),
+			readGa_.getGamessScr(),
+			readGa_.getGamessNprocess());
+
+		cout << "energy: " << energy << "  frequency: " << frequency << endl;
 	}
 	else
 	{
@@ -242,5 +279,39 @@ void calculateMeanTestFormat(string name)
 	all_ << sName << "  ;  " << (double)mean / 50.0e0 << endl;
 }
 
-
+vector<double> readXyz(string xyzName)
+{
+	ifstream xyzFile_(xyzName.c_str());
+	string line;
+	stringstream convert;
+	int natoms;
+	getline(xyzFile_, line);
+	convert << line;
+	convert >> natoms;
+	getline(xyzFile_, line);
+	
+	vector<double> atomX;
+	vector<double> atomY;
+	vector<double> atomZ;
+	for (int i = 0; i < natoms; i++)
+	{
+		getline(xyzFile_, line);
+		stringstream convert1;
+		convert1 << line;
+		string flag;
+		double ax, ay, az;
+		convert1 >> flag >> ax >> ay >> az;
+		atomX.push_back(ax);
+		atomY.push_back(ay);
+		atomZ.push_back(az);
+	}
+	vector<double> coordinates(3 * natoms);
+	for (int i = 0; i < natoms; i++)
+	{
+		coordinates[i] = atomX[i];
+		coordinates[i + natoms] = atomY[i];
+		coordinates[i + 2 * natoms] = atomZ[i];
+	}
+	return coordinates;
+}
 

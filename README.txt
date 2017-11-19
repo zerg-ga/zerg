@@ -1,3 +1,10 @@
+Rodar frequencia a partir de um arquivo xyz
+
+./zerg.exe frequency [file]
+
+
+
+
 - void Creation::initialize_creation(int pop_size,
   -  Gera os operadores inicias com creation_rate (1/numero de operadores).
 

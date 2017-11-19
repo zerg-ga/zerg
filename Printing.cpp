@@ -11,7 +11,7 @@ namespace zerg {
 	
 	Printing::Printing(int creationDebug)
 	{
-		mainOutput_.open("output-printing.txt");
+		mainOutput_.open("ga-output.txt");
 		creationOutputDebugLevel = creationDebug;
 		if (creationOutputDebugLevel == 1)
 			creationOutput_.open("operators-histogram.txt");

@@ -101,8 +101,6 @@ void Creation::set_creation_methods(Predator &pred)
 		}
 	}
 
-	ofstream histogram_;
-	histogram_.open("creation-histogram.txt", std::ofstream::out | std::ofstream::app);
 	// set individuals to be created from dead (1,12 etc.)
 	int dead = 0;
 	for(int method=0; method<number_methods; method++)
@@ -112,13 +110,9 @@ void Creation::set_creation_methods(Predator &pred)
 			creation_methods[method][i+1] = pred.dead_individuals[dead];
 			dead++;
 			pPrinting_->histogramPrint(method);
-			histogram_ << method << "  ";
-			//fredmudar
 		}
 	}
 	pPrinting_->histogramEndl();
-	histogram_ << endl;
-	histogram_.close();
 }
 
 
