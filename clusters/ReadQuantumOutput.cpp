@@ -19,6 +19,7 @@ ReadQuantumOutput::ReadQuantumOutput(string type_in)
 	ionizationActivation = false;
 	dipoleActivation = false;
 	frequencyActivation = true;
+
 	if ((type == "mopac") || (type == "mopac2009"))
 	{
 		energyFlag1 = "TOTAL";
@@ -101,7 +102,6 @@ void ReadQuantumOutput::readOutput(string outName)
 		if (auxline == "")
 			continue;
 
-
 		if (haveToReadCoordinates(auxline) && coordinatesActivation)
 		{
 			coordinates = readCoordinates(quantumOut_);
@@ -120,7 +120,7 @@ void ReadQuantumOutput::readOutput(string outName)
 		}
 		else if (haveToReadFrequency(auxline) && frequencyActivation)
 		{
-			readFrequency(quantumOut_);
+			readFrequency(quantumOut_, auxline);
 		}
 	}
 
@@ -283,9 +283,8 @@ void ReadQuantumOutput::readDipole(ifstream & quantumOut_)
 	}
 }
 
-void ReadQuantumOutput::readFrequency(ifstream & quantumOut_)
+void ReadQuantumOutput::readFrequency(ifstream & quantumOut_, string auxline)
 {
-	string auxline;
 	if ((type == "mopac") || (type == "mopac2009"))
 	{
 		getline(quantumOut_, auxline);
@@ -299,6 +298,15 @@ void ReadQuantumOutput::readFrequency(ifstream & quantumOut_)
 	}
 	if (type == "gamess")
 	{
+		string dum1;
+		stringstream convert;
+		convert << auxline;
+		convert >> dum1 >> firstFrequency;
+		if (auxline.find("I") != string::npos)
+		{
+			firstFrequency *= -1.0e0;
+		}
+		/*
 		while(getline(quantumOut_, auxline))
 		{
 			if (auxline.find(gamessFrequency) != string::npos)
@@ -306,10 +314,15 @@ void ReadQuantumOutput::readFrequency(ifstream & quantumOut_)
 				string dum1, dum2;
 				stringstream convert;
 				convert << auxline;
-				convert >> dum1 >> dum2 >> firstFrequency;
+				convert >> dum1 >> firstFrequency;
+				if (auxline.find("I") != string::npos)
+				{
+					firstFrequency *= -1.0e0;
+				}
 				break;
 			}
 		}
+		*/
 	}
 }
 

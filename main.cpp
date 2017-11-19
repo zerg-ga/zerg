@@ -24,12 +24,17 @@ using namespace std;
 using namespace zerg;
 
 /*
+alteracoes do qga
+- portabilildade no fitness.cpp e no makefile (isnan)
+- comando que pega um xyz, roda outra otimizacao e depois roda uma frequencia
+- se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
+- desativar leuituras desnecessarias - como frequencias
 
-IMPORTANTE - Criar um objeto chamado - benchmarck
-           - ele vai montar uma execucao sem input
-		   - com os parametros lennard-jones, rodar
-		   - e dentro do codigo mesmo tem que ter
-		   - o resultado que tem que dar.
+proximo paper
+- algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
+- pensar sobre o highlander max iteration está 1.0e99.
+
+
 
 estudo das formas de gerar clusters iniciais:
 - Tem o de Sao Carlos, esfera, cubo e árvore.
@@ -37,12 +42,8 @@ estudo das formas de gerar clusters iniciais:
 - usar a algebra de polya para contar isomeros lennard jones dos bimetalicos,
   gerar todos e avaliar suas diferencas.
 
-- remover os outros branchs
-
-- os operadores deveriam seguir o seguinte paradigma: receber
-  sempre coordenadas.
-
 - colocar const no cluster operators por seguranca
+
 */
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
@@ -148,7 +149,6 @@ int main(int argc, char *argv[])
 		ga1.ga_start();
 
 		clFit_.printAllIndividuals("finalPopulation.xyz");
-
 	}
 
 	return 0;

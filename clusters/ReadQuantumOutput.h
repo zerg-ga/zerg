@@ -83,7 +83,7 @@ private:
 	void readEnergy(std::string auxline);
 	void readIonization(std::string auxline, std::ifstream & quantumOut_);
 	void readDipole(std::ifstream & quantumOut_);
-	void readFrequency(std::ifstream & quantumOut_);
+	void readFrequency(std::ifstream & quantumOut_, std::string auxline);
 
 	// Control flags - when to read.
 	bool haveToReadCoordinates(std::string auxline);
