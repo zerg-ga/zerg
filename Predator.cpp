@@ -12,10 +12,14 @@ using namespace std;
 using namespace zerg;
 
 namespace zerg{
-void Predator::initialize_predator(int pop_size_in, GaOptions &gaoptions)
+void Predator::initialize_predator(
+	int pop_size_in,
+	Printing * pPrinting_in,
+	GaOptions &gaoptions)
 {
 	pgaoptions_ = &gaoptions;
 	pop_size = pop_size_in;
+	pPrinting_ = pPrinting_in;
 	fitness_energies.resize(pop_size);
 	fitness_rank.resize(pop_size);
 	dead_individuals.resize(pop_size/4);
@@ -41,6 +45,9 @@ void Predator::get_dead_individuals(Population &pop, ofstream &geneticOut_)
 	}
 
 	printPredatorInfo(geneticOut_, fitness_rank, fitness_energies);
+
+	pPrinting_->energyMessage(fitness_rank, dead_individuals,fitness_energies);
+
 
 }
 

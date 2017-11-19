@@ -111,6 +111,8 @@ int main(int argc, char *argv[])
 	}
 	else if (experimentMethod == "experiment")
 	{
+		cout << "remove this histogram flag" << endl;
+		exit(1);
 		ofstream histogram_;
 		histogram_.open("creation-histogram.txt", std::ofstream::out | std::ofstream::app);
 		histogram_ << "run:  " << experimentMethod << "  seed:  " << seed << endl;

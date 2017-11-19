@@ -9,6 +9,7 @@
 #include "Predator.h"
 #include "Creation.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 using namespace std;
 using namespace zerg;
@@ -21,6 +22,12 @@ GeneticAlgorithm::GeneticAlgorithm(
 	GaParameters & gaParam)
 :pop(pop_in)
 {
+	// tenho que seguir o geneticOut_
+	// create histogram
+	// era bom incluir o restart handling tambem
+	pPrinting_ = new Printing(1);
+	pPrinting_->histogramTitle(gaParam.seed);
+
 	generation = 1;
 	maxGeneration = gaParam.maxGeneration;
 	highlander = 0;
@@ -30,21 +37,25 @@ GeneticAlgorithm::GeneticAlgorithm(
 	geneticOut_.open("output.txt");
 
 	//initializing objects
-	pred_.initialize_predator(pop_size, gaoptions_);
+	pred_.initialize_predator(pop_size, pPrinting_, gaoptions_);
 	creation_.initialize_creation(
 		pop_size, 
 		pop.get_number_of_creation_methods(),
 		gaParam.n_process,
 		geneticOut_,
+		pPrinting_,
 		gaoptions_,
 		gaParam);
 
 	setDefaultGaOptions();
+	pPrinting_->writeOpenMessage();
 	writeOpenMessage();
 }
 
 GeneticAlgorithm::~GeneticAlgorithm()
 {
+	pPrinting_->endMessage();
+	delete pPrinting_;
 	geneticOut_ << " Zerg GA terminated normally" << endl;
 	geneticOut_.close();
 }
@@ -53,13 +64,15 @@ void GeneticAlgorithm::ga_start()
 {
 	for (int i = 1; i <= maxGeneration; i++)
 	{
+		pPrinting_->generationMessage(i);
 		geneticOut_ << "Generation:  " << i << endl;
 		predation();
 		creation();
 
 		if (checkHighlanderStop(i))
-			break;
+			return;
 	}
+	pPrinting_->generationEndMessage();
 }
 
 void GeneticAlgorithm::setGaOptions(int flag, bool activate)
@@ -130,6 +143,7 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 
 	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
+		pPrinting_->highlanderEndMessage();
 		geneticOut_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
 		return true;
 	}

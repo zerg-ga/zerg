@@ -9,6 +9,7 @@
 #include "ParallelOptimization.h"
 #include "AdministrateCreation.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 // porcentagem
 // criacao pode ser assim:
@@ -25,6 +26,7 @@ public:
 		int number_creation_methods, 
 		int n_process, 
 		std::ofstream &geneticOut_,
+		zerg::Printing * pPrinting_in,
 		zerg::GaOptions &gaoptions,
 		zerg::GaParameters &gaParam);
 
@@ -50,6 +52,7 @@ private:
 	std::ofstream * pgeneticOut_;
 	zerg::GaOptions * pgaoptions_;
 	zerg::AdministrateCreation admin_;
+	zerg::Printing * pPrinting_;
 
 };
 

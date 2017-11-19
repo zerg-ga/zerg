@@ -18,7 +18,7 @@ ReadQuantumOutput::ReadQuantumOutput(string type_in)
 	energyActivation = true;
 	ionizationActivation = false;
 	dipoleActivation = false;
-	frequencyActivation = true;
+	frequencyActivation = false;
 
 	if ((type == "mopac") || (type == "mopac2009"))
 	{
@@ -306,23 +306,6 @@ void ReadQuantumOutput::readFrequency(ifstream & quantumOut_, string auxline)
 		{
 			firstFrequency *= -1.0e0;
 		}
-		/*
-		while(getline(quantumOut_, auxline))
-		{
-			if (auxline.find(gamessFrequency) != string::npos)
-			{
-				string dum1, dum2;
-				stringstream convert;
-				convert << auxline;
-				convert >> dum1 >> firstFrequency;
-				if (auxline.find("I") != string::npos)
-				{
-					firstFrequency *= -1.0e0;
-				}
-				break;
-			}
-		}
-		*/
 	}
 }
 

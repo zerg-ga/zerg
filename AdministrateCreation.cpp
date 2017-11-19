@@ -6,19 +6,22 @@
 #include <algorithm>
 
 #include "FuzzyAdministration.h"
+#include "Printing.h"
 
 using namespace std;
 using namespace zerg;
 
 namespace zerg{
 void AdministrateCreation::initializeAdministration(
-	std::ofstream &geneticOut_, 
+	std::ofstream &geneticOut_,
+	zerg::Printing * pPrinting_in,
 	GaOptions &gaoptions,
 	GaParameters &gaParam)
 {
 	popSize = gaParam.pop_size;
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
+	pPrinting_ = pPrinting_in;
 	oldFitness.resize(popSize/4);
 	methodUsed.resize(popSize/4);
 	newIndividuals.resize(popSize/4);
@@ -42,6 +45,7 @@ void AdministrateCreation::setNewIndividuals(int newComer, int method, double fi
 
 	if(pos==-1)
 	{
+		pPrinting_->setNewIndividualsError();
 		*pgeneticOut_ << " setNewIndividuals unexpected error " << endl;
 		exit(1);
 	}
@@ -94,6 +98,7 @@ void AdministrateCreation::adminCreationMethods(Population &pop, vector<double> 
 
 		if(pgaoptions_->printVariationOfCreationMethods)
 		{
+			pPrinting_->variationOfEachMethod(methodUsed[i], varFitness);			
 			*pgeneticOut_ << "Method:  " << methodUsed[i]
 				<< "   caused a variation on fitness of:  " << varFitness
 				<< endl;
@@ -102,6 +107,7 @@ void AdministrateCreation::adminCreationMethods(Population &pop, vector<double> 
 	}
 	if(pgaoptions_->printVariationOfCreationMethods)
 	{
+		pPrinting_->allVariations(methodMean);
 		*pgeneticOut_ << endl << "Mean fitness variations: " << endl;
 		for(int ii=0;ii<(int)methodMean.size();ii++)
 		{
@@ -140,8 +146,11 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 {
 	int nMethods = (int) methodMean.size();
 
-	if(pgaoptions_->printVariationOfCreationMethods)
+	if (pgaoptions_->printVariationOfCreationMethods)
+	{
+		pPrinting_->factorToIncreaseDecrease();
 		*pgeneticOut_ << "Factor to increase/decrease method N:  " << endl;
+	}
 
 	for(int i=0;i<nMethods;i++)
 	{
@@ -150,6 +159,7 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 			creation_rate[i] += fuzzy_.getCreateRateVariation(methodMean[i]);
 			if(pgaoptions_->printVariationOfCreationMethods)
 			{
+				pPrinting_->printFactor(i, fuzzy_.getCreateRateVariation(methodMean[i]));
 				*pgeneticOut_ << "method " 
 					<< i 
 					<< " : "
@@ -168,9 +178,11 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 	{
 		auxsum+=creation_rate[j];
 	}
-
-	if(pgaoptions_->printVariationOfCreationMethods)
+	
+	if (pgaoptions_->printVariationOfCreationMethods)
+	{
 		*pgeneticOut_ << endl << "Creation Rate after normalization " << endl;
+	}
 	for(int k=0;k<nMethods;k++)
 	{
 		creation_rate[k]/=auxsum;
@@ -183,6 +195,10 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 
 	if(pgaoptions_->printVariationOfCreationMethods)
 		*pgeneticOut_ << endl;
+
+	pPrinting_->normalizedCreationRate(creation_rate);
+
+
 }
 
 }

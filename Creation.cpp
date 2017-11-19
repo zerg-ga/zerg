@@ -11,6 +11,7 @@
 #include "AuxMathGa.h"
 #include "ParallelOptimization.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 using namespace std;
 using namespace zerg;
@@ -26,13 +27,15 @@ void Creation::initialize_creation(
 	int number_creation_methods,
 	int n_process, 
 	ofstream &geneticOut_,
+	Printing * pPrinting_in,
 	GaOptions &gaoptions,
 	GaParameters &gaParam
 	)
 {
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
-	admin_.initializeAdministration(geneticOut_, gaoptions, gaParam);
+	pPrinting_ = pPrinting_in;
+	admin_.initializeAdministration(geneticOut_, pPrinting_, gaoptions, gaParam);
 	insistOnSimilar = gaParam.insistOnSimilar;
 
 	number_methods = number_creation_methods;
@@ -112,15 +115,15 @@ void Creation::set_creation_methods(Predator &pred)
 		{
 			creation_methods[method][i+1] = pred.dead_individuals[dead];
 			dead++;
+			pPrinting_->histogramPrint(method);
 			histogram_ << method << "  ";
 			//fredmudar
 		}
 	}
+	pPrinting_->histogramEndl();
 	histogram_ << endl;
 	histogram_.close();
 }
-
-
 
 void Creation::creation_from_methods(Population &pop, Predator &pred)
 {
@@ -202,9 +205,12 @@ bool Creation::is_dead(Predator &pred, int parent)
 
 void Creation::printSimilarityProblem(int method)
 {
-	if(pgaoptions_->similarityProblem)
-		*pgeneticOut_ << "WARNING!!!    Method:  " << 
+	if (pgaoptions_->similarityProblem)
+	{
+		*pgeneticOut_ << "WARNING!!!    Method:  " <<
 			method << "   didnt surpass similarity. " << endl;
+		pPrinting_->similarityProblem(method);
+	}
 }
 
 

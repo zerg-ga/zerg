@@ -7,6 +7,7 @@
 #include "Population.h"
 #include "FuzzyAdministration.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 // This class just look at results and decide what
 // is the best course of action.
@@ -16,7 +17,8 @@ class AdministrateCreation
 {
 public:
 	void initializeAdministration(
-		std::ofstream &geneticOut_, 
+		std::ofstream &geneticOut_,
+		zerg::Printing * pPrinting_in,
 		zerg::GaOptions &gaoptions,
 		zerg::GaParameters &gaParam
 		);
@@ -38,6 +40,8 @@ private:
 	bool wasCreated(int method,const std::vector<int> &methodUsed);
 
 	zerg::FuzzyAdministration fuzzy_;
+
+	zerg::Printing * pPrinting_;
 };
 
 }

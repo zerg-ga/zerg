@@ -8,6 +8,7 @@
 #include "Predator.h"
 #include "Creation.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 namespace zerg{	
 class GeneticAlgorithm
@@ -43,6 +44,8 @@ private:
 
 	void setDefaultGaOptions();
 	zerg::GaOptions gaoptions_; 
+
+	zerg::Printing * pPrinting_;
 
 };
 }

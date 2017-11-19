@@ -6,12 +6,16 @@
 
 #include "Population.h"
 #include "StructOptions.h"
+#include "Printing.h"
 
 namespace zerg{
 class Predator
 {
 public:
-	void initialize_predator(int pop_size_in, zerg::GaOptions &gaoptions);
+	void initialize_predator(
+		int pop_size_in, 
+		zerg::Printing * pPrinting_in,
+		zerg::GaOptions &gaoptions);
 	void get_dead_individuals(zerg::Population &pop, std::ofstream &geneticOut_);//change name to calculate
 
 	std::vector<int> dead_individuals;
@@ -27,6 +31,7 @@ private:
 						   const std::vector<double> &fitness_energies);
 
 	zerg::GaOptions * pgaoptions_;
+	zerg::Printing * pPrinting_;
 };
 }
 
