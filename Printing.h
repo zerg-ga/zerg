@@ -23,7 +23,7 @@ namespace zerg {
 			std::vector<int> &dead_individuals,
 			std::vector<double> & fitness_energies);
 		void generationEndMessage();
-		void highlanderEndMessage();
+		void highlanderMessage(int i, double frequency);
 		void endMessage();
 
 		// Creation output

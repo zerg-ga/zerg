@@ -16,7 +16,7 @@ public:
 	bool create_individual(int creation_type, int target, int parent1, int parent2);
 	bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators with it's performance
 	virtual bool check_similarity(int target) { return false; }
-	virtual bool checkMinimum(int ind_i) { return true; }
+	virtual double checkMinimum(int ind_i) { return 1.0e0; }
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
 };

@@ -89,9 +89,18 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 
 	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
-		pop.checkMinimum(highlander);
-		pPrinting_->highlanderEndMessage();
-		return true;
+		double firstFrequency = pop.checkMinimum(highlander);
+		if (firstFrequency < 0.0e0)
+		{
+			pPrinting_->highlanderMessage(highlander, firstFrequency);
+			highlanderFitness = 1.0e99;
+			return false;	
+		}
+		else
+		{
+			pPrinting_->highlanderMessage(highlander, firstFrequency);
+			return true;
+		}
 	}
 	else
 		return false;

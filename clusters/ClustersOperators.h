@@ -23,7 +23,7 @@ public:
 
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
-	virtual bool checkMinimum(int ind_i) { return true; }
+	virtual double checkMinimum(int ind_i) { return 1.0e0; }
 	
 protected:
 	void appendTosimilarity(int ind_i);

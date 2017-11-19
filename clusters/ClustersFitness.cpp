@@ -224,7 +224,7 @@ void ClustersFitness::endExperimentConditions(double energy)
 	}
 }
 
-bool ClustersFitness::checkMinimum(int ind_i)
+double ClustersFitness::checkMinimum(int ind_i)
 {
 	if (options.size() != 0)
 	{
@@ -235,12 +235,20 @@ bool ClustersFitness::checkMinimum(int ind_i)
 			gamessPath,
 			gamessScr,
 			nProc);
-		// projectname = 1
-		// reotimzar e calular a hessiana desse individuo.
 
+		double frequency = fit_.runGamessFrequency(
+			numberOfLocalMinimizations,
+			x_vec[ind_i],
+			options,
+			gamessPath,
+			gamessScr,
+			nProc);
 
+		if (frequency < 0.0e0)
+			energy[ind_i] = 1.0e99;
 
+		return frequency;
 	}
-	return true;
+	return 1.0e0;
 }
 

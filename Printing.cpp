@@ -72,9 +72,20 @@ namespace zerg {
 		mainOutput_ << "REACHED MAXIMUM GENERATIONS " << endl;
 	}
 
-	void Printing::highlanderEndMessage()
+	void Printing::highlanderMessage(int i, double frequency)
 	{
-		mainOutput_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
+		if (frequency < 0.0e0)
+		{
+			mainOutput_ << "Highlander "
+				<< i
+				<< " got a negative frequency (" << frequency << ")"
+				<< " moving on."
+				<< endl << endl;
+		}
+		else
+		{
+			mainOutput_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
+		}
 	}
 
 	void Printing::endMessage()

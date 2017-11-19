@@ -71,9 +71,6 @@ double Fitness::runGamess(
 	string gamessScr,
 	string nProc)
 {
-	runGamessFrequency(1, x, options, gamessPath, gamessScr, nProc);
-
-
 	WriteQuantumInput writeInp_(options);
 	int nAtoms = x.size() / 3;
 	vector<CoordXYZ> mol(nAtoms);
@@ -86,14 +83,14 @@ double Fitness::runGamess(
 	}
 
 	writeInp_.createInput(mol);
-	//fredmudar sem comentario aqui
-	//system(("rm /scr/" + options[1] + "*").c_str());
 
-	//system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
+	system(("rm /scr/" + options[1] + "*").c_str());
+
+	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
 
 	ReadQuantumOutput readQ_("gamess");
 
-	//readQ_.readOutput((options[1] + ".log").c_str());
+	readQ_.readOutput((options[1] + ".log").c_str());
 
 	readQ_.readOutput("teste-com-input-frequ.log");
 
