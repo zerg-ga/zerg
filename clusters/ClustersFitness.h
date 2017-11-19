@@ -28,6 +28,9 @@ public:
 
 	void setExperimentConditions(double globalMinimaEnergy_in, double maxMinimizations_in);
 
+	bool checkMinimum(int ind_i);
+
+
 private:
 	void optimize(int ind_i);
 

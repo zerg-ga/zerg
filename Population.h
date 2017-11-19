@@ -21,6 +21,7 @@ public:
 
 	virtual bool operatorAdministration(int method, const std::vector<double> &operatorPerformance) = 0;// modify operators
 
+	virtual bool checkMinimum(int ind_i) = 0;
 };
 
 }

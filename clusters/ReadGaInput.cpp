@@ -151,6 +151,19 @@ void ReadGaInput::readGaInput()
 		}
 		gamHeader_.close();
 		options.push_back("EndOfHeader");
+		bool haveOptimizeFlag = false;
+		for (size_t i = 0; i < options.size(); i++)
+		{
+			if (options[i].find("RUNTYP=OPTIMIZE") != string::npos)
+				haveOptimizeFlag = true;
+		}
+		if (!haveOptimizeFlag)
+		{
+			cout << "flag RUNTYP=OPTMIZE dont found." << endl
+				<< "it must be uppercase, check header and input for errors" << endl;
+			exit(1);
+		}
+
 		for (size_t k = 0; k < baseFiles.size(); k++)
 			options.push_back(baseFiles[k]);
 		options.push_back("EndOfBasis");

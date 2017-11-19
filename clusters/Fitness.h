@@ -21,6 +21,15 @@ public:
 		std::string gamessScr,
 		std::string nProc);
 
+	double runGamessFrequency(
+		int numberOfOptimizations,
+		std::vector<double> &x,
+		std::vector< std::string > &options,
+		std::string gamessPath,
+		std::string gamessScr,
+		std::string nProc);
+
+
 private:
 	double lennardJones(std::vector<double> &x);
 

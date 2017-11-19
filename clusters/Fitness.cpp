@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <sstream>
 #include <stdlib.h>
 
 #include "WriteQuantumInput.h"
@@ -70,6 +71,9 @@ double Fitness::runGamess(
 	string gamessScr,
 	string nProc)
 {
+	runGamessFrequency(1, x, options, gamessPath, gamessScr, nProc);
+
+
 	WriteQuantumInput writeInp_(options);
 	int nAtoms = x.size() / 3;
 	vector<CoordXYZ> mol(nAtoms);
@@ -104,6 +108,66 @@ double Fitness::runGamess(
 	return readQ_.getEnergy();
 }
 
+double Fitness::runGamessFrequency(
+	int numberOfOptimizations,
+	vector<double> &x,
+	vector<string> &options,
+	string gamessPath,
+	string gamessScr,
+	string nProc)
+{
+
+	vector<string> frequencyOptions = options;
+
+	//changing name
+	stringstream convertInt;
+	convertInt << numberOfOptimizations;
+	string numberString;
+	convertInt >> numberString;
+	frequencyOptions[1] += "-highlander-" + numberString + "-frequency";
+
+	//replacing RUNTY=OPTIMIZE
+	for (size_t i = 0; i < options.size(); i++)
+	{
+		if (options[i].find("RUNTYP=OPTIMIZE") != string::npos)
+		{
+			options[i].erase(options[i].find("RUNTYP=OPTIMIZE"), 16);
+			options[i] += " RUNTYP=HESSIAN";
+			break;
+		}
+	}
+
+	WriteQuantumInput writeInp_(options);
+
+	int nAtoms = x.size() / 3;
+	vector<CoordXYZ> mol(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		mol[i].atomlabel = writeInp_.getAtomName(i);
+		mol[i].x = x[i];
+		mol[i].y = x[i + nAtoms];
+		mol[i].z = x[i + 2 * nAtoms];
+	}
+
+	writeInp_.createInput(mol);
+	
+	system(("rm /scr/" + options[1] + "*").c_str());
+
+	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
+
+	ReadQuantumOutput readQ_("gamess");
+
+	readQ_.activateDeactivateReadings("frequency", true);
+
+	readQ_.activateDeactivateReadings("coordinates", false);
+
+	readQ_.activateDeactivateReadings("energy", false);
+
+	readQ_.readOutput((options[1] + ".log").c_str());
+
+	return readQ_.getFirstFrequency();
+
+}
 
 
 double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)

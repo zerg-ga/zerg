@@ -25,9 +25,9 @@ using namespace zerg;
 
 /*
 alteracoes do qga
-- portabilildade no fitness.cpp e no makefile (isnan)
 - comando que pega um xyz, roda outra otimizacao e depois roda uma frequencia
-- se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
+!!!- se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
+- portabilildade no fitness.cpp e no makefile (isnan)
 - desativar leuituras desnecessarias - como frequencias
 
 proximo paper
@@ -38,11 +38,11 @@ proximo paper
 
 estudo das formas de gerar clusters iniciais:
 - Tem o de Sao Carlos, esfera, cubo e árvore.
-
 - usar a algebra de polya para contar isomeros lennard jones dos bimetalicos,
   gerar todos e avaliar suas diferencas.
-
 - colocar const no cluster operators por seguranca
+
+- pop_size has to be multiple of four.
 
 */
 

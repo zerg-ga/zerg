@@ -223,3 +223,24 @@ void ClustersFitness::endExperimentConditions(double energy)
 		exit(0);
 	}
 }
+
+bool ClustersFitness::checkMinimum(int ind_i)
+{
+	if (options.size() != 0)
+	{
+		Fitness fit_;
+		energy[ind_i] = fit_.runGamess(
+			x_vec[ind_i],
+			options,
+			gamessPath,
+			gamessScr,
+			nProc);
+		// projectname = 1
+		// reotimzar e calular a hessiana desse individuo.
+
+
+
+	}
+	return true;
+}
+

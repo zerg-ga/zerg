@@ -23,6 +23,7 @@ public:
 	virtual bool check_similarity(int target);
 	inline int get_number_of_creation_methods(){return number_of_creation_methods;}
 	virtual bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators
+	virtual bool checkMinimum(int ind_i) { return true; }
 
 protected:
 	//data

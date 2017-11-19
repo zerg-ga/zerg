@@ -14,8 +14,6 @@
 using namespace std;
 using namespace zerg;
 
-// WARNING!!!
-// pop_size has to be multiple of four.
 namespace zerg{
 GeneticAlgorithm::GeneticAlgorithm(
 	Population &pop_in,  
@@ -91,6 +89,7 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 
 	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
+		pop.checkMinimum(highlander);
 		pPrinting_->highlanderEndMessage();
 		return true;
 	}
