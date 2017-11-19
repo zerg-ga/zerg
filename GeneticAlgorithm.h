@@ -19,8 +19,6 @@ public:
 
 	void ga_start();
 
-	void setGaOptions(int flag,bool activate);
-
 private:
 	int generation;
 	int pop_size;
@@ -38,12 +36,6 @@ private:
 
 	void predation();
 	void creation();
-
-	std::ofstream geneticOut_;
-	void writeOpenMessage();
-
-	void setDefaultGaOptions();
-	zerg::GaOptions gaoptions_; 
 
 	zerg::Printing * pPrinting_;
 

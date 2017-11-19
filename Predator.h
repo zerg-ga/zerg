@@ -14,9 +14,8 @@ class Predator
 public:
 	void initialize_predator(
 		int pop_size_in, 
-		zerg::Printing * pPrinting_in,
-		zerg::GaOptions &gaoptions);
-	void get_dead_individuals(zerg::Population &pop, std::ofstream &geneticOut_);//change name to calculate
+		zerg::Printing * pPrinting_in);
+	void get_dead_individuals(zerg::Population &pop);//change name to calculate
 
 	std::vector<int> dead_individuals;
 	inline int get_pop_size(){return pop_size;}
@@ -26,11 +25,6 @@ private:
 	std::vector<double> fitness_energies;
 	std::vector<int> fitness_rank;
 
-	void printPredatorInfo(std::ofstream &geneticOut, 
-                           const std::vector<int> &fitness_rank, 
-						   const std::vector<double> &fitness_energies);
-
-	zerg::GaOptions * pgaoptions_;
 	zerg::Printing * pPrinting_;
 };
 }

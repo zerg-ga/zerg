@@ -26,16 +26,12 @@ void Creation::initialize_creation(
 	int pop_size,
 	int number_creation_methods,
 	int n_process, 
-	ofstream &geneticOut_,
 	Printing * pPrinting_in,
-	GaOptions &gaoptions,
 	GaParameters &gaParam
 	)
 {
-	pgeneticOut_ = &geneticOut_;
-	pgaoptions_ = &gaoptions;
 	pPrinting_ = pPrinting_in;
-	admin_.initializeAdministration(geneticOut_, pPrinting_, gaoptions, gaParam);
+	admin_.initializeAdministration(pPrinting_, gaParam);
 	insistOnSimilar = gaParam.insistOnSimilar;
 
 	number_methods = number_creation_methods;
@@ -125,6 +121,8 @@ void Creation::set_creation_methods(Predator &pred)
 	histogram_.close();
 }
 
+
+
 void Creation::creation_from_methods(Population &pop, Predator &pred)
 {
 	bool aux1;
@@ -151,7 +149,7 @@ void Creation::creation_from_methods(Population &pop, Predator &pred)
 				if (!pop.check_similarity(target))
 					break;
 				if (k == (insistOnSimilar - 1))
-					printSimilarityProblem(method);
+					pPrinting_->similarityProblem(method);
 			}
 
 			admin_.setNewIndividuals(target,
@@ -201,18 +199,6 @@ bool Creation::is_dead(Predator &pred, int parent)
 
 	return dead;
 }
-
-
-void Creation::printSimilarityProblem(int method)
-{
-	if (pgaoptions_->similarityProblem)
-	{
-		*pgeneticOut_ << "WARNING!!!    Method:  " <<
-			method << "   didnt surpass similarity. " << endl;
-		pPrinting_->similarityProblem(method);
-	}
-}
-
 
 }
 

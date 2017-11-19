@@ -34,30 +34,23 @@ GeneticAlgorithm::GeneticAlgorithm(
 	pop_size = gaParam.pop_size;
 	highlanderFitness = gaParam.highlanderInitialFitness;
 	highlanderMaxIteration = gaParam.highlanderMaxIteration;
-	geneticOut_.open("output.txt");
 
 	//initializing objects
-	pred_.initialize_predator(pop_size, pPrinting_, gaoptions_);
+	pred_.initialize_predator(pop_size, pPrinting_);
 	creation_.initialize_creation(
 		pop_size, 
 		pop.get_number_of_creation_methods(),
 		gaParam.n_process,
-		geneticOut_,
 		pPrinting_,
-		gaoptions_,
 		gaParam);
 
-	setDefaultGaOptions();
 	pPrinting_->writeOpenMessage();
-	writeOpenMessage();
 }
 
 GeneticAlgorithm::~GeneticAlgorithm()
 {
 	pPrinting_->endMessage();
 	delete pPrinting_;
-	geneticOut_ << " Zerg GA terminated normally" << endl;
-	geneticOut_.close();
 }
 
 void GeneticAlgorithm::ga_start()
@@ -65,7 +58,6 @@ void GeneticAlgorithm::ga_start()
 	for (int i = 1; i <= maxGeneration; i++)
 	{
 		pPrinting_->generationMessage(i);
-		geneticOut_ << "Generation:  " << i << endl;
 		predation();
 		creation();
 
@@ -75,53 +67,9 @@ void GeneticAlgorithm::ga_start()
 	pPrinting_->generationEndMessage();
 }
 
-void GeneticAlgorithm::setGaOptions(int flag, bool activate)
-{
-	switch (flag)
-	{
-	case 0:
-		gaoptions_.printAllIndividuals = activate;
-		break;
-
-	case 1:
-		gaoptions_.printBestWorseIndividuals = activate;
-		break;
-
-	case 2:
-		gaoptions_.printVariationOfCreationMethods = activate;
-		break;
-
-	case 3:
-		gaoptions_.similarityProblem = activate;
-		break;
-
-	default:
-		cout << " option of GA not found " << endl;
-		exit(2);
-	}
-}
-
-void GeneticAlgorithm::writeOpenMessage()
-{
-	geneticOut_ << "//////////////////////////////////////////" << endl
-				<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
-				<< "//////////////////////////////////////////" << endl
-				<< endl << "Author: Frederico Vultor" << endl << endl;
-
-	geneticOut_ << "Zerg GA started normally" << endl << endl;
-}
-
-void GeneticAlgorithm::setDefaultGaOptions()
-{
-	setGaOptions(0,false);
-	setGaOptions(1,true);
-	setGaOptions(2,true);
-	setGaOptions(3,true);
-}
-
 void GeneticAlgorithm::predation()
 {
-	pred_.get_dead_individuals(pop, geneticOut_);
+	pred_.get_dead_individuals(pop);
 }
 
 void GeneticAlgorithm::creation()
@@ -144,7 +92,6 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
 		pPrinting_->highlanderEndMessage();
-		geneticOut_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
 		return true;
 	}
 	else

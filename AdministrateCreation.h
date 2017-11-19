@@ -17,9 +17,7 @@ class AdministrateCreation
 {
 public:
 	void initializeAdministration(
-		std::ofstream &geneticOut_,
 		zerg::Printing * pPrinting_in,
-		zerg::GaOptions &gaoptions,
 		zerg::GaParameters &gaParam
 		);
 
@@ -33,8 +31,6 @@ private:
 	std::vector<double> oldFitness;
 	std::vector<int> newIndividuals;
 	std::vector<int> methodUsed;
-	zerg::GaOptions * pgaoptions_;
-	std::ofstream * pgeneticOut_;
 
 	void setNewCreationRate(std::vector<double> &creation_rate, const std::vector<double> &methodMean, const std::vector<int> &methodUsed);
 	bool wasCreated(int method,const std::vector<int> &methodUsed);

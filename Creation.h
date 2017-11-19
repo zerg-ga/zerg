@@ -25,9 +25,7 @@ public:
 		int pop_size,
 		int number_creation_methods, 
 		int n_process, 
-		std::ofstream &geneticOut_,
 		zerg::Printing * pPrinting_in,
-		zerg::GaOptions &gaoptions,
 		zerg::GaParameters &gaParam);
 
 	void make_new_individuals(Population &pop, Predator &pred);
@@ -46,11 +44,7 @@ private:
 	bool is_dead(Predator &pred,int parent);
 
 	//printing functions
-	void printSimilarityProblem(int method);
-
 	zerg::ParallelOptimization go_parallel_;
-	std::ofstream * pgeneticOut_;
-	zerg::GaOptions * pgaoptions_;
 	zerg::AdministrateCreation admin_;
 	zerg::Printing * pPrinting_;
 
