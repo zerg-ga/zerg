@@ -63,6 +63,8 @@ void GeneticAlgorithm::ga_start()
 			return;
 	}
 	pPrinting_->generationEndMessage();
+	double lastFreq = pop.checkMinimum(highlander);
+	pPrinting_->lastIndividualMessage(lastFreq);
 }
 
 void GeneticAlgorithm::predation()
@@ -90,6 +92,7 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
 		double firstFrequency = pop.checkMinimum(highlander);
+		firstFrequency = -1.0e0;
 		if (firstFrequency < 0.0e0)
 		{
 			pPrinting_->highlanderMessage(highlander, firstFrequency);

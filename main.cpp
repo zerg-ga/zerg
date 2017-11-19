@@ -24,14 +24,15 @@ using namespace std;
 using namespace zerg;
 
 /*
+- (TESTAR)se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
+
 alteracoes do qga
 - comando que pega um xyz, roda outra otimizacao e depois roda uma frequencia
-!!!- se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
 - portabilildade no fitness.cpp e no makefile (isnan)
 - desativar leuituras desnecessarias - como frequencias
 
 proximo paper
-- algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
+- o highlander sai passando pela populacao com um raio maior e subindo energias - algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
 - pensar sobre o highlander max iteration está 1.0e99.
 
 

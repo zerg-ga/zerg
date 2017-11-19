@@ -85,7 +85,13 @@ namespace zerg {
 		else
 		{
 			mainOutput_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
+			mainOutput_ << endl << "highlander frequency:  " << frequency << endl << endl;
 		}
+	}
+
+	void Printing::lastIndividualMessage(double frequency)
+	{
+		mainOutput_ << endl << "best individual frequency:  " << frequency << endl << endl;
 	}
 
 	void Printing::endMessage()

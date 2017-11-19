@@ -92,8 +92,6 @@ double Fitness::runGamess(
 
 	readQ_.readOutput((options[1] + ".log").c_str());
 
-	readQ_.readOutput("teste-com-input-frequ.log");
-
 	mol = readQ_.getCoordinates();
 	for (int i = 0; i < nAtoms; i++)
 	{

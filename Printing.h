@@ -24,6 +24,7 @@ namespace zerg {
 			std::vector<double> & fitness_energies);
 		void generationEndMessage();
 		void highlanderMessage(int i, double frequency);
+		void lastIndividualMessage(double frequency);
 		void endMessage();
 
 		// Creation output
