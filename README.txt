@@ -48,6 +48,20 @@ gamess_header_file = text              - gamess header (lido sempre na pasta aux
 
 
 
+FORMATO DA BASE
+
+-> X                - simbolo do atomo
+->                  - base 
+->                  - base
+->    ...           - base
+ $END ou $ECP       - se $ECP em baixo tem que ter o ecp se nao esse e desativado
+->                  - ecp
+->                  - ecp
+$END
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@
 #include "../AuxMathGa.h"
 #include "Fitness.h"
 #include "../StructOptions.h"
+#include "WriteQuantumInput.h"
 
 #include <iostream>
 #include <fstream>
@@ -115,6 +116,9 @@ void ClustersFitness::optimize(int ind_i)
 
 void ClustersFitness::printAllIndividuals(string fileName)
 {
+	// gamess labels
+	WriteQuantumInput writeInp_(options);
+
 	// ordering
 	int pop_size = energy.size();
 	vector<double> fitness_energies(pop_size);
@@ -134,11 +138,17 @@ void ClustersFitness::printAllIndividuals(string fileName)
 		int best = fitness_rank[ind];
 		printAll_ << nAtoms << endl << setprecision(16) << energy[best] << endl;
 		for (int i = 0; i < nAtoms; i++)
-			printAll_ << "N "
-				<< x_vec[best][i] << "  "
+		{
+			if(options.size() != 0)
+				printAll_ << writeInp_.getAtomName(i) << " ";
+			else
+				printAll_ << "H  ";
+
+			printAll_ << x_vec[best][i] << "  "
 				<< x_vec[best][i + nAtoms] << "  "
 				<< x_vec[best][i + 2 * nAtoms] << "  "
 				<< endl;
+		}
 	}
 	printAll_.close();
 }

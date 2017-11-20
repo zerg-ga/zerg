@@ -16,9 +16,12 @@ using namespace std;
 WriteQuantumInput::WriteQuantumInput(
 	vector<string> options)
 {
-	type = options[0];
-	projectName = options[1];
-	setInputProperties(options);
+	if(options.size() != 0)
+	{
+		type = options[0];
+		projectName = options[1];
+		setInputProperties(options);
+	}
 }
 
 WriteQuantumInput::~WriteQuantumInput() {}
@@ -110,10 +113,10 @@ void WriteQuantumInput::readGamessAuxFiles()
 			string aux;
 			line << auxline;
 			line >> aux;
-			if (aux == "end")
+			if (aux == "$END")
 				break;
 
-			if (aux == "startEcp")
+			if (aux == "$ECP")
 			{
 				ecp = true;
 				break;
@@ -131,7 +134,7 @@ void WriteQuantumInput::readGamessAuxFiles()
 				string aux;
 				line << auxlineEcp;
 				line >> aux;
-				if (aux == "end")
+				if (aux == "$END")
 					break;
 
 				atomEcp[i].push_back(auxlineEcp);

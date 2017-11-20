@@ -1,16 +1,17 @@
 % SYSTEM OPTIONS
 seed = 9
-project_name = teste-com-input
-number_of_atoms = 3
+project_name = na4
+number_of_atoms = 4
 %
 %
 % INTERACTION OPTIONS
 interaction_potential = gamess
-bases_files_number = 3
-base = li-base.txt
-base = li-base.txt
-base = li-base.txt
-gamess_header_file = li-header.txt
+bases_files_number = 4
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+gamess_header_file = na-header.txt
 %
 %
 % GA OPTIONS
@@ -19,17 +20,16 @@ maximum_number_of_generations = 300
 %
 %
 % PARAMETERS
-large_energy_value = 2
-maximum_creation_operators_boost = 0.9
 gamma_creation_radius = 0.2
 radius_factor = 1.0
 max_distance_between_atoms = 1.0e99
 %
 %
 % MACHINE OPTIONS
-number_of_cores = 1
+number_of_cores = 4
 restart = no
-gamess_executable_path = /home/programas/rungms
+gamess_executable_path = /home/vultor/gamess/rungms
+gamess_scr_path = /scr
 %
 %
 %
