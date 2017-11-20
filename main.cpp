@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <iomanip>
 
 #include "BasicOperators.h"
 #include "GeneticAlgorithm.h"
@@ -22,28 +23,6 @@
 
 using namespace std;
 using namespace zerg;
-
-/*
-- (TESTAR)se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
-
-alteracoes do qga
-- portabilildade no fitness.cpp e no makefile (isnan)
-
-proximo paper
-- o highlander sai passando pela populacao com um raio maior e subindo energias - algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
-
-- fazer um estudo sobre o hidrogenio, avaliar os efeitos da base e etc, escolher uma base que presta para descrever os clusters.
-
-estudo das formas de gerar clusters iniciais:
-- Tem o de Sao Carlos, esfera, cubo e árvore.
-- usar a algebra de polya para contar isomeros lennard jones dos bimetalicos,
-  gerar todos e avaliar suas diferencas.
-- colocar const no cluster operators por seguranca
-
-- pensar sobre o highlander max iteration está 1.0e99.
-- pop_size has to be multiple of four.
-
-*/
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
 void calculateMeanTestFormat(string name);

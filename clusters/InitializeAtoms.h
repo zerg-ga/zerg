@@ -11,6 +11,8 @@ public:
 
 	~InitializeAtoms();
 
+	void initializeSetSeed(int seed);
+
 	std::vector<double> generateCluster(int Natoms, double gamma_in, double Rca_in);
 	
 	double calcDist(const std::vector<double> &x, int i, int j);

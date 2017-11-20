@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <iomanip>
 
 #include "Population.h"
 #include "AuxMathGa.h"
@@ -25,6 +26,7 @@ GeneticAlgorithm::GeneticAlgorithm(
 	// era bom incluir o restart handling tambem
 	pPrinting_ = new Printing(1);
 	pPrinting_->histogramTitle(gaParam.seed);
+	AuxMathGa::set_seed(gaParam.seed);
 
 	generation = 1;
 	maxGeneration = gaParam.maxGeneration;

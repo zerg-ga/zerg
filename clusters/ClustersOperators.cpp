@@ -22,6 +22,8 @@ ClustersOperators::~ClustersOperators(){}
 
 void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 {
+	AuxMathGa::set_seed(gaParam.seed);
+	init_.initializeSetSeed(gaParam.seed);
 	nAtoms = gaParam.numberOfParameters / 3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;

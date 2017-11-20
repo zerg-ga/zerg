@@ -19,6 +19,11 @@ InitializeAtoms::InitializeAtoms()
 
 InitializeAtoms::~InitializeAtoms(){}
 
+void InitializeAtoms::initializeSetSeed(int seed)
+{
+	AuxMathGa::set_seed(seed);
+}
+
 vector<double> InitializeAtoms::generateCluster(int natm_in, double gamma_in, double Rca_in)
 {
 	return generateClusterFred(natm_in, gamma_in, Rca_in);

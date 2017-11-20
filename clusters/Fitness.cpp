@@ -122,17 +122,17 @@ double Fitness::runGamessFrequency(
 	frequencyOptions[1] += "-highlander-" + numberString + "-frequency";
 
 	//replacing RUNTY=OPTIMIZE
-	for (size_t i = 0; i < options.size(); i++)
+	for (size_t i = 0; i < frequencyOptions.size(); i++)
 	{
-		if (options[i].find("RUNTYP=OPTIMIZE") != string::npos)
+		if (frequencyOptions[i].find("RUNTYP=OPTIMIZE") != string::npos)
 		{
-			options[i].erase(options[i].find("RUNTYP=OPTIMIZE"), 16);
-			options[i] += " RUNTYP=HESSIAN";
+			frequencyOptions[i].erase(frequencyOptions[i].find("RUNTYP=OPTIMIZE"), 16);
+			frequencyOptions[i] += " RUNTYP=HESSIAN";
 			break;
 		}
 	}
 
-	WriteQuantumInput writeInp_(options);
+	WriteQuantumInput writeInp_(frequencyOptions);
 
 	int nAtoms = x.size() / 3;
 	vector<CoordXYZ> mol(nAtoms);
@@ -146,9 +146,9 @@ double Fitness::runGamessFrequency(
 
 	writeInp_.createInput(mol);
 	
-	system(("rm /scr/" + options[1] + "*").c_str());
+	system(("rm /scr/" + frequencyOptions[1] + "*").c_str());
 
-	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
+	system((gamessPath + "  " + frequencyOptions[1] + ".inp  00  " + nProc + " > " + frequencyOptions[1] + ".log").c_str());
 
 	ReadQuantumOutput readQ_("gamess");
 
@@ -158,7 +158,7 @@ double Fitness::runGamessFrequency(
 
 	readQ_.activateDeactivateReadings("energy", false);
 
-	readQ_.readOutput((options[1] + ".log").c_str());
+	readQ_.readOutput((frequencyOptions[1] + ".log").c_str());
 
 	return readQ_.getFirstFrequency();
 
@@ -192,11 +192,11 @@ double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
 }
 
 /* EXMPLO DE OPTIMIZE
-main:
-InitializeAtoms init_;
-vector<double> x = init_.generateCluster(20, 0.2, 2.5);
-Fitness fit_;
-printAtomsVectorDouble(x, "teste1.xyz");
-fit_.optimizeLennardJones(x, 0);
-printAtomsVectorDouble(x, "teste2.xyz");
+//main:
+//InitializeAtoms init_;
+//vector<double> x = init_.generateCluster(20, 0.2, 2.5);
+//Fitness fit_;
+//printAtomsVectorDouble(x, "teste1.xyz");
+//fit_.optimizeLennardJones(x, 0);
+//printAtomsVectorDouble(x, "teste2.xyz");
 */

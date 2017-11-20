@@ -2,6 +2,9 @@
 
 #include <fstream>
 #include <vector>
+#include <string>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -50,9 +53,9 @@ namespace zerg {
 			<< fitness_rank[1] << "   "
 			<< fitness_rank[2] << endl
 			<< "Best fitness: " << endl
-			<< fitness_energies[0] << "   "
-			<< fitness_energies[1] << "   "
-			<< fitness_energies[2] << endl;
+			<< fixed << setprecision(16) << fitness_energies[0] << "   "
+			<< fixed << setprecision(16) <<  fitness_energies[1] << "   "
+			<< fixed << setprecision(16) <<  fitness_energies[2] << endl;
 
 		mainOutput_ << "Dead individuals: " << endl
 			<< dead_individuals[0] << "  "
@@ -61,9 +64,9 @@ namespace zerg {
 			<< endl;
 
 		mainOutput_ << "Fitness of the dead: " << endl
-			<< fitness_energies[dead_individuals[0]] << "   "
-			<< fitness_energies[dead_individuals[1]] << "   "
-			<< fitness_energies[dead_individuals[2]] << endl
+			<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[0]] << "   "
+			<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[1]] << "   "
+			<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[2]] << endl
 			<< endl << endl;
 	}
 

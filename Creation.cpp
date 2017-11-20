@@ -33,6 +33,7 @@ void Creation::initialize_creation(
 	pPrinting_ = pPrinting_in;
 	admin_.initializeAdministration(pPrinting_, gaParam);
 	insistOnSimilar = gaParam.insistOnSimilar;
+	AuxMathGa::set_seed(gaParam.seed);
 
 	number_methods = number_creation_methods;
 	creation_methods.resize(number_methods);
