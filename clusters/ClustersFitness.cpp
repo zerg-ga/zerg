@@ -162,7 +162,7 @@ void ClustersFitness::saveIndividual(int ind_i)
 		<< setprecision(16) << energy[ind_i] << endl;
 	for (int i = 0; i < nAtoms; i++)
 	{
-		saveIndividual_ << "N "
+		saveIndividual_ << "H "
 		<< x_vec[ind_i][i] << "  "
 		<< x_vec[ind_i][i + nAtoms] << "  "
 		<< x_vec[ind_i][i + 2 * nAtoms] << "  "
