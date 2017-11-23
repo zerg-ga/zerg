@@ -93,14 +93,20 @@ double Fitness::runGamess(
 	readQ_.readOutput((options[1] + ".log").c_str());
 
 	mol = readQ_.getCoordinates();
-	for (int i = 0; i < nAtoms; i++)
+	if(mol.size() == 0)
 	{
-		x[i] = mol[i].x;
-		x[i + nAtoms] = mol[i].y;
-		x[i + 2 * nAtoms] = mol[i].z;
+		return 0.0e0;
 	}
-
-	return readQ_.getEnergy();
+	else
+	{
+		for (int i = 0; i < nAtoms; i++)
+		{
+			x[i] = mol[i].x;
+			x[i + nAtoms] = mol[i].y;
+			x[i + 2 * nAtoms] = mol[i].z;
+		}
+		return readQ_.getEnergy();
+	}
 }
 
 double Fitness::runGamessFrequency(

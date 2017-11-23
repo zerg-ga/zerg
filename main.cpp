@@ -99,6 +99,21 @@ int main(int argc, char *argv[])
 		Experiment exp_;
 		exp_.makeExperiment(seed, experimentMethod, additionalParams);
 	}
+	else if (experimentMethod == "test")
+	{
+		ReadQuantumOutput readQ_("gamess");
+		readQ_.readOutput("na4.log");
+		vector<CoordXYZ> mol = readQ_.getCoordinates();
+		for(size_t i =0; i < mol.size(); i++)
+		{
+			cout << mol[i].atomlabel << "  " << mol[i].x << endl;
+		}
+		cout << "passou " << mol.size() << endl;
+		return 0;	
+
+
+
+	}
 	else if (experimentMethod == "frequency")
 	{
 		ReadGaInput readGa_;
