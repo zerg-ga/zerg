@@ -34,7 +34,9 @@ struct GaParameters
 	double gammaInitializeAtoms;
 	double rcaInitializeAtoms;
 	double maxDistance;
+	double minDistance;
 	int insistOnSimilar;
+	int printingDebug;
 	std::vector<double> initialCreationRate;
 
 	//operators parameters

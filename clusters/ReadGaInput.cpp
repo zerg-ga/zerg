@@ -55,6 +55,8 @@ void ReadGaInput::readGaInput()
 			convert >> gamessNproc;
 		else if (type == "project_name")
 			convert >> projectName;
+		else if (type == "printing_debug")
+			convert >> gaParam.printingDebug;
 		else if (type == "population_size")
 			convert >> gaParam.pop_size;
 		else if (type == "maximum_number_of_generations")
@@ -102,6 +104,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.rcaInitializeAtoms;
 		else if (type == "max_distance_between_atoms")
 			convert >> gaParam.maxDistance;
+		else if (type == "min_distance_between_atoms")
+			convert >> gaParam.minDistance;
 		else if (type == "iterations_to_repeat_if_it_is_similar")
 			convert >> gaParam.insistOnSimilar;
 		else if (type == "interaction_potential")
@@ -135,6 +139,11 @@ void ReadGaInput::readGaInput()
 		}
 		else if (type == "gamess_header_file")
 			convert >> gamessHeader;
+		else
+		{
+			cout << type << "  command not found, check manual for details " << endl;
+			exit(1);
+		}
 	}
 	input_.close();
 
@@ -192,6 +201,7 @@ void ReadGaInput::setExperimentDefaults(int seed)
 	gaParam.gammaInitializeAtoms = 0.4;
 	gaParam.rcaInitializeAtoms = 2.0;
 	gaParam.maxDistance = 1.0e99;
+	gaParam.minDistance = 0.2e0;
 
 	AuxMath auxMath_;
 	// OPERATORS PARAMETERS
@@ -247,6 +257,8 @@ void ReadGaInput::setDefaults()
 	gaParam.gammaInitializeAtoms = 0.2;
 	gaParam.rcaInitializeAtoms = 1.0;
 	gaParam.maxDistance = 1.0e99;
+	gaParam.minDistance = 0.2e0;
+	gaParam.printingDebug = 0;
 
 	AuxMath auxMath_;
 
@@ -260,4 +272,14 @@ void ReadGaInput::setDefaults()
 	gaParam.scdo = 0.1e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
+
+	// INITIAL OPERATORS
+	gaParam.initialCreationRate.resize(7);
+	gaParam.initialCreationRate[0] = 0.14e0;
+	gaParam.initialCreationRate[1] = 0.14e0;
+	gaParam.initialCreationRate[2] = 0.14e0;
+	gaParam.initialCreationRate[3] = 0.14e0;
+	gaParam.initialCreationRate[4] = 0.14e0;
+	gaParam.initialCreationRate[5] = 0.14e0;
+	gaParam.initialCreationRate[6] = 0.14e0;
 }

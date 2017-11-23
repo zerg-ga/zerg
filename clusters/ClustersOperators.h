@@ -48,6 +48,7 @@ private:
 	double rca;
 	double adminLargeEnergyVariation;
 	double maxDistance;
+	double minDistance;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
 

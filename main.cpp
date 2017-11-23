@@ -110,9 +110,6 @@ int main(int argc, char *argv[])
 		}
 		cout << "passou " << mol.size() << endl;
 		return 0;	
-
-
-
 	}
 	else if (experimentMethod == "frequency")
 	{

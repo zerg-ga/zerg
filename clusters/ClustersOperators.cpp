@@ -28,6 +28,7 @@ void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
 	maxDistance = gaParam.maxDistance;
+	minDistance = gaParam.minDistance;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
 	mutationValue = gaParam.mutationValue / nAtoms;
 	crossoverWeight = gaParam.crossoverWeight;
@@ -165,9 +166,9 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 {
 	vector<double> auxDistances = calcAndSortAllDistances(x_vec[ind_i]);
 	if (auxDistances[auxDistances.size() - 1] > maxDistance)
-	{
 		energy[ind_i] += 1.0e99;
-	}
+	if (auxDistances[0] < minDistance)
+		energy[ind_i] = 0.0e0;
 	allDistances.push_back(auxDistances);
 }
 
@@ -231,6 +232,8 @@ bool ClustersOperators::check_similarity(int target)
 	vector<double> auxDistance = calcAndSortAllDistances(x_vec[target]);
 
 	if (auxDistance[auxDistance.size() - 1] > maxDistance)
+		return true;
+	if (auxDistance[0] < minDistance)
 		return true;
 
 	int size = auxDistance.size();

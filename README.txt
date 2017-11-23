@@ -10,6 +10,7 @@ LISTA DE TODAS AS OPCOES DO GaInput.txt
 seed = n                               - semente
 restart = yes/no                       - recomecar do arquivo restart.txt
 numbert_of_cores = n                   - numero de processadores no input do gamess
+printing_debug                         - 0 nada ; 1 histogram ; 2 all
 project_name = text                    - nome q sera usado nos inputs do gamess
 population_size = n                    - populacao, precisa ser multipla de 4
 maxinum_number_of_generations = n      - numero maximo de geracoes do GA

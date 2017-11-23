@@ -24,7 +24,7 @@ GeneticAlgorithm::GeneticAlgorithm(
 	// tenho que seguir o geneticOut_
 	// create histogram
 	// era bom incluir o restart handling tambem
-	pPrinting_ = new Printing(1);
+	pPrinting_ = new Printing(gaParam.printingDebug);
 	pPrinting_->histogramTitle(gaParam.seed);
 	AuxMathGa::set_seed(gaParam.seed);
 
