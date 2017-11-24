@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <fstream>
+#include <string>
+
+#include "StructOptions.h"
 
 // WARNING
 // DYNAMIC ALLOCATION, DON'T USE EXCEPTION HANDLING
@@ -11,9 +14,25 @@ namespace zerg {
 	class Printing
 	{
 	public:
-		Printing(int creationDebug);
+		Printing();
 
 		~Printing();
+
+
+		//main output - Read input debug
+		void showExperimentMethod(std::string experimentMethod);
+		void gaStartInputReading();
+		void showInputLines(std::string auxline);
+        	void showAllParameters(
+                	zerg::GaParameters gaParam,
+                	std::string gamessNproc,
+               		std::string projectName,
+                	std::string interactionPotential,
+                	std::string gamessPath,
+                	std::string gamessScr,
+                	std::string gamessHeader,
+                	std::vector<std::string> baseFiles);
+		void endOfGamessOptions();
 
 		//main output - GeneticAlgorithm
 		void writeOpenMessage();
@@ -28,6 +47,7 @@ namespace zerg {
 		void endMessage();
 
 		// Creation output
+		void setCreationDebug(int creationDebug);
 		void similarityProblem(int method);
 		void setNewIndividualsError();
 		void variationOfEachMethod(int method, double variation);

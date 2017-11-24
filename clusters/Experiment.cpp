@@ -7,6 +7,7 @@
 #include "../AuxMathGa.h"
 #include "../AuxMath.h"
 #include "../GeneticAlgorithm.h"
+#include "../Printing.h"
 
 using namespace zerg;
 using namespace std;
@@ -23,9 +24,11 @@ Experiment::~Experiment() {}
 
 void Experiment::makeExperiment(int seed, string experimentMethod, vector<double> & additionalParams)
 {
+	Printing printing_;
+
 	int nAtoms = 26;
 
-	ReadGaInput readGa_;
+	ReadGaInput readGa_ (&printing_);
 		
 	readGa_.setExperimentDefaults(seed);
 
@@ -76,7 +79,7 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 
 	clFit_.setExperimentConditions(-108.315e0, 3000);
 
-	GeneticAlgorithm ga1(clFit_, gaParam);
+	GeneticAlgorithm ga1(clFit_, gaParam, &printing_);
 
 	ga1.ga_start();
 

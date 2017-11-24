@@ -14,7 +14,10 @@ namespace zerg{
 class GeneticAlgorithm
 {
 public:
-	GeneticAlgorithm(zerg::Population &Pop_in,GaParameters & gaParam);
+	GeneticAlgorithm(
+		zerg::Population &Pop_in,
+		GaParameters & gaParam,
+		zerg::Printing * pPrinting_in);
 	~GeneticAlgorithm();
 
 	void ga_start();

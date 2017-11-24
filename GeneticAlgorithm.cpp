@@ -18,13 +18,15 @@ using namespace zerg;
 namespace zerg{
 GeneticAlgorithm::GeneticAlgorithm(
 	Population &pop_in,  
-	GaParameters & gaParam)
+	GaParameters & gaParam,
+	Printing * pPrinting_in)
 :pop(pop_in)
 {
 	// tenho que seguir o geneticOut_
 	// create histogram
 	// era bom incluir o restart handling tambem
-	pPrinting_ = new Printing(gaParam.printingDebug);
+	pPrinting_ = pPrinting_in;
+	pPrinting_->setCreationDebug(gaParam.printingDebug);
 	pPrinting_->histogramTitle(gaParam.seed);
 	AuxMathGa::set_seed(gaParam.seed);
 
@@ -50,7 +52,6 @@ GeneticAlgorithm::GeneticAlgorithm(
 GeneticAlgorithm::~GeneticAlgorithm()
 {
 	pPrinting_->endMessage();
-	delete pPrinting_;
 }
 
 void GeneticAlgorithm::ga_start()

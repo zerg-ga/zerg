@@ -1,5 +1,6 @@
 #include "ReadGaInput.h"
 
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -8,6 +9,7 @@
 #include <stdlib.h>
 
 #include "../AuxMath.h"
+#include "../Printing.h"
 
 using namespace zerg;
 using namespace std;
@@ -16,9 +18,10 @@ ReadGaInput::~ReadGaInput()
 {
 }
 
-ReadGaInput::ReadGaInput() 
+ReadGaInput::ReadGaInput(Printing * pPrinting_in) 
 {
 	inputName = "GaInput.txt";
+	pPrinting_ = pPrinting_in;
 }
 
 void ReadGaInput::readGaInput()
@@ -29,8 +32,11 @@ void ReadGaInput::readGaInput()
 	string auxline, type, equal, value, projectName, gamessHeader;
 	string interactionPotential;
 
+	pPrinting_->gaStartInputReading();
+
 	while (getline(input_, auxline))
 	{
+		pPrinting_->showInputLines(auxline);
 		stringstream line;
 		line << auxline;
 		line >> type >> equal >> value;
@@ -147,6 +153,19 @@ void ReadGaInput::readGaInput()
 	}
 	input_.close();
 
+	//show final options
+	pPrinting_->showAllParameters(
+		gaParam,
+		gamessNproc,
+		projectName,
+		interactionPotential,
+		gamessPath,
+		gamessScr,
+		gamessHeader,
+		baseFiles);	
+
+
+
 	if (interactionPotential == "gamess")
 	{
 		options.push_back("gamess");
@@ -178,6 +197,9 @@ void ReadGaInput::readGaInput()
 		options.push_back("EndOfBasis");
 		options.push_back("NoECP");
 	}
+	if(interactionPotential == "gamess")
+		pPrinting_->endOfGamessOptions();
+
 }
 
 void ReadGaInput::setExperimentDefaults(int seed)

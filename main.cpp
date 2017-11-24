@@ -11,6 +11,7 @@
 #include "Hooklaw.h"
 #include "UserFitness.h"
 #include "AuxMathGa.h"
+#include "Printing.h"
 
 #include "clusters/InitializeAtoms.h"
 #include "clusters/ClustersFitness.h"
@@ -31,6 +32,7 @@ vector<double> readXyz(string xyzName);
 
 int main(int argc, char *argv[])
 {
+	Printing printing_;
 	string experimentMethod;
 	if (argc > 1)
 	{
@@ -42,6 +44,10 @@ int main(int argc, char *argv[])
 	double aux1,aux2,aux3;
 	stringstream convert1;
 	int seed = 3;
+	if(experimentMethod == "")
+		printing_.showExperimentMethod("GA run with input");
+	else
+		printing_.showExperimentMethod(experimentMethod);
 
 	if(experimentMethod == "TwistOperator")
 	{
@@ -113,7 +119,7 @@ int main(int argc, char *argv[])
 	}
 	else if (experimentMethod == "frequency")
 	{
-		ReadGaInput readGa_;
+		ReadGaInput readGa_(&printing_);
 		string xyzName;
 		string gaInput;
 		gaInput = "GaInput.txt";
@@ -151,7 +157,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		ReadGaInput readGa_;
+		ReadGaInput readGa_(&printing_);
 		string gaInput;
 		if(argc == 3)
 			gaInput = argv[2];
@@ -175,7 +181,7 @@ int main(int argc, char *argv[])
 			readGa_.getGamessScr(),
 			readGa_.getGamessNprocess());
 
-		GeneticAlgorithm ga1(clFit_, gaParam);
+		GeneticAlgorithm ga1(clFit_, gaParam, &printing_);
 
 		ga1.ga_start();
 

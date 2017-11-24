@@ -2,6 +2,7 @@
 #define READGAINPUT_H
 
 #include "../StructOptions.h"
+#include "../Printing.h"
 
 #include <string>
 #include <vector>
@@ -9,7 +10,7 @@
 class ReadGaInput
 {
 public:
-	ReadGaInput();
+	ReadGaInput(zerg::Printing * pPrinting_in);
 
 	~ReadGaInput();
 
@@ -41,6 +42,8 @@ private:
 	std::string gamessScr;
 	std::string gamessNproc;
 	void setDefaults();
+
+	zerg::Printing * pPrinting_;
 };
 
 
