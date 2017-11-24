@@ -7,6 +7,7 @@
 
 #include "ClustersOperators.h"
 #include "../StructOptions.h"
+#include "../Printing.h"
 
 class ClustersFitness : public ClustersOperators
 {
@@ -16,7 +17,8 @@ public:
 		std::vector< std::string > &options_in,
 		std::string gamessPath_in,
 		std::string gamessScr_in,
-		std::string nProc_in);
+		std::string nProc_in,
+		zerg::Printing * pPrinting_in);
 
 	~ClustersFitness();
 
@@ -56,6 +58,8 @@ private:
 	int seed;
 	std::string experimentMethod;
 	void endExperimentConditions(double energy);
+
+	zerg::Printing * pPrinting_;
 };
 
 #endif

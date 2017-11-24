@@ -179,7 +179,8 @@ int main(int argc, char *argv[])
 			options,
 			readGa_.getGamessPath(),
 			readGa_.getGamessScr(),
-			readGa_.getGamessNprocess());
+			readGa_.getGamessNprocess(),
+			&printing_);
 
 		GeneticAlgorithm ga1(clFit_, gaParam, &printing_);
 

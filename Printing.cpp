@@ -100,6 +100,22 @@ namespace zerg {
 		mainOutput_ << "Gamess options were sucessfully set" << endl;
 	}
 
+
+	void Printing::startingFirstIndividual()
+	{
+		mainOutput_ << "Starting firt individual" << endl;
+	}
+
+	void Printing::endOfFirstIndividual()
+	{
+		mainOutput_ << "First individual sucessful generated" << endl;
+	}
+
+	void Printing::endOfInitialPopulation()
+	{
+		mainOutput_ << "Initial population sucessful generated" << endl;
+	}
+
 	void Printing::setCreationDebug(int creationDebug)
 	{
 		creationOutputDebugLevel = creationDebug;

@@ -19,7 +19,7 @@ namespace zerg {
 		~Printing();
 
 
-		//main output - Read input debug
+		//main output - Read input
 		void showExperimentMethod(std::string experimentMethod);
 		void gaStartInputReading();
 		void showInputLines(std::string auxline);
@@ -33,6 +33,11 @@ namespace zerg {
                 	std::string gamessHeader,
                 	std::vector<std::string> baseFiles);
 		void endOfGamessOptions();
+
+		//main output - Initial population
+        	void startingFirstIndividual();
+        	void endOfFirstIndividual();
+        	void endOfInitialPopulation();
 
 		//main output - GeneticAlgorithm
 		void writeOpenMessage();

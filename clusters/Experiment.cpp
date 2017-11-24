@@ -75,7 +75,8 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 		options,
 		readGa_.getGamessPath(),
 		readGa_.getGamessScr(),
-		readGa_.getGamessNprocess());
+		readGa_.getGamessNprocess(),
+		&printing_);
 
 	clFit_.setExperimentConditions(-108.315e0, 3000);
 

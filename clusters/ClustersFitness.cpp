@@ -4,6 +4,7 @@
 #include "Fitness.h"
 #include "../StructOptions.h"
 #include "WriteQuantumInput.h"
+#include "../Printing.h"
 
 #include <iostream>
 #include <fstream>
@@ -18,9 +19,11 @@ ClustersFitness::ClustersFitness(
 	std::vector< std::string > &options_in,
 	std::string gamessPath_in,
 	std::string gamessScr_in,
-	std::string nProc_in)
+	std::string nProc_in,
+	Printing * pPrinting_in)
 :ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
 {
+	pPrinting_ = pPrinting_in;
 	options = options_in;
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
@@ -53,9 +56,14 @@ ClustersFitness::ClustersFitness(
 	seed = gaParam.seed;
 	experimentMethod = gaParam.experimentMethod;
 
+	// estimated time . . .
 	bool aux;
+
+	pPrinting_->startingFirstIndividual();
 	aux = create_individual(0, 0, 0, 0); //method 0 always random
 	local_optimization(0);
+	pPrinting_->endOfFirstIndividual();
+
 	for(int i=1; i<gaParam.pop_size; i++)
 	{
 		for (int k = 0; k < gaParam.insistOnSimilar; k++)
@@ -66,6 +74,7 @@ ClustersFitness::ClustersFitness(
 		}		
 		local_optimization(i);
 	}
+	pPrinting_->endOfInitialPopulation();
 }
 
 ClustersFitness::~ClustersFitness(){}
