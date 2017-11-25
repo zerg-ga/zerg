@@ -63,6 +63,7 @@ $(MAIN): $(OBJS)
 
 clean:
 	$(RM) *.o *~ $(MAIN)
+	$(RM) clusters/*.o
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^
