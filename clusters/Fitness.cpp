@@ -84,7 +84,7 @@ double Fitness::runGamess(
 
 	writeInp_.createInput(mol);
 
-	system(("rm /scr/" + options[1] + "*").c_str());
+	system(("rm " + gamessScr + "/" + options[1] + "*").c_str());
 
 	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
 
@@ -118,15 +118,53 @@ double Fitness::runGamessFrequency(
 	string nProc)
 {
 
-	vector<string> frequencyOptions = options;
+	vector<string> frequencyOptions;
 
 	//changing name
 	stringstream convertInt;
 	convertInt << numberOfOptimizations;
 	string numberString;
 	convertInt >> numberString;
-	frequencyOptions[1] += "-highlander-" + numberString + "-frequency";
+	frequencyOptions.push_back(options[0]);
+	string freqFileName = options[1] + "-highlander-" + numberString + "-frequency";
+	frequencyOptions.push_back(freqFileName);
 
+	string gamessHeader;
+	for(size_t i = 0; i < options.size(); i++)
+	{
+		if(options[i] == "Header name")
+		{
+			gamessHeader = options[i+1];
+			break;
+		}
+	}
+	gamessHeader = "frequency-" + gamessHeader;
+
+	ifstream gamHeader_(("auxFiles/" + gamessHeader).c_str());
+	string auxline;
+        while (getline(gamHeader_, auxline))
+        {
+		if (auxline.find("EndOfGamessHeader") != string::npos)
+			break;
+		frequencyOptions.push_back(auxline);
+	}
+	gamHeader_.close();
+	frequencyOptions.push_back("EndOfHeader");
+
+	int iEndHeader = -1;
+	for(int i = 0; i < (int)options.size(); i++)
+	{
+		if(options[i] == "EndOfHeader")
+		{
+			iEndHeader = i;
+		}
+		if((i > iEndHeader) && (iEndHeader != -1))
+		{
+			frequencyOptions.push_back(options[i]);
+		}
+	}
+		
+	/*
 	//replacing RUNTY=OPTIMIZE
 	for (size_t i = 0; i < frequencyOptions.size(); i++)
 	{
@@ -137,6 +175,7 @@ double Fitness::runGamessFrequency(
 			break;
 		}
 	}
+	*/
 
 	WriteQuantumInput writeInp_(frequencyOptions);
 
@@ -152,7 +191,7 @@ double Fitness::runGamessFrequency(
 
 	writeInp_.createInput(mol);
 	
-	system(("rm /scr/" + frequencyOptions[1] + "*").c_str());
+	system(("rm " + gamessScr + "/" + frequencyOptions[1] + "*").c_str());
 
 	system((gamessPath + "  " + frequencyOptions[1] + ".inp  00  " + nProc + " > " + frequencyOptions[1] + ".log").c_str());
 

@@ -196,6 +196,11 @@ void ReadGaInput::readGaInput()
 			options.push_back(baseFiles[k]);
 		options.push_back("EndOfBasis");
 		options.push_back("NoECP");
+
+		options.push_back("End of options");
+		options.push_back("Header name");
+		options.push_back(gamessHeader);
+
 	}
 	if(interactionPotential == "gamess")
 		pPrinting_->endOfGamessOptions();
