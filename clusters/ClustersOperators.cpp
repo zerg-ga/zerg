@@ -166,9 +166,9 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 {
 	vector<double> auxDistances = calcAndSortAllDistances(x_vec[ind_i]);
 	if (auxDistances[auxDistances.size() - 1] > maxDistance)
-		energy[ind_i] += 1.0e99;
+		energy[ind_i] = 1.0e99;
 	if (auxDistances[0] < minDistance)
-		energy[ind_i] = 0.0e0;
+		energy[ind_i] = 1.0e99;
 	allDistances.push_back(auxDistances);
 }
 

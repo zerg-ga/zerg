@@ -5,6 +5,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 
@@ -131,7 +132,15 @@ namespace zerg {
 			<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
 			<< "//////////////////////////////////////////" << endl
 			<< endl << "Author: Frederico Teixeira Silva" << endl << endl;
-		mainOutput_ << "Zerg GA started normally" << endl << endl;
+		mainOutput_ << "Zerg GA started normally" << endl;
+
+		time(&rawTime1);
+		timeinfo = localtime(&rawTime1);
+		char buffer[80];
+		strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S",timeinfo);
+		string dateI(buffer);
+		mainOutput_ << "Date:  " << dateI << endl << endl;
+
 		mainOutput_ << "Chosen GA option:  " << experimentMethod << endl << endl;
 	}
 
@@ -202,7 +211,15 @@ namespace zerg {
 
 	void Printing::endMessage()
 	{
-		mainOutput_ << " Zerg GA terminated normally" << endl;
+		mainOutput_ << "Zerg GA terminated normally" << endl;
+		time(&rawTime2);
+		timeinfo = localtime(&rawTime2);
+		char buffer[80];
+		strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S",timeinfo);
+		string dateI(buffer);
+		mainOutput_ << "Ended at:  " << dateI << endl;
+		mainOutput_ << "Wall time:  " << (int) rawTime2 - rawTime1
+				<< " seconds" << endl;
 	}
 	
 	void Printing::similarityProblem(int method)

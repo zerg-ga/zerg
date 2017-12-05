@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <ctime>
 
 #include "StructOptions.h"
 
@@ -71,6 +72,10 @@ namespace zerg {
 
 		int creationOutputDebugLevel; // 0-none ; 1-graph ; 2-all
 		std::ofstream creationOutput_;
+
+		time_t rawTime1;
+		time_t rawTime2;
+		struct tm * timeinfo;
 
 	};
 
