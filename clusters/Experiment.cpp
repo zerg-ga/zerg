@@ -1,6 +1,7 @@
 #include "Experiment.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 #include "ReadGaInput.h"
 #include "ClustersFitness.h"

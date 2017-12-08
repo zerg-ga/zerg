@@ -8,6 +8,13 @@
 
 using namespace std;
 
+AuxMath::AuxMath()
+{
+	_pi = 3.14159265358979323846;
+}
+
+AuxMath::~AuxMath(){}
+
 vector<double> AuxMath::matrixXVector(vector< vector<double> > &M, double x, double y, double z)
 {
 	int size = M.size();
@@ -125,7 +132,7 @@ double AuxMath::angleFrom3Points(double x1, double y1, double z1, double x2, dou
 
 double AuxMath::escalarProduct(double x1, double y1, double z1, double x2, double y2, double z2)
 {
-	return x1*x2 + y1*y2 + z2*z2;
+	return x1*x2 + y1*y2 + z1*z2;
 }
 
 

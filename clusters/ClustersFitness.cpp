@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <stdlib.h>
 
 using namespace std;
 using namespace zerg;

@@ -5,7 +5,13 @@ number_of_atoms = 4
 %
 %
 % INTERACTION OPTIONS
-interaction_potential = lennardjones
+interaction_potential = gamess
+bases_files_number = 4
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+gamess_header_file = na-header.txt
 %
 %
 % GA OPTIONS

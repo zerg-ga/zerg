@@ -3,7 +3,6 @@ Rodar frequencia a partir de um arquivo xyz
 ./zerg.exe frequency [file]
 
 
-
 LISTA DE TODAS AS OPCOES DO GaInput.txt
 
 %                                      - comentario
@@ -59,6 +58,26 @@ FORMATO DA BASE
 ->                  - ecp
 ->                  - ecp
 $END
+
+COMANDOS UTEIS DO GIT
+
+primeira instalacao:
+1.
+git clone https://github.com/zerg-ga/zerg.git
+2.
+make
+
+
+atualizando a versao
+1.
+git pull origin master
+2.
+make clean
+3.
+make
+
+retorna todos os arquivos para a versao original
+git reset --hard
 
 
 
