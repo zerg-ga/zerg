@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <stdlib.h>
+#include <cmath>
 
 #include "Coordstructs.h"
 #include "../AuxMathGa.h"

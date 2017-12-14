@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
 //	MarquesEnantiomers mq_;
 //	mq_.calculateMarquesEnantiomers("a-water16.xyz", "b-water16.xyz");
 //	return 0;
+
 	Printing printing_;
 	string experimentMethod;
 	if (argc > 1)
