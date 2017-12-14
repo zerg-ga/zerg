@@ -4,14 +4,19 @@
 #include <vector>
 #include <string>
 
+#include "Similarity.h"
 #include "InitializeAtoms.h"
 #include "../BasicOperators.h"
 #include "../StructOptions.h"
+#include "../Printing.h"
 
 class ClustersOperators : public zerg::BasicOperators
 {
 public:
-	ClustersOperators(int pop_size, int number_parameters);
+	ClustersOperators(
+		int pop_size, 
+		int number_parameters,
+		zerg::Printing * pPrinting_in);
 	~ClustersOperators();
 
 	//reimplement or use basic
@@ -40,6 +45,7 @@ protected:
 	double contractionMinMtco;
 	double contractionMaxMtco;
 
+	zerg::Printing * pPrinting_;
 
 private:
 	//set on startUserOperators()
@@ -64,8 +70,6 @@ private:
 	
 	std::vector< std::vector<double> > allDistances;
 
-	InitializeAtoms init_;
-
 	void printAtomsVectorDouble(std::vector<double> & atoms, std::string testName);
 
 	void translate(std::vector<double> & x, std::vector<double> & translateVector);
@@ -80,6 +84,9 @@ private:
 	std::vector<double> fredAngularSurfaceOperator(const std::vector<double> & x);
 	std::vector<double> deavenHoCutSplice(const std::vector<double> & x1_parent, const std::vector<double> & x2_parent);
 
+	//Objects
+	InitializeAtoms init_;
+	Similarity sim_;
 
 };
 

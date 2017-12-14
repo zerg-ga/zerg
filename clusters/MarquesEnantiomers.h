@@ -12,18 +12,18 @@ public:
 	MarquesEnantiomers();
 
 	~MarquesEnantiomers();
-	
+
+	double marquesRmsd(
+		std::vector<CoordXYZ> &mol1,
+		std::vector<CoordXYZ> &mol2);
+
 	void calculateMarquesEnantiomers(
 		std::string fileXyz1,
 		std::string fileXyz2);
 
-	void jacobiDiagonalization(
-		std::vector< std::vector<double> > &entryMatrix,
-		std::vector< std::vector<double> > &eigenVectors,
-		std::vector<double> &eigenvalues);
+	void setSeed(int seed);
 
 private:
-
 	double assignStruct(
 		std::vector<CoordXYZ> &mo1,
 		std::vector<CoordXYZ> &mol2);
@@ -45,6 +45,11 @@ private:
 	std::vector< std::vector<double> > distanceMatrix(
 		std::vector<CoordXYZ> &mol1,
 		std::vector<CoordXYZ> &mol2);
+
+	void jacobiDiagonalization(
+		std::vector< std::vector<double> > &entryMatrix,
+		std::vector< std::vector<double> > &eigenVectors,
+		std::vector<double> &eigenvalues);
 
 	void maxMinBetweenTwoNumber(const int n, const int m, int &iMax, int &iMin);
 

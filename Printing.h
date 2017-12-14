@@ -64,7 +64,9 @@ namespace zerg {
 		void histogramTitle(int seed);
 		void histogramPrint(int method);
 		void histogramEndl();
-
+	
+		//similarity
+		void printSimilarityDistances(std::vector<double> &distances);
 
 
 	private:
@@ -72,6 +74,8 @@ namespace zerg {
 
 		int creationOutputDebugLevel; // 0-none ; 1-graph ; 2-all
 		std::ofstream creationOutput_;
+
+		std::ofstream similarityOutput_;
 
 		time_t rawTime1;
 		time_t rawTime2;

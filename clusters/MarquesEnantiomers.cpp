@@ -18,9 +18,6 @@ using namespace zerg;
 
 MarquesEnantiomers::MarquesEnantiomers()
 {
-	int seed = 800;//fredmudar
-	AuxMathGa::set_seed(seed);
-
 	tolRmsFit = 1.0e-4;
 	tolIdentificalStructRmsd = 5.0e-2;
 	nCycles = 100000;
@@ -29,6 +26,24 @@ MarquesEnantiomers::MarquesEnantiomers()
 }
 
 MarquesEnantiomers::~MarquesEnantiomers(){}
+
+void MarquesEnantiomers::setSeed(int seed)
+{
+	AuxMathGa::set_seed(seed);
+}
+
+double MarquesEnantiomers::marquesRmsd(
+	vector<CoordXYZ> &mol1,
+	vector<CoordXYZ> &mol2)
+{
+	for (size_t i = 0; i < mol1.size(); i++)
+	{
+		mol1[i].mass = setMass(mol1[i].atomlabel);
+		mol2[i].mass = setMass(mol2[i].atomlabel);
+	}
+	return assignStruct(mol1, mol2);
+}
+
 
 void MarquesEnantiomers::calculateMarquesEnantiomers(
 	string fileXyz1, 
@@ -117,7 +132,7 @@ double MarquesEnantiomers::assignStruct(
 			{
 				rmsd_repeat++;
 				if (rmsd_repeat == minRepeat)
-				{
+				{					
 					kCount = k;
 					return rmsdmin;
 				}
@@ -543,7 +558,6 @@ void MarquesEnantiomers::maxMinBetweenTwoNumber(
 		iMin = n;
 	}
 }
-
 
 
 

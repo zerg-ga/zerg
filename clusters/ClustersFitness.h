@@ -59,7 +59,7 @@ private:
 	std::string experimentMethod;
 	void endExperimentConditions(double energy);
 
-	zerg::Printing * pPrinting_;
+
 };
 
 #endif

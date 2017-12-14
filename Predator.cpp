@@ -31,8 +31,11 @@ void Predator::get_dead_individuals(Population &pop)
 		fitness_energies[i] = pop.getfitness(i);
 		fitness_rank[i] = i;
 	}
+
 	vector<int> vector_order = AuxMathGa::vector_ordering(fitness_energies);
 	AuxMathGa::vector_ordering_with_instructions(fitness_rank, vector_order);
+
+	pop.setFintessRank(fitness_rank);
 
 	// choose last to kill
 	int i_index = 0;
@@ -44,7 +47,12 @@ void Predator::get_dead_individuals(Population &pop)
 
 	pPrinting_->energyMessage(fitness_rank, dead_individuals,fitness_energies);
 
-
 }
+
+vector<int> Predator::getFitnessRank()
+{
+	return fitness_rank;
+}
+
 
 }

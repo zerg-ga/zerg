@@ -18,6 +18,9 @@ public:
 	void get_dead_individuals(zerg::Population &pop);//change name to calculate
 
 	std::vector<int> dead_individuals;
+
+	std::vector<int> getFitnessRank();
+
 	inline int get_pop_size(){return pop_size;}
 
 private:

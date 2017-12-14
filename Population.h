@@ -22,6 +22,16 @@ public:
 	virtual bool operatorAdministration(int method, const std::vector<double> &operatorPerformance) = 0;// modify operators
 
 	virtual double checkMinimum(int ind_i) = 0;
+
+	// GA INTEL
+	void setFintessRank(std::vector<int> fitnessRank_in)
+	{
+		fitnessRank = fitnessRank_in;
+	}
+
+protected:
+	std::vector<int> fitnessRank;
+
 };
 
 }

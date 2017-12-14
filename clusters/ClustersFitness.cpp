@@ -22,9 +22,12 @@ ClustersFitness::ClustersFitness(
 	std::string gamessScr_in,
 	std::string nProc_in,
 	Printing * pPrinting_in)
-:ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
+:ClustersOperators(
+	gaParam.pop_size, 
+	gaParam.numberOfParameters,
+	pPrinting_in)
 {
-	pPrinting_ = pPrinting_in;
+//	pPrinting_ = pPrinting_in;
 	options = options_in;
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;

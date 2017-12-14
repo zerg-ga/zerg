@@ -4,16 +4,22 @@
 #include <iostream>
 #include <algorithm>
 
+#include "Similarity.h"
 #include "../AuxMathGa.h"
 #include "../AuxMath.h"
 #include "../StructOptions.h"
+#include "../Printing.h"
 
 using namespace std;
 using namespace zerg;
 
-ClustersOperators::ClustersOperators(int pop_size, int number_parameters)
+ClustersOperators::ClustersOperators(
+	int pop_size, 
+	int number_parameters,
+	Printing * pPrinting_in)
 :BasicOperators(pop_size, number_parameters)
 {
+	pPrinting_ = pPrinting_in;
 	number_of_creation_methods = 7;
 	tol_similarity = 3.0e-2;
 }
@@ -33,6 +39,14 @@ void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 	mutationValue = gaParam.mutationValue / nAtoms;
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;
+	sim_.startSimilarity(
+		1,
+		gaParam.seed,
+		nAtoms,
+		tol_similarity,
+		maxDistance, 
+		minDistance, 
+		pPrinting_);
 }
 
 bool ClustersOperators::create_individual(int creation_type,int target, int parent1, int parent2)
@@ -161,15 +175,34 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
-
 void ClustersOperators::appendTosimilarity(int ind_i)
 {
-	vector<double> auxDistances = calcAndSortAllDistances(x_vec[ind_i]);
-	if (auxDistances[auxDistances.size() - 1] > maxDistance)
+	if (sim_.checkLimitations(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
-	if (auxDistances[0] < minDistance)
-		energy[ind_i] = 1.0e99;
-	allDistances.push_back(auxDistances);
+	sim_.appendTosimilarity();	
+}
+
+bool ClustersOperators::check_similarity(int target)
+{
+	vector< vector<double> > bestIndividuals;
+	if (fitnessRank.size() != 0)
+	{
+		for (size_t i = 0; i < 10; i++)
+			bestIndividuals.push_back(x_vec[fitnessRank[i]]);
+	}
+
+	if (sim_.checkLimitations(x_vec[target]))
+	{
+		return true;
+	}
+	else if (sim_.checkSimilarity(x_vec[target], bestIndividuals))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 std::vector<double> ClustersOperators::calcAndSortAllDistances(std::vector<double> &x)
@@ -226,32 +259,6 @@ double ClustersOperators::calcDistancesOverIAndGetMin(vector<double> &x, int i)
 	}
 	return *min_element(auxDistances.begin(),auxDistances.end());
 }
-
-bool ClustersOperators::check_similarity(int target)
-{
-	vector<double> auxDistance = calcAndSortAllDistances(x_vec[target]);
-
-	if (auxDistance[auxDistance.size() - 1] > maxDistance)
-		return true;
-	if (auxDistance[0] < minDistance)
-		return true;
-
-	int size = auxDistance.size();
-	for (size_t i = 0; i < allDistances.size(); i++)
-	{
-		double distanceDiffererence = 0.e0;
-		for (int k = 0; k < size; k++)
-			distanceDiffererence += abs(auxDistance[k] - allDistances[i][k]);
-
-		distanceDiffererence /= (double)size;
-		if (distanceDiffererence < tol_similarity)
-			return true;
-	}
-	return false;
-}
-
-
-
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////

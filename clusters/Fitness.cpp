@@ -1,4 +1,4 @@
-//#define useDlib
+#define useDlib
 
 #include "Fitness.h"
 
