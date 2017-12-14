@@ -1,5 +1,7 @@
 #include "Printing.h"
 
+//#define UNIX
+
 #include <fstream>
 #include <vector>
 #include <string>
@@ -134,12 +136,14 @@ namespace zerg {
 			<< endl << "Author: Frederico Teixeira Silva" << endl << endl;
 		mainOutput_ << "Zerg GA started normally" << endl;
 
+#ifdef UNIX
 		time(&rawTime1);
 		timeinfo = localtime(&rawTime1);
 		char buffer[80];
 		strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S",timeinfo);
 		string dateI(buffer);
 		mainOutput_ << "Date:  " << dateI << endl << endl;
+#endif
 
 		mainOutput_ << "Chosen GA option:  " << experimentMethod << endl << endl;
 	}
@@ -212,6 +216,7 @@ namespace zerg {
 	void Printing::endMessage()
 	{
 		mainOutput_ << "Zerg GA terminated normally" << endl;
+#ifdef UNIX
 		time(&rawTime2);
 		timeinfo = localtime(&rawTime2);
 		char buffer[80];
@@ -220,6 +225,7 @@ namespace zerg {
 		mainOutput_ << "Ended at:  " << dateI << endl;
 		mainOutput_ << "Wall time:  " << (int) rawTime2 - rawTime1
 				<< " seconds" << endl;
+#endif
 	}
 	
 	void Printing::similarityProblem(int method)

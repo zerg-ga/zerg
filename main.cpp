@@ -13,6 +13,8 @@
 #include "AuxMathGa.h"
 #include "Printing.h"
 
+#include "clusters/Hungarian.h"
+#include "clusters/MarquesEnantiomers.h"
 #include "clusters/InitializeAtoms.h"
 #include "clusters/ClustersFitness.h"
 #include "clusters/ReadQuantumOutput.h"
@@ -30,8 +32,12 @@ void calculateMeanTestFormat(string name);
 void generateExecutable(vector<string> argv);
 vector<double> readXyz(string xyzName);
 
+
 int main(int argc, char *argv[])
 {
+//	MarquesEnantiomers mq_;
+//	mq_.calculateMarquesEnantiomers("a-water16.xyz", "b-water16.xyz");
+//	return 0;
 	Printing printing_;
 	string experimentMethod;
 	if (argc > 1)
@@ -119,7 +125,8 @@ int main(int argc, char *argv[])
 	}
 	else if (experimentMethod == "frequency")
 	{
-		ReadGaInput readGa_(&printing_);
+		Printing * pPrinting_ = &printing_;
+		ReadGaInput readGa_(pPrinting_);
 		string xyzName;
 		string gaInput;
 		gaInput = "GaInput.txt";
@@ -312,4 +319,6 @@ vector<double> readXyz(string xyzName)
 	}
 	return coordinates;
 }
+
+
 

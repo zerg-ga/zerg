@@ -14,9 +14,7 @@
 using namespace zerg;
 using namespace std;
 
-ReadGaInput::~ReadGaInput() 
-{
-}
+ReadGaInput::~ReadGaInput(){}
 
 ReadGaInput::ReadGaInput(Printing * pPrinting_in) 
 {
