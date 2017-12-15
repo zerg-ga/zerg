@@ -17,8 +17,6 @@ namespace zerg {
 	
 Printing::Printing()
 {
-	mainOutput_.open("ga-output.txt");
-	similarityOutput_.open("similarity-output.txt");
 }
 
 Printing::~Printing()
@@ -131,6 +129,8 @@ void Printing::setCreationDebug(int creationDebug)
 
 void Printing::showExperimentMethod(string experimentMethod)
 {
+	mainOutput_.open("ga-output.txt");
+	similarityOutput_.open("similarity-output.txt");
 	mainOutput_ << "//////////////////////////////////////////" << endl
 		<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
 		<< "//////////////////////////////////////////" << endl

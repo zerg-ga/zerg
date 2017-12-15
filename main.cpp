@@ -36,7 +36,7 @@ vector<double> readXyz(string xyzName);
 int main(int argc, char *argv[])
 {
 //	MarquesEnantiomers mq_;
-//	mq_.calculateMarquesEnantiomers("a-water16.xyz", "b-water16.xyz");
+//	mq_.calculateMarquesEnantiomers("highlander.xyz", "high-segundo.xyz");
 //	return 0;
 
 	Printing printing_;

@@ -62,7 +62,7 @@ void MarquesEnantiomers::calculateMarquesEnantiomers(
 
 	if (rmsd1 < tolIdentificalStructRmsd)
 	{
-		cout << "SAO IDENTICOS ESSA MERDA" << endl;
+		cout << "SAO IDENTICOS ESSA MERDA  " << rmsd1 << endl;
 		return;
 	}
 

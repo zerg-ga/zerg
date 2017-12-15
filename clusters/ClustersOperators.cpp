@@ -9,6 +9,7 @@
 #include "../AuxMath.h"
 #include "../StructOptions.h"
 #include "../Printing.h"
+#include "Globals.h"
 
 using namespace std;
 using namespace zerg;
@@ -190,6 +191,8 @@ bool ClustersOperators::check_similarity(int target)
 		for (size_t i = 0; i < 10; i++)
 			bestIndividuals.push_back(x_vec[fitnessRank[i]]);
 	}
+
+	globalInd = bestIndividuals;
 
 	if (sim_.checkLimitations(x_vec[target]))
 	{

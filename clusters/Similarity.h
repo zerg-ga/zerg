@@ -2,6 +2,7 @@
 #define SIMILARITY_H
 
 #include <vector>
+#include <string>
 
 #include "InitializeAtoms.h"
 #include "MarquesEnantiomers.h"
@@ -25,6 +26,7 @@ public:
 	bool checkLimitations(std::vector<double> &x);
 	bool checkSimilarity(std::vector<double> &x);
 	bool checkSimilarity(std::vector<double> &x, std::vector< std::vector<double> > &targetIndividuals);
+	std::vector<double>  checkSimilarityGetRmsd(std::vector<double> &x);
 	void appendTosimilarity();
 
 private:
@@ -41,8 +43,6 @@ private:
 	std::vector<double> tempDistance;
 	std::vector< std::vector<double> > allDistances;
 
-	std::vector<double> energy;
-	std::vector< std::vector<double> > x_vec;
 	int nAtoms;
 
 	zerg::Printing * pPrinting_;

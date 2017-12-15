@@ -68,7 +68,6 @@ namespace zerg {
 		//similarity
 		void printSimilarityDistances(std::vector<double> &distances);
 
-
 	private:
 		std::ofstream mainOutput_;
 

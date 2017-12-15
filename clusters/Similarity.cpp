@@ -9,6 +9,8 @@
 #include "../Printing.h"
 #include "MarquesEnantiomers.h"
 
+#include "Globals.h"
+
 using namespace std;
 using namespace zerg;
 
@@ -151,6 +153,78 @@ bool Similarity::checkSimilarity(
 		exit(1);
 	}
 }
+
+
+std::vector<double> Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
+{
+	vector< vector<double> > targedIndividuals;
+	targedIndividuals = globalInd;
+	vector<double> colectAllDifferences;
+	if (method == 0)
+	{
+		// CONDICAO DE SIMILARIDADE DE DISTANCIAS
+		int size = tempDistance.size();
+		for (size_t i = 0; i < targedIndividuals.size(); i++)
+		{
+			vector<double> distTargetI = calcAndSortAllDistances(targedIndividuals[i]);
+			double distanceDiffererence = 0.e0;
+			for (int k = 0; k < size; k++)
+				distanceDiffererence += abs(tempDistance[k] - distTargetI[k]);
+
+			distanceDiffererence /= (double)size;
+			colectAllDifferences.push_back(distanceDiffererence);
+			//		if (distanceDiffererence < tolSimilarity)
+			//		{
+			//			return true;
+			//		}
+		}
+		if (targedIndividuals.size() != 0)
+			pPrinting_->printSimilarityDistances(colectAllDifferences);
+		return colectAllDifferences;
+	}
+	else if (method == 1)
+	{
+		vector<CoordXYZ> mol1(nAtoms);
+		for (int i = 0; i < nAtoms; i++)
+		{
+			mol1[i].atomlabel = "H";
+			mol1[i].x = x[i];
+			mol1[i].y = x[i + nAtoms];
+			mol1[i].z = x[i + 2 * nAtoms];
+		}
+
+		vector<double> colectAllDifferences;
+		MarquesEnantiomers mrq_;
+		for (size_t i = 0; i < targedIndividuals.size(); i++)
+		{
+			vector<CoordXYZ> mol2(nAtoms);
+			for (int k = 0; k < nAtoms; k++)
+			{
+				mol2[k].atomlabel = "H";
+				mol2[k].x = targedIndividuals[i][k];
+				mol2[k].y = targedIndividuals[i][k + nAtoms];
+				mol2[k].z = targedIndividuals[i][k + 2 * nAtoms];
+			}
+			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
+			colectAllDifferences.push_back(distanceDiffererence);
+			//		if (distanceDiffererence < tolSimilarity)
+			//		{
+			//			return true;
+			//		}
+		}
+		if (targedIndividuals.size() != 0)
+			pPrinting_->printSimilarityDistances(colectAllDifferences);
+		return colectAllDifferences;
+		// ADICIONAR RMSD AQUI
+	}
+	else
+	{
+		cout << "SIMILARITY METHOD NOT FOUND" << endl;
+		exit(1);
+	}
+}
+
+
 
 
 void Similarity::appendTosimilarity()
