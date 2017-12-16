@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "../Random.h"
+
 class InitializeAtoms
 {
 public:
@@ -11,7 +13,7 @@ public:
 
 	~InitializeAtoms();
 
-	void initializeSetSeed(int seed);
+	void initializeSetSeed(zerg::Random * rand_in);
 
 	std::vector<double> generateCluster(int Natoms, double gamma_in, double Rca_in);
 	
@@ -38,6 +40,7 @@ private:
 
 	double findMinimumDistanceUntilActualI(const std::vector<double> &dist, int i);
 
+	zerg::Random * rand_;
 };
 
 #endif

@@ -5,7 +5,7 @@
 
 #include "ReadGaInput.h"
 #include "ClustersFitness.h"
-#include "../AuxMathGa.h"
+#include "../Random.h"
 #include "../AuxMath.h"
 #include "../GeneticAlgorithm.h"
 #include "../Printing.h"
@@ -65,13 +65,14 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 
 	setExperiment(experimentMethod, gaParam);
 
-	AuxMathGa::set_seed(gaParam.seed);
+	Random rand_;
 
 	gaParam.numberOfParameters = 3 * nAtoms;
 
 	vector<string> options = readGa_.getOptions();
 
 	ClustersFitness clFit_(
+		&rand_,
 		gaParam,
 		options,
 		readGa_.getGamessPath(),
@@ -81,7 +82,11 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 
 	clFit_.setExperimentConditions(-108.315e0, 3000);
 
-	GeneticAlgorithm ga1(clFit_, gaParam, &printing_);
+	GeneticAlgorithm ga1(
+		clFit_, 
+		gaParam,
+		&rand_,
+		&printing_);
 
 	ga1.ga_start();
 

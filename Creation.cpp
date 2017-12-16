@@ -8,7 +8,6 @@
 
 #include "Population.h"
 #include "Predator.h"
-#include "AuxMathGa.h"
 #include "ParallelOptimization.h"
 #include "StructOptions.h"
 #include "Printing.h"
@@ -27,13 +26,14 @@ void Creation::initialize_creation(
 	int number_creation_methods,
 	int n_process, 
 	Printing * pPrinting_in,
-	GaParameters &gaParam
+	GaParameters &gaParam,
+	Random * rand_in
 	)
 {
 	pPrinting_ = pPrinting_in;
 	admin_.initializeAdministration(pPrinting_, gaParam);
 	insistOnSimilar = gaParam.insistOnSimilar;
-	AuxMathGa::set_seed(gaParam.seed);
+	rand_ = rand_in;
 
 	number_methods = number_creation_methods;
 	creation_methods.resize(number_methods);
@@ -87,7 +87,7 @@ void Creation::set_creation_methods(Predator &pred)
 	{
 		if (numberToCreateOnCreationMethods > (int)pred.dead_individuals.size())
 		{
-			normalizeNumberToCreate = AuxMathGa::randomNumber(0, number_methods - 1);
+			normalizeNumberToCreate = rand_->randomNumber(0, number_methods - 1);
 			if (creation_methods[normalizeNumberToCreate][0] > 0)
 			{
 				creation_methods[normalizeNumberToCreate][0]--;
@@ -96,7 +96,7 @@ void Creation::set_creation_methods(Predator &pred)
 		}
 		else
 		{
-			normalizeNumberToCreate = AuxMathGa::randomNumber(0, number_methods - 1);
+			normalizeNumberToCreate = rand_->randomNumber(0, number_methods - 1);
 			creation_methods[normalizeNumberToCreate][0]++;
 			numberToCreateOnCreationMethods++;
 		}
@@ -164,12 +164,12 @@ void Creation::select_parents(Predator &pred, int &parent1, int &parent2)
 	{
 		do
 		{
-			parent1 = AuxMathGa::randomNumber(0,pop_size-1);
+			parent1 = rand_->randomNumber(0,pop_size-1);
 		}while(is_dead(pred, parent1));
 
 		do
 		{
-			parent2 = AuxMathGa::randomNumber(0,pop_size-1);
+			parent2 = rand_->randomNumber(0,pop_size-1);
 		}while(is_dead(pred, parent2));
 	}
 }

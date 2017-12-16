@@ -25,8 +25,8 @@ void Similarity::startSimilarity(
 	double tol_similarity_in,
 	double maxDistance_in,
 	double minDistance_in,
-	Printing * pPrinting_in
-)
+	Printing * pPrinting_in,
+	Random * rand_in)
 {
 	method = method_in;
 	seed = seed_in;
@@ -35,7 +35,7 @@ void Similarity::startSimilarity(
 	maxDistance = maxDistance_in;
 	minDistance = minDistance_in;
 	pPrinting_ = pPrinting_in;
-	marqRmsd_.setSeed(seed);
+	marqRmsd_.setSeed(rand_in);
 }
 
 
@@ -103,10 +103,10 @@ bool Similarity::checkSimilarity(
 
 			distanceDiffererence /= (double)size;
 			colectAllDifferences.push_back(distanceDiffererence);
-			//		if (distanceDiffererence < tolSimilarity)
-			//		{
-			//			return true;
-			//		}
+			if (distanceDiffererence < tolSimilarity)
+			{
+				return true;
+			}
 		}
 		if (targedIndividuals.size() != 0)
 			pPrinting_->printSimilarityDistances(colectAllDifferences);
@@ -137,10 +137,10 @@ bool Similarity::checkSimilarity(
 			}
 			double distanceDiffererence = mrq_.marquesRmsd(mol1,mol2);
 			colectAllDifferences.push_back(distanceDiffererence);
-			//		if (distanceDiffererence < tolSimilarity)
-			//		{
-			//			return true;
-			//		}
+			if (distanceDiffererence < tolSimilarity)
+			{
+				return true;
+			}
 		}
 		if (targedIndividuals.size() != 0)
 			pPrinting_->printSimilarityDistances(colectAllDifferences);
@@ -207,10 +207,10 @@ std::vector<double> Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
 			}
 			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
 			colectAllDifferences.push_back(distanceDiffererence);
-			//		if (distanceDiffererence < tolSimilarity)
-			//		{
-			//			return true;
-			//		}
+			//if (distanceDiffererence < tolSimilarity)
+			//{
+			//	return true;
+			//}
 		}
 		if (targedIndividuals.size() != 0)
 			pPrinting_->printSimilarityDistances(colectAllDifferences);

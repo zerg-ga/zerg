@@ -6,11 +6,11 @@
 #include <iomanip>
 
 #include "Population.h"
-#include "AuxMathGa.h"
 #include "Predator.h"
 #include "Creation.h"
 #include "StructOptions.h"
 #include "Printing.h"
+#include "Random.h"
 
 using namespace std;
 using namespace zerg;
@@ -19,6 +19,7 @@ namespace zerg{
 GeneticAlgorithm::GeneticAlgorithm(
 	Population &pop_in,  
 	GaParameters & gaParam,
+	Random * rand_in,
 	Printing * pPrinting_in)
 :pop(pop_in)
 {
@@ -28,7 +29,6 @@ GeneticAlgorithm::GeneticAlgorithm(
 	pPrinting_ = pPrinting_in;
 	pPrinting_->setCreationDebug(gaParam.printingDebug);
 	pPrinting_->histogramTitle(gaParam.seed);
-	AuxMathGa::set_seed(gaParam.seed);
 
 	generation = 1;
 	maxGeneration = gaParam.maxGeneration;
@@ -44,7 +44,8 @@ GeneticAlgorithm::GeneticAlgorithm(
 		pop.get_number_of_creation_methods(),
 		gaParam.n_process,
 		pPrinting_,
-		gaParam);
+		gaParam,
+		rand_in);
 
 	pPrinting_->writeOpenMessage();
 }

@@ -6,7 +6,6 @@
 #include <cmath>
 #include <stdlib.h>
 
-#include "AuxMathGa.h"
 #include "Population.h"
 
 using namespace std;
@@ -55,7 +54,7 @@ vector<double> BasicOperators::generate_random_individual()
 	vector<double> x_rand(n_parameters);
 	for (int i = 0; i<n_parameters; i++)
 	{
-		x_rand[i] = AuxMathGa::randomNumber(random_individual_range_min[i],
+		x_rand[i] = rand_->randomNumber(random_individual_range_min[i],
 								random_individual_range_max[i]);
 	}
 	return x_rand;
@@ -78,7 +77,7 @@ void BasicOperators::make_mutation(int target, int parent)
 	for(int i=0; i<n_parameters; i++)
 	{
 		x_vec[target][i] = x_vec[parent][i];
-		x_vec[target][i] += AuxMathGa::randomNumber(
+		x_vec[target][i] += rand_->randomNumber(
 			x_vec[target][i]-(x_vec[target][i]*mutationValue),
 			x_vec[target][i]+(x_vec[target][i]*mutationValue));
 	}
@@ -117,8 +116,8 @@ void BasicOperators::select_2_points(int &point1, int &point2)
 	point2=-1;
 	while(!(point2>point1))
 	{
-		point1 = AuxMathGa::randomNumber(0,n_parameters-2);
-		point2 = AuxMathGa::randomNumber(point1+1,n_parameters-1);
+		point1 = rand_->randomNumber(0,n_parameters-2);
+		point2 = rand_->randomNumber(point1+1,n_parameters-1);
 	}
 }
 
@@ -128,7 +127,7 @@ void BasicOperators::make_crossover_probability(int target,int parent1, int pare
 	double dice;
 	for(int i=0;i<size;i++)
 	{
-		dice = AuxMathGa::randomNumber(0.0e0,1.0e0);
+		dice = rand_->randomNumber(0.0e0,1.0e0);
 		if(dice>crossoverProbability)
 			x_vec[target][i] = x_vec[parent1][i];
 		else
@@ -239,17 +238,17 @@ bool BasicOperators::operatorAdministration(int method, const std::vector<double
 		break;
 	case 1:
 		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
+			crossoverWeight = rand_->randomNumber(0.5e0,0.9e0);
 		break;
 	case 2:
 		break;
 	case 3:
 		if(operatorPerformance[0] > 2.0e0)
-			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
+			mutationValue = rand_->randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
 		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
+			crossoverWeight = rand_->randomNumber(0.5e0,0.9e0);
 		break;
 	default:
 		cout << " administration of this operator undefined contact developers " << endl;

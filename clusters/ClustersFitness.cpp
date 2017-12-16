@@ -1,10 +1,10 @@
 #include "ClustersFitness.h"
 
-#include "../AuxMathGa.h"
 #include "Fitness.h"
-#include "../StructOptions.h"
 #include "WriteQuantumInput.h"
+#include "../StructOptions.h"
 #include "../Printing.h"
+#include "../Random.h"
 
 #include <iostream>
 #include <fstream>
@@ -16,6 +16,7 @@ using namespace std;
 using namespace zerg;
 
 ClustersFitness::ClustersFitness(
+	Random * rand_in,
 	GaParameters & gaParam,
 	std::vector< std::string > &options_in,
 	std::string gamessPath_in,
@@ -43,7 +44,7 @@ ClustersFitness::ClustersFitness(
 		restartMax = 0;
 	}
 
-	startClustersOperators(gaParam);
+	startClustersOperators(rand_in, gaParam);
 
 	gamessPath = gamessPath_in;
 	gamessScr = gamessScr_in;
@@ -68,8 +69,10 @@ ClustersFitness::ClustersFitness(
 	local_optimization(0);
 	pPrinting_->endOfFirstIndividual();
 
+	bool addInd;
 	for(int i=1; i<gaParam.pop_size; i++)
 	{
+		addInd = false;
 		for (int k = 0; k < gaParam.insistOnSimilar; k++)
 		{
 			aux = create_individual(0, i, 0, 0); //method 0 always random
@@ -141,8 +144,8 @@ void ClustersFitness::printAllIndividuals(string fileName)
 		fitness_energies[i] = energy[i];
 		fitness_rank[i] = i;
 	}
-	vector<int> vector_order = AuxMathGa::vector_ordering(fitness_energies);
-	AuxMathGa::vector_ordering_with_instructions(fitness_rank, vector_order);
+	vector<int> vector_order = auxMath_.vector_ordering(fitness_energies);
+	auxMath_.vector_ordering_with_instructions(fitness_rank, vector_order);
 
 	ofstream printAll_(fileName.c_str());
 	int nAtoms = x_vec[0].size() / 3;

@@ -9,6 +9,7 @@
 #include "Creation.h"
 #include "StructOptions.h"
 #include "Printing.h"
+#include "Random.h"
 
 namespace zerg{	
 class GeneticAlgorithm
@@ -17,6 +18,7 @@ public:
 	GeneticAlgorithm(
 		zerg::Population &Pop_in,
 		GaParameters & gaParam,
+		zerg::Random * rand_in,
 		zerg::Printing * pPrinting_in);
 	~GeneticAlgorithm();
 
@@ -41,7 +43,6 @@ private:
 	void creation();
 
 	zerg::Printing * pPrinting_;
-
 };
 }
 #endif

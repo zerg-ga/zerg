@@ -5,7 +5,6 @@
 #include <algorithm>
 
 #include "Similarity.h"
-#include "../AuxMathGa.h"
 #include "../AuxMath.h"
 #include "../StructOptions.h"
 #include "../Printing.h"
@@ -27,10 +26,12 @@ ClustersOperators::ClustersOperators(
 
 ClustersOperators::~ClustersOperators(){}
 
-void ClustersOperators::startClustersOperators(GaParameters & gaParam)
+void ClustersOperators::startClustersOperators(
+	Random * rand_in,
+	GaParameters & gaParam)
 {
-	AuxMathGa::set_seed(gaParam.seed);
-	init_.initializeSetSeed(gaParam.seed);
+	rand_ = rand_in; // Basic Operators
+	init_.initializeSetSeed(rand_);
 	nAtoms = gaParam.numberOfParameters / 3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
@@ -41,13 +42,14 @@ void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;
 	sim_.startSimilarity(
-		1,
+		0,
 		gaParam.seed,
 		nAtoms,
 		tol_similarity,
 		maxDistance, 
 		minDistance, 
-		pPrinting_);
+		pPrinting_,
+		rand_);
 }
 
 bool ClustersOperators::create_individual(int creation_type,int target, int parent1, int parent2)
@@ -193,12 +195,13 @@ bool ClustersOperators::check_similarity(int target)
 	}
 
 	globalInd = bestIndividuals;
+	//xxx = 5;
 
 	if (sim_.checkLimitations(x_vec[target]))
 	{
 		return true;
 	}
-	else if (sim_.checkSimilarity(x_vec[target], bestIndividuals))
+	else if (sim_.checkSimilarity(x_vec[target]))
 	{
 		return true;
 	}
@@ -287,9 +290,9 @@ bool ClustersOperators::sphereCutAndSplice(int target, int parent1, int parent2)
 		atomPositions1[i] = i;
 	vector<int> atomPositions2 = atomPositions1;
 
-	vector<int> order1 = AuxMathGa::vector_ordering(r1);
+	vector<int> order1 = auxMath_.vector_ordering(r1);
 
-	vector<int> order2 = AuxMathGa::vector_ordering(r2);
+	vector<int> order2 = auxMath_.vector_ordering(r2);
 
 	//find M (check: A sphere-cut-splice crossover for the evolution of cluster structures)
 	int M = -1;
@@ -304,10 +307,10 @@ bool ClustersOperators::sphereCutAndSplice(int target, int parent1, int parent2)
 	if (M == -1)
 		return false;
 
-	AuxMathGa::vector_ordering_with_instructions(atomPositions1, order1);
-	AuxMathGa::vector_ordering_with_instructions(atomPositions2, order2);
+	auxMath_.vector_ordering_with_instructions(atomPositions1, order1);
+	auxMath_.vector_ordering_with_instructions(atomPositions2, order2);
 
-	int m = AuxMathGa::randomNumber(0, M);
+	int m = rand_->randomNumber(0, M);
 	//change to target
 	int takeAtomI;
 	for (int i = 0; i < natm; i++)
@@ -397,7 +400,7 @@ void ClustersOperators::printAtomsVectorDouble(vector<double> & atoms, string te
 vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 	vector<double> newX = x;
 
 //	remove("CDO.xyz");
@@ -407,7 +410,7 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vec
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -419,9 +422,9 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vec
 			continue;
 		alreadyMoved.push_back(atom);
 		double multiplyFactor = scdo * calcDistancesOverIAndGetMin(newX, atom);
-		newX[atom] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + nAtoms] += multiplyFactor *  AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + 2 * nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom] += multiplyFactor * rand_->randomNumber(-1.0e0, 1.0e0);
+		newX[atom + nAtoms] += multiplyFactor *  rand_->randomNumber(-1.0e0, 1.0e0);
+		newX[atom + 2 * nAtoms] += multiplyFactor * rand_->randomNumber(-1.0e0, 1.0e0);
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
 
@@ -433,7 +436,7 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vec
 vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 	vector<double> newX = x;
 	vector<double> rCenterDistances = calcDistanceToCenter(newX);
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
@@ -445,7 +448,7 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(con
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -457,7 +460,7 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(con
 			continue;
 		alreadyMoved.push_back(atom);
 
-		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 		double multiplyFactor = (
 			(alfaMaxGcdo - alfaMinGcdo) * 
@@ -479,13 +482,11 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(con
 
 vector<double> ClustersOperators::rondinaTwistOperator(const vector<double> & x)
 {
-	AuxMath auxMath_;
-	
-	double teta = AuxMathGa::randomNumber(tetaMinTwisto, tetaMaxTwisto);
+	double teta = rand_->randomNumber(tetaMinTwisto, tetaMaxTwisto);
 
 	vector<double> newX = x;
 
-	vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+	vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 //	remove("TWISTO.xyz");
 //	printAtomsVectorDouble(x, "TWISTO.xyz");
@@ -526,7 +527,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	// IGUAL O GEOMETRIC CENTER DISPLACEMENT so que mais forte e com menos regras
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 
 	vector<double> newX = x;
 
@@ -537,7 +538,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -549,7 +550,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 			continue;
 		alreadyMoved.push_back(atom);
 
-		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 		double atomRadius = sqrt(
 			x[atom] * x[atom] +
@@ -571,7 +572,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 
 	vector<double> newX = x;
 
@@ -585,7 +586,7 @@ vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<dou
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -597,7 +598,7 @@ vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<dou
 			continue;
 		alreadyMoved.push_back(atom);
 
-		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 		newX[atom] = rMax * unitSphericalVector[0];
 		newX[atom + nAtoms] = rMax * unitSphericalVector[1];
@@ -613,7 +614,7 @@ vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<dou
 vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 	// atencao --- para convergir para o RONDINA o moveToSurfaceFactor
 	// tem que ser sempre igual a um.
 
@@ -629,7 +630,7 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -641,10 +642,10 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double
 			continue;
 		alreadyMoved.push_back(atom);
 
-		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 		double moveToSurfaceFactor = rCenterDistances[atom] +
-			(rMax - rCenterDistances[atom]) * AuxMathGa::randomNumber(0.0e0, 1.0e0);
+			(rMax - rCenterDistances[atom]) * rand_->randomNumber(0.0e0, 1.0e0);
 
 		newX[atom] = moveToSurfaceFactor * unitSphericalVector[0];
 		newX[atom + nAtoms] = moveToSurfaceFactor * unitSphericalVector[1];
@@ -660,7 +661,7 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double
 vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<double> & x)
 {
 //  parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
 
 	vector<double> newX = x;
 
@@ -671,7 +672,7 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<doubl
 	bool moved;
 	do
 	{
-		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		int atom = rand_->randomNumber(0, nAtoms - 1);
 		moved = false;
 		for (size_t i = 0; i < alreadyMoved.size(); i++)
 		{
@@ -688,7 +689,7 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<doubl
 			x[atom + nAtoms] * x[atom + nAtoms] +
 			x[atom + 2 * nAtoms] * x[atom + 2 * nAtoms]);
 
-		double moveFactor = AuxMathGa::randomNumber(
+		double moveFactor = rand_->randomNumber(
 			contractionMinMtco * atomRadius, 
 			contractionMaxMtco * atomRadius);
 
@@ -715,7 +716,7 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 //	printAtomsVectorDouble(x2, "DHO.xyz");
 
 	vector<int> cutAtoms1, cutAtoms2;
-	vector<double> unit = AuxMathGa::unitarySphericalVector();
+	vector<double> unit = rand_->unitarySphericalVector();
 	vector<double> rDistance1, rDistance2;
 	double d1, d2;
 	for (int i = 0; i < nAtoms; i++)
@@ -747,10 +748,10 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 			rDistance2.push_back(d2);
 		}
 	}
-	vector<int> orderInstruct1 = AuxMathGa::vector_ordering(rDistance1);
-	vector<int> orderInstruct2 = AuxMathGa::vector_ordering(rDistance2);
-	AuxMathGa::vector_ordering_with_instructions(cutAtoms1, orderInstruct1);
-	AuxMathGa::vector_ordering_with_instructions(cutAtoms2, orderInstruct2);
+	vector<int> orderInstruct1 = auxMath_.vector_ordering(rDistance1);
+	vector<int> orderInstruct2 = auxMath_.vector_ordering(rDistance2);
+	auxMath_.vector_ordering_with_instructions(cutAtoms1, orderInstruct1);
+	auxMath_.vector_ordering_with_instructions(cutAtoms2, orderInstruct2);
 	double translateValue;
 	vector<double> translateVector(3);
 	while (cutAtoms1.size() != cutAtoms2.size())

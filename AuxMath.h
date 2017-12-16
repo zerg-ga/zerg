@@ -23,6 +23,12 @@ public:
 
 	double escalarProduct(double x1, double y1, double z1, double x2, double y2, double z2);
 
+	//ordering
+	std::vector<int> vector_ordering(std::vector<double> &vetor_entrada); //organiza a entrada e solta um vetor de organizacao
+	void vector_ordering_with_instructions(std::vector<std::vector<double> > &vetor_entrada, const std::vector<int> &vetor_organiza); //organiza uma matriz com a instrucao obtida no anterior.
+	void vector_ordering_with_instructions(std::vector<int> &vetor_entrada, const std::vector<int> &vetor_organiza); //organiza uma matriz com a instrucao obtida no anterior.
+
+
 };
 
 #endif

@@ -12,7 +12,9 @@
 #include "UserFitness.h"
 #include "AuxMathGa.h"
 #include "Printing.h"
+#include "Random.h"
 
+#include "clusters/Globals.h"
 #include "clusters/Hungarian.h"
 #include "clusters/MarquesEnantiomers.h"
 #include "clusters/InitializeAtoms.h"
@@ -31,7 +33,6 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz
 void calculateMeanTestFormat(string name);
 void generateExecutable(vector<string> argv);
 vector<double> readXyz(string xyzName);
-
 
 int main(int argc, char *argv[])
 {
@@ -176,13 +177,16 @@ int main(int argc, char *argv[])
 
 		readGa_.readGaInput();
 
-		AuxMathGa::set_seed(readGa_.getSeed());
+		srand(readGa_.getSeed());
+
+		Random rand_;
 
 		zerg::GaParameters gaParam = readGa_.getGaParameters();
 
 		vector<string> options = readGa_.getOptions();
 
 		ClustersFitness clFit_(
+			&rand_,
 			gaParam,
 			options,
 			readGa_.getGamessPath(),
@@ -190,7 +194,11 @@ int main(int argc, char *argv[])
 			readGa_.getGamessNprocess(),
 			&printing_);
 
-		GeneticAlgorithm ga1(clFit_, gaParam, &printing_);
+		GeneticAlgorithm ga1(
+			clFit_, 
+			gaParam,
+			&rand_,
+			&printing_);
 
 		ga1.ga_start();
 

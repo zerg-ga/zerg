@@ -7,6 +7,7 @@
 #include "InitializeAtoms.h"
 #include "MarquesEnantiomers.h"
 #include "../Printing.h"
+#include "../Random.h"
 
 class Similarity
 {
@@ -21,7 +22,8 @@ public:
 		double tolSimilarity_in,
 		double maxDistance_in,
 		double minDistance_in,
-		zerg::Printing * pPrinting_in);
+		zerg::Printing * pPrinting_in,
+		zerg::Random * rand_in);
 
 	bool checkLimitations(std::vector<double> &x);
 	bool checkSimilarity(std::vector<double> &x);
@@ -47,6 +49,7 @@ private:
 
 	zerg::Printing * pPrinting_;
 	MarquesEnantiomers marqRmsd_;
+	
 
 };
 

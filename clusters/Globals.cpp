@@ -1,5 +1,7 @@
-#include "Globals.h"
+//#include "Globals.h"
 
-#include <vector>
+//#include <vector>
 
-std::vector< std::vector<double> > globalInd;
+//int xxx;
+
+//std::vector< std::vector<double> > globalInd;

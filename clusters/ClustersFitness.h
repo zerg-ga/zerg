@@ -8,11 +8,13 @@
 #include "ClustersOperators.h"
 #include "../StructOptions.h"
 #include "../Printing.h"
+#include "../Random.h"
 
 class ClustersFitness : public ClustersOperators
 {
 public:
 	ClustersFitness(
+		zerg::Random * rand_in,
 		zerg::GaParameters & gaParam, 
 		std::vector< std::string > &options_in,
 		std::string gamessPath_in,
