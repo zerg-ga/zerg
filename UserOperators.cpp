@@ -3,8 +3,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include "AuxMathGa.h"
-
 using namespace std;
 using namespace zerg;
 
@@ -25,6 +23,8 @@ void UserOperators::startUserOperators()
 
 bool UserOperators::create_individual(int creation_type,int target, int parent1, int parent2)
 {
+	cout << "UserOperators::operatorAdministration is not active - contact developers" << endl;
+	exit(1);
 	switch(creation_type)
 	{
 	case 0:
@@ -56,24 +56,26 @@ bool UserOperators::create_individual(int creation_type,int target, int parent1,
 
 bool UserOperators::operatorAdministration(int method, const std::vector<double> &operatorPerformance)
 {
+	cout << "UserOperators::operatorAdministration is not active - contact developers" << endl;
+	exit(1);
 	// if it has an administrator, pass to him.
 	switch(method)
 	{
 	case 0:
 		break;
 	case 1:
-		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
+		//if(operatorPerformance[0] > 2.0e0)
+			//crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	case 2:
 		break;
 	case 3:
-		if(operatorPerformance[0] > 2.0e0)
-			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
+		//if(operatorPerformance[0] > 2.0e0)
+			//mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
-		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
+		//if(operatorPerformance[0] > 2.0e0)
+			//crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	default:
 		cout << " administration of this operator undefined - contact developers " << endl;

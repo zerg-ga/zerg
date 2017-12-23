@@ -9,6 +9,7 @@
 #include "../BasicOperators.h"
 #include "../StructOptions.h"
 #include "../Printing.h"
+#include "../Random.h"
 
 class ClustersOperators : public zerg::BasicOperators
 {
@@ -20,11 +21,14 @@ public:
 	~ClustersOperators();
 
 	//reimplement or use basic
-	void startClustersOperators(zerg::GaParameters & gaParam);//final adjustments  (like crossover probability)
+	void startClustersOperators(
+		zerg::Random * rand_in,
+		zerg::GaParameters & gaParam);//final adjustments  (like crossover probability)
 
 	bool create_individual(int creation_type, int target, int parent1, int parent2);
 	bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators with it's performance
 	bool check_similarity(int target);
+	bool checkInitialSimilarity(int target);
 
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
@@ -46,6 +50,7 @@ protected:
 	double contractionMaxMtco;
 
 	zerg::Printing * pPrinting_;
+	Similarity sim_;
 
 private:
 	//set on startUserOperators()
@@ -53,8 +58,7 @@ private:
 	double gamma;
 	double rca;
 	double adminLargeEnergyVariation;
-	double maxDistance;
-	double minDistance;
+	bool activateIntoBfgs;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
 
@@ -86,8 +90,6 @@ private:
 
 	//Objects
 	InitializeAtoms init_;
-	Similarity sim_;
-
 };
 
 #endif

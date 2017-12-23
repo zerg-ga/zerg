@@ -78,6 +78,10 @@ void Printing::showAllParameters(
 	mainOutput_ << "tetaMaxTwisto: " << gaParam.tetaMaxTwisto << endl;
 	mainOutput_ << "MinMtco: " << gaParam.contractionMinMtco << endl;
 	mainOutput_ << "MaxMtco: " << gaParam.contractionMaxMtco << endl;
+	mainOutput_ << "activateIntoBfgs:  " << gaParam.activateIntoBfgs << endl;
+	mainOutput_ << "Similarity method:  " << gaParam.similarityMethod << endl;
+	mainOutput_ << "Similarity Debug level:  " << gaParam.similarityDebugLevel << endl;
+	mainOutput_ << "Similirity tolerance:  " << gaParam.tolSimilarity << endl;
 	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
 	{
 		mainOutput_ << "Creation rate " << i << ": " << gaParam.initialCreationRate[i] << endl;
@@ -130,7 +134,6 @@ void Printing::setCreationDebug(int creationDebug)
 void Printing::showExperimentMethod(string experimentMethod)
 {
 	mainOutput_.open("ga-output.txt");
-	similarityOutput_.open("similarity-output.txt");
 	mainOutput_ << "//////////////////////////////////////////" << endl
 		<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
 		<< "//////////////////////////////////////////" << endl
@@ -149,6 +152,10 @@ void Printing::showExperimentMethod(string experimentMethod)
 	mainOutput_ << "Chosen GA option:  " << experimentMethod << endl << endl;
 }
 
+void Printing::openSimilarityFile()
+{
+	similarityOutput_.open("similarity-output.txt");
+}
 
 void Printing::writeOpenMessage()
 {
@@ -175,15 +182,15 @@ void Printing::energyMessage(
 		<< fixed << setprecision(16) <<  fitness_energies[2] << endl;
 
 	mainOutput_ << "Dead individuals: " << endl
-		<< dead_individuals[0] << "  "
-		<< dead_individuals[1] << "  "
-		<< dead_individuals[2] << "  "
+		<< scientific << dead_individuals[0] << "  "
+		<< scientific << dead_individuals[1] << "  "
+		<< scientific <<  dead_individuals[2] << "  "
 		<< endl;
 
 	mainOutput_ << "Fitness of the dead: " << endl
-		<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[0]] << "   "
-		<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[1]] << "   "
-		<< fixed << setprecision(16) <<  fitness_energies[dead_individuals[2]] << endl
+		<< fitness_energies[fitness_energies.size() - 1] << "   "
+		<< fitness_energies[fitness_energies.size() - 2] << "   "
+		<< fitness_energies[fitness_energies.size() - 3] << endl
 		<< endl << endl;
 }
 
@@ -233,8 +240,10 @@ void Printing::similarityProblem(int method)
 {
 	if (creationOutputDebugLevel == 2)
 	{
-		creationOutput_ << "WARNING!!!    Method:  "
+		mainOutput_ << endl;
+		mainOutput_ << "WARNING!!!    Method:  "
 			<< method << "   didnt surpass similarity. " << endl;
+		mainOutput_ << endl;
 	}
 }
 
@@ -323,6 +332,15 @@ void Printing::histogramEndl()
 		creationOutput_ << endl;
 }
 
+void Printing::printCreationIsEqual(double diff1, int i1)
+{
+	similarityOutput_ << "New individuals is equal to "
+		<< i1
+		<< "  ->   value: "
+		<< diff1
+		<< endl;
+}
+
 void Printing::printSimilarityDistances(vector<double> &distances)
 {
 	for (size_t i = 0; i < distances.size(); i++)
@@ -330,6 +348,29 @@ void Printing::printSimilarityDistances(vector<double> &distances)
 		similarityOutput_ << distances[i] << "  ";
 	}
 	similarityOutput_ << endl;
+}
+
+void Printing::printSimilarityDistancesSelected(vector<double> &distances)
+{
+	similarityOutput_ << "selected structures" << endl;
+	for (size_t i = 0; i < distances.size(); i++)
+	{
+		similarityOutput_ << distances[i] << "  ";
+	}
+	similarityOutput_ << endl;
+}
+
+
+void Printing::endlSimilarity()
+{
+	similarityOutput_ << endl << endl;
+}
+
+void Printing::printBfgsSteps(int bfgsSteps)
+{
+	similarityOutput_ << endl
+		<< "bfgs steps: " << bfgsSteps
+		<< endl;
 }
 
 

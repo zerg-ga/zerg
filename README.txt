@@ -80,6 +80,17 @@ retorna todos os arquivos para a versao original
 git reset --hard
 
 
+PARA QUE O BFGS-SIMILARITY FUNCIONE É NECESSARIO INCLUIR AS SEGUINTES
+LINHAS NO ARQUIVO optimize.h DA BIBLIOTECA DLIB
+
+declaracao antes do loop (perto da linha 200)
+		T xBfgs;
+
+perto da linha 227 do arquivo optimize.h
+			double dummy = f(x);
+			double bfgsTest = f(xBfgs);
+			if (bfgsTest < min_f)
+				f_value = bfgsTest;
 
 
 
@@ -87,11 +98,9 @@ git reset --hard
 
 ANOTACOES
 /*
-- (TESTAR)se parar com o highlander, calcule a frequencia dele, se der bom, pare, se não SALVE esse cara e continue.
 
 alteracoes do qga
 - portabilildade no fitness.cpp e no makefile (isnan)
-- CHECAR DBL_MAX
 
 proximo paper
 - o highlander sai passando pela populacao com um raio maior e subindo energias - algumas vezes eliminar não os piores, mas o highlander retirar os proximos a ele. o tempo e depois que o highlander comecar a se repetir muito.
@@ -104,9 +113,18 @@ estudo das formas de gerar clusters iniciais:
   gerar todos e avaliar suas diferencas.
 - colocar const no cluster operators por seguranca
 
-- pensar sobre o highlander max iteration está 1.0e99.
-- pop_size has to be multiple of four.
+- pensar sobre o highlander max iteration está 1.0e99. (CHECAR DBL_MAX)
+
+- pop_size tem que ser multiplo de 4.
+
+- Caso o Marques enantiomers nao convirja o rmsd minimo e usado e ele nao faz nenhum aviso para isso.
+
+- a energia minima possibel no fitness e: -1.0e90. No Similarity::checkIntoBfgs, portanto, ele retorna -1.0e99 para parar.
+
 
 */
+
+
+
 
 

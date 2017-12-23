@@ -9,7 +9,6 @@
 #include <cmath>
 
 #include "Coordstructs.h"
-#include "../AuxMathGa.h"
 #include "MatrixDiagonalization.h"
 #include "Hungarian.h"
 
@@ -27,9 +26,9 @@ MarquesEnantiomers::MarquesEnantiomers()
 
 MarquesEnantiomers::~MarquesEnantiomers(){}
 
-void MarquesEnantiomers::setSeed(int seed)
+void MarquesEnantiomers::setSeed(Random * rand_in)
 {
-	AuxMathGa::set_seed(seed);
+	rand_ = rand_in;
 }
 
 double MarquesEnantiomers::marquesRmsd(
@@ -146,7 +145,7 @@ double MarquesEnantiomers::assignStruct(
 			}
 		}
 	}
-	cout << "WARNING - MARQUESRMSD DIDN'T CONVERGED" << endl;
+	//cout << "WARNING - MARQUESRMSD DIDN'T CONVERGED" << endl;
 	return rmsdmin;
 }
 
@@ -206,11 +205,11 @@ void MarquesEnantiomers::eulerRotation(vector<CoordXYZ> &mol)
 	double TWOPI = 2.0e0 * acos(-1.0e0);
 	double upperLimit = 1.0e0;
 	double RAND;
-	RAND = AuxMathGa::randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber(0.0e0, upperLimit);
 	double PHI = TWOPI*RAND;
-	RAND = AuxMathGa::randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber(0.0e0, upperLimit);
 	double CSTHTA = 2.0e0*RAND - 1.0e0;
-	RAND = AuxMathGa::randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber(0.0e0, upperLimit);
 	double CHI = TWOPI*RAND;
 	double THTA = acos(CSTHTA);
 	double SNTHTA = sin(THTA);

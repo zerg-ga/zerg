@@ -4,7 +4,7 @@
 #include <cmath>
 #include <stdlib.h>
 
-#include "../AuxMathGa.h"
+#include "../Random.h"
 
 using namespace std;
 
@@ -19,9 +19,9 @@ InitializeAtoms::InitializeAtoms()
 
 InitializeAtoms::~InitializeAtoms(){}
 
-void InitializeAtoms::initializeSetSeed(int seed)
+void InitializeAtoms::initializeSetSeed(Random * rand_in)
 {
-	AuxMathGa::set_seed(seed);
+	rand_ = rand_in;
 }
 
 vector<double> InitializeAtoms::generateCluster(int natm_in, double gamma_in, double Rca_in)
@@ -46,10 +46,10 @@ vector<double> InitializeAtoms::generateClusterRondina(int natm_in, double gamma
 	{
 		for (int i = 0; i < natm; i++)
 		{
-			r = AuxMathGa::randomNumber(0.0e0, rSphere);
+			r = rand_->randomNumber(0.0e0, rSphere);
 			//Sphere point picking to get equal area
-			fi = 2.0e0 * pi * AuxMathGa::randomNumber(0.0e0, 1.0e0);
-			teta = acos(2.0e0 * AuxMathGa::randomNumber(0.0e0, 1.0e0) - 1.0e0);
+			fi = 2.0e0 * pi * rand_->randomNumber(0.0e0, 1.0e0);
+			teta = acos(2.0e0 * rand_->randomNumber(0.0e0, 1.0e0) - 1.0e0);
 			xi = r * sin(teta) * cos(fi);
 			yi = r * sin(teta) * sin(fi);
 			zi = r * cos(teta);
@@ -86,10 +86,10 @@ vector<double> InitializeAtoms::generateClusterFred(int natm_in, double gamma_in
 		int k = 0;
 		do
 		{
-			r = AuxMathGa::randomNumber(0.0e0, rSphere);
+			r = rand_->randomNumber(0.0e0, rSphere);
 			//Sphere point picking to get equal area
-			fi = 2.0e0 * pi * AuxMathGa::randomNumber(0.0e0, 1.0e0);
-			teta = acos(2.0e0 * AuxMathGa::randomNumber(0.0e0, 1.0e0) - 1.0e0);
+			fi = 2.0e0 * pi * rand_->randomNumber(0.0e0, 1.0e0);
+			teta = acos(2.0e0 * rand_->randomNumber(0.0e0, 1.0e0) - 1.0e0);
 			xi = r * sin(teta) * cos(fi);
 			yi = r * sin(teta) * sin(fi);
 			zi = r * cos(teta);

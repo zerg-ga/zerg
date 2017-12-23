@@ -10,16 +10,21 @@
 
 #include "WriteQuantumInput.h"
 #include "ReadQuantumOutput.h"
+#include "Similarity.h"
 
 #ifdef useDlib
 #include <dlib/optimization.h>
 #include "FunctionDlib.h"
+#include "FunctionDlibSim.h"
 #include "DerivativeDlib.h"
 #endif
 
 using namespace std;
 
-Fitness::Fitness(){}
+Fitness::Fitness()
+{
+	lowestPossibleEnergy = -1.0e90;
+}
 
 Fitness::~Fitness(){}
 
@@ -210,7 +215,9 @@ double Fitness::runGamessFrequency(
 }
 
 
-double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
+double Fitness::optimizeLennardJones(
+	std::vector<double> &x, 
+	int fitType)
 {
 #ifdef useDlib
 	using namespace dlib;
@@ -225,7 +232,7 @@ double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
 		FunctionDlib(size, fitType),
 		DerivativeDlib(size, fitType),
 		starting_point,
-		-1.0e99);
+		lowestPossibleEnergy);
 
 	for (int i = 0; i < size; i++)
 		x[i] = starting_point(i);
@@ -235,6 +242,39 @@ double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
 	return lennardJones(x);
 #endif	
 }
+
+double Fitness::optimizeLennardJones(
+	std::vector<double> &x,
+	int fitType,
+	Similarity * pSim_)
+{
+#ifdef useDlib
+	using namespace dlib;
+
+	int size = x.size();
+	column_vector starting_point(size);
+	for (int i = 0; i < size; i++)
+		starting_point(i) = x[i];
+
+	double fMin = find_min(bfgs_search_strategy(),
+		objective_delta_stop_strategy(1e-6),
+		FunctionDlibSim(size, fitType, pSim_),
+		DerivativeDlib(size, fitType),
+		starting_point,
+		lowestPossibleEnergy);
+
+	if (fMin < lowestPossibleEnergy)
+		fMin = 1.0e99;
+
+	for (int i = 0; i < size; i++)
+		x[i] = starting_point(i);
+
+	return fMin;
+#else
+	return lennardJones(x);
+#endif	
+}
+
 
 /* EXMPLO DE OPTIMIZE
 //main:

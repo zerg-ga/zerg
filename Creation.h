@@ -10,6 +10,7 @@
 #include "AdministrateCreation.h"
 #include "StructOptions.h"
 #include "Printing.h"
+#include "Random.h"
 
 // porcentagem
 // criacao pode ser assim:
@@ -26,7 +27,8 @@ public:
 		int number_creation_methods, 
 		int n_process, 
 		zerg::Printing * pPrinting_in,
-		zerg::GaParameters &gaParam);
+		zerg::GaParameters &gaParam,
+		zerg::Random * rand_in);
 
 	void make_new_individuals(Population &pop, Predator &pred);
 
@@ -47,6 +49,7 @@ private:
 	zerg::ParallelOptimization go_parallel_;
 	zerg::AdministrateCreation admin_;
 	zerg::Printing * pPrinting_;
+	zerg::Random * rand_;
 
 };
 

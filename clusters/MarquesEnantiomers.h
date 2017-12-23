@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Coordstructs.h"
+#include "../Random.h"
 
 class MarquesEnantiomers
 {
@@ -21,7 +22,7 @@ public:
 		std::string fileXyz1,
 		std::string fileXyz2);
 
-	void setSeed(int seed);
+	void setSeed(zerg::Random * rand_in);
 
 private:
 	double assignStruct(
@@ -69,6 +70,8 @@ private:
 	int nCycles;
 	int minRepeat;	
 	int kCount;
+
+	zerg::Random * rand_;
 };
 
 
