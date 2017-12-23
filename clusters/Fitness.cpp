@@ -21,7 +21,10 @@
 
 using namespace std;
 
-Fitness::Fitness(){}
+Fitness::Fitness()
+{
+	lowestPossibleEnergy = -1.0e90;
+}
 
 Fitness::~Fitness(){}
 
@@ -229,7 +232,7 @@ double Fitness::optimizeLennardJones(
 		FunctionDlib(size, fitType),
 		DerivativeDlib(size, fitType),
 		starting_point,
-		-1.0e99);
+		lowestPossibleEnergy);
 
 	for (int i = 0; i < size; i++)
 		x[i] = starting_point(i);
@@ -258,7 +261,10 @@ double Fitness::optimizeLennardJones(
 		FunctionDlibSim(size, fitType, pSim_),
 		DerivativeDlib(size, fitType),
 		starting_point,
-		-1.0e99);
+		lowestPossibleEnergy);
+
+	if (fMin < lowestPossibleEnergy)
+		fMin = 1.0e99;
 
 	for (int i = 0; i < size; i++)
 		x[i] = starting_point(i);

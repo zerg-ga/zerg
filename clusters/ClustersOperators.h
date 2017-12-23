@@ -28,6 +28,7 @@ public:
 	bool create_individual(int creation_type, int target, int parent1, int parent2);
 	bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators with it's performance
 	bool check_similarity(int target);
+	bool checkInitialSimilarity(int target);
 
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
@@ -57,8 +58,7 @@ private:
 	double gamma;
 	double rca;
 	double adminLargeEnergyVariation;
-	double maxDistance;
-	double minDistance;
+	bool activateIntoBfgs;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
 

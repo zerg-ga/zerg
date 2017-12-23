@@ -204,6 +204,8 @@ int main(int argc, char *argv[])
 		ga1.ga_start();
 
 		clFit_.printAllIndividuals("finalPopulation.xyz");
+
+
 	}
 
 	return 0;

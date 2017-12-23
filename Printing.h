@@ -69,7 +69,9 @@ namespace zerg {
 		void openSimilarityFile();
 		void printCreationIsEqual(double diff1, int i1);
 		void printSimilarityDistances(std::vector<double> &distances);
+		void printSimilarityDistancesSelected(std::vector<double> &distances);
 		void endlSimilarity();
+		void printBfgsSteps(int bfgsSteps);
 
 	private:
 		std::ofstream mainOutput_;

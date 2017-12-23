@@ -108,6 +108,9 @@ estudo das formas de gerar clusters iniciais:
 
 - Caso o Marques enantiomers nao convirja o rmsd minimo e usado e ele nao faz nenhum aviso para isso.
 
+- a energia minima possibel no fitness e: -1.0e90. No Similarity::checkIntoBfgs, portanto, ele retorna -1.0e99 para parar.
+
+
 */
 
 

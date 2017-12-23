@@ -97,6 +97,21 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.contractionMinMtco;
 		else if (type == "contractionMaxMoveToCenter")
 			convert >> gaParam.contractionMaxMtco;
+		else if (type == "activateIntoBfgs")
+		{
+			int readActivateBfgs;
+			convert >> readActivateBfgs;
+			if (readActivateBfgs == 0)
+				gaParam.activateIntoBfgs = false;
+			else
+				gaParam.activateIntoBfgs = true;
+		}
+		else if (type == "similarityMethod")
+			convert >> gaParam.similarityMethod;
+		else if (type == "similarityDebugLevel")
+			convert >> gaParam.similarityDebugLevel;
+		else if (type == "tolSimilarity")
+			convert >> gaParam.tolSimilarity;
 		else if (type == "number_of_atoms")
 		{
 			convert >> gaParam.numberOfParameters;
@@ -297,6 +312,13 @@ void ReadGaInput::setDefaults()
 	gaParam.scdo = 0.1e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
+
+	// SIMILARITY PARAMETERS
+	gaParam.activateIntoBfgs = false;
+	gaParam.similarityMethod = 1;
+	gaParam.tolSimilarity = 0.05;
+	gaParam.similarityDebugLevel = 2;
+
 
 	// INITIAL OPERATORS
 	gaParam.initialCreationRate.resize(7);

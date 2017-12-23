@@ -34,6 +34,7 @@ public:
 
 	double checkMinimum(int ind_i);
 
+	void printBfgsSteps();
 
 private:
 	void optimize(int ind_i);

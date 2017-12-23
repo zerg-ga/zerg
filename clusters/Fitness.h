@@ -40,6 +40,8 @@ public:
 private:
 	double lennardJones(std::vector<double> &x);
 
+	double lowestPossibleEnergy;
+
 };
 
 #endif

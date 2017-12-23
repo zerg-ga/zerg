@@ -27,15 +27,20 @@ public:
 
 	double operator() (const column_vector& arg) const
 	{
+		if (arg.size() == 0)
+		{	
+			return pSim_->checkSimilarityIntoBfgs();
+		}
+
 		std::vector<double> x(size);
 		for (int i = 0; i < size; i++)
 		{
 			x[i] = arg(i);
 		}
+	
+		pSim_->saveXToCheckBfgs(x);
 
 		Fitness fit_;
-
-		pSim_->checkSimilarityGetRmsd(x);
 
 		return  fit_.fit(x, fitType);
 	}

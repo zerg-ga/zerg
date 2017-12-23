@@ -17,20 +17,26 @@ Similarity::Similarity()
 	bestIndividualsSize = 10;
 	printLevel = 2;
 	activateIntoBfgsRmsd = true;
+	energyReturnBfgs = -1.0e99;
+	bfgsSteps = 0;
 }
 
 Similarity::~Similarity(){}
 
 void Similarity::startSimilarity(
+	bool activateIntoBfgsRmsd_in,
 	int method_in,
 	int seed_in,
 	int nAtoms_in,
+	int printLevel_in,
 	double tol_similarity_in,
 	double maxDistance_in,
 	double minDistance_in,
 	Printing * pPrinting_in,
 	Random * rand_in)
 {
+	activateIntoBfgsRmsd = activateIntoBfgsRmsd_in;
+	printLevel = printLevel_in;
 	method = method_in;
 	seed = seed_in;
 	nAtoms = nAtoms_in;
@@ -133,6 +139,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 	}
 }
 
+//selected structures
 bool Similarity::checkSimilarity(
 	vector<double> &x,
 	vector< vector<double> > &targedIndividuals
@@ -154,11 +161,20 @@ bool Similarity::checkSimilarity(
 			colectAllDifferences.push_back(distanceDiffererence);
 			if (distanceDiffererence < tolSimilarity)
 			{
+				if (printLevel > 1)
+				{
+					pPrinting_->printCreationIsEqual(
+						distanceDiffererence,
+						i);
+				}
 				return true;
 			}
 		}
-		if (targedIndividuals.size() != 0)
-			pPrinting_->printSimilarityDistances(colectAllDifferences);
+		if (printLevel > 1)
+		{
+			if (targedIndividuals.size() != 0)
+				pPrinting_->printSimilarityDistancesSelected(colectAllDifferences);
+		}
 		return false;
 	}
 	else if (method == 1)
@@ -188,11 +204,20 @@ bool Similarity::checkSimilarity(
 			colectAllDifferences.push_back(distanceDiffererence);
 			if (distanceDiffererence < tolSimilarity)
 			{
+				if (printLevel > 1)
+				{
+					pPrinting_->printCreationIsEqual(
+						distanceDiffererence,
+						i);
+				}
 				return true;
 			}
 		}
-		if (targedIndividuals.size() != 0)
-			pPrinting_->printSimilarityDistances(colectAllDifferences);
+		if (printLevel > 1)
+		{
+			if (targedIndividuals.size() != 0)
+				pPrinting_->printSimilarityDistancesSelected(colectAllDifferences);
+		}
 		return false;
 	}
 	else
@@ -202,11 +227,16 @@ bool Similarity::checkSimilarity(
 	}
 }
 
+void Similarity::saveXToCheckBfgs(std::vector<double> & x)
+{
+	xToCheckBfgs = x;
+}
 
-void Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
+double Similarity::checkSimilarityIntoBfgs()
 {
 	if (!activateIntoBfgsRmsd)
-		return;
+		return 0.0e0;
+	bfgsSteps++;
 	vector<double> colectAllDifferences;
 	if (method == 0)
 	{
@@ -221,17 +251,23 @@ void Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
 
 			distanceDiffererence /= (double)size;
 			colectAllDifferences.push_back(distanceDiffererence);
-			//		if (distanceDiffererence < tolSimilarity)
-			//		{
-			//			return true;
-			//		}
+			if (distanceDiffererence < tolSimilarity)
+			{
+				if (printLevel > 1)
+				{
+					pPrinting_->printCreationIsEqual(
+						distanceDiffererence,
+						i);
+				}
+				return energyReturnBfgs;
+			}
 		}
 		if (printLevel > 0)
 		{
 			if (targetIndividuals.size() != 0)
 				pPrinting_->printSimilarityDistances(colectAllDifferences);
 		}
-		return;
+		return 0.0e0;
 	}
 	else if (method == 1)
 	{
@@ -239,9 +275,9 @@ void Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
 		for (int i = 0; i < nAtoms; i++)
 		{
 			mol1[i].atomlabel = "H";
-			mol1[i].x = x[i];
-			mol1[i].y = x[i + nAtoms];
-			mol1[i].z = x[i + 2 * nAtoms];
+			mol1[i].x = xToCheckBfgs[i];
+			mol1[i].y = xToCheckBfgs[i + nAtoms];
+			mol1[i].z = xToCheckBfgs[i + 2 * nAtoms];
 		}
 
 		vector<double> colectAllDifferences;
@@ -258,17 +294,23 @@ void Similarity::checkSimilarityGetRmsd(std::vector<double> &x)
 			}
 			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
 			colectAllDifferences.push_back(distanceDiffererence);
-			//if (distanceDiffererence < tolSimilarity)
-			//{
-			//	return true;
-			//}
+			if (distanceDiffererence < tolSimilarity)
+			{
+				if (printLevel > 1)
+				{
+					pPrinting_->printCreationIsEqual(
+						distanceDiffererence,
+						i);
+				}
+				return energyReturnBfgs;
+			}
 		}
 		if (printLevel > 0)
 		{
 			if (targetIndividuals.size() != 0)
 				pPrinting_->printSimilarityDistances(colectAllDifferences);
 		}
-		return;
+		return 0.0e0;
 	}
 	else
 	{
@@ -287,7 +329,7 @@ void Similarity::addTargetIndividuals(
 		if (fitnessRank.size() != 0)
 		{
 			targetIndividuals.clear();
-			for (size_t i = 0; i < bestIndividualsSize; i++)
+			for (int i = 0; i < bestIndividualsSize; i++)
 				targetIndividuals.push_back(x_vec[fitnessRank[i]]);
 		}
 	}
@@ -309,17 +351,32 @@ else if (method == 1)
 
 void Similarity::printNewBfgsInd()
 {
-	if (printLevel > 0)
+	if ((printLevel > 0) &&
+		(targetIndividuals.size() != 0) &&
+		(activateIntoBfgsRmsd))
 	{
-		if (targetIndividuals.size() != 0)
-		{
-			pPrinting_->endlSimilarity();
-		}
+		xToCheckBfgs.clear();
+		pPrinting_->endlSimilarity();
 	}
 }
 
+void Similarity::bestIndividualsCheck()
+{
+// checar se os melhores sao iguais
+	if (targetIndividuals.size() != 0)
+	{
+		checkSimilarity(
+			targetIndividuals[0],
+			targetIndividuals);
+	}
 
+}
 
+void Similarity::printBfgsSteps()
+{
+	if (activateIntoBfgsRmsd)
+		pPrinting_->printBfgsSteps(bfgsSteps);
+}
 
 
 

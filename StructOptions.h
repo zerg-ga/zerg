@@ -49,6 +49,13 @@ struct GaParameters
 	double contractionMinMtco;
 	double contractionMaxMtco;
 
+	//similarity parameters
+	bool activateIntoBfgs;
+	int similarityMethod;
+	int similarityDebugLevel;
+	double tolSimilarity;
+
+
 	//util
 	std::string experimentMethod;
 

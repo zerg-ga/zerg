@@ -20,7 +20,6 @@ ClustersOperators::ClustersOperators(
 {
 	pPrinting_ = pPrinting_in;
 	number_of_creation_methods = 7;
-	tol_similarity = 0.2e0;
 }
 
 ClustersOperators::~ClustersOperators(){}
@@ -34,19 +33,21 @@ void ClustersOperators::startClustersOperators(
 	nAtoms = gaParam.numberOfParameters / 3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
-	maxDistance = gaParam.maxDistance;
-	minDistance = gaParam.minDistance;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
 	mutationValue = gaParam.mutationValue / nAtoms;
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;
+
+	activateIntoBfgs = gaParam.activateIntoBfgs;
 	sim_.startSimilarity(
-		1,
+		gaParam.activateIntoBfgs,
+		gaParam.similarityMethod,
 		gaParam.seed,
 		nAtoms,
-		tol_similarity,
-		maxDistance, 
-		minDistance, 
+		gaParam.similarityDebugLevel,
+		gaParam.tolSimilarity,
+		gaParam.maxDistance,
+		gaParam.minDistance,
 		pPrinting_,
 		rand_);
 }
@@ -181,6 +182,11 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 {
 	if (sim_.checkLimitations(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
+	else if (!activateIntoBfgs)
+	{
+		if (sim_.checkSimilarity(x_vec[ind_i]))
+			energy[ind_i] = 1.0e99;
+	}
 	sim_.appendTosimilarity();	
 }
 
@@ -200,6 +206,18 @@ bool ClustersOperators::check_similarity(int target)
 	{
 		return false;
 	}
+}
+
+bool ClustersOperators::checkInitialSimilarity(int target)
+{
+	vector< vector<double> > allXUntilTarget;
+	for (int i = 0; i < target; i++)
+	{
+		allXUntilTarget.push_back(x_vec[i]);
+	}
+
+	return sim_.checkSimilarity(x_vec[target], allXUntilTarget);
+
 }
 
 std::vector<double> ClustersOperators::calcAndSortAllDistances(std::vector<double> &x)

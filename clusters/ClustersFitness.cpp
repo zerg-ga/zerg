@@ -76,10 +76,12 @@ ClustersFitness::ClustersFitness(
 		for (int k = 0; k < gaParam.insistOnSimilar; k++)
 		{
 			aux = create_individual(0, i, 0, 0); //method 0 always random
-			if (!check_similarity(i))
+			if (!checkInitialSimilarity(i))
 				break;
 		}		
 		local_optimization(i);
+		if (checkInitialSimilarity(i))
+			energy[i] = 1.0e99;
 	}
 	pPrinting_->endOfInitialPopulation();
 }
@@ -112,6 +114,7 @@ void ClustersFitness::optimize(int ind_i)
 	// energy[ind_i] -> fitness function 
 
 	sim_.printNewBfgsInd();
+//	sim_.bestIndividualsCheck();
 
 	Fitness fit_;
 	if (options.size() == 0)
@@ -283,3 +286,7 @@ double ClustersFitness::checkMinimum(int ind_i)
 	return 1.0e0;
 }
 
+void ClustersFitness::printBfgsSteps()
+{
+	sim_.printBfgsSteps();
+}
