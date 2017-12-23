@@ -2,20 +2,15 @@
 CC = g++
 
 # define any compile-time flags
-CFLAGS = -Wall -g 
-
-#-std=c++11
+CFLAGS = -Wall -g -std=c++11
 
 # define any directories containing header files other than /usr/include
-INCLUDES = -I. -Iclusters/ -I../dlib-19.4/
+INCLUDES = -I. -Iclusters/ -I../dlib-18.8/ -I/home/vultor/novozerg/dlib-18.18/
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -O3 -lpthread 
-
-#c++ 11
-#-lX11
+LFLAGS = -lpthread -std=c++11 -lX11
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
@@ -23,10 +18,7 @@ LFLAGS = -O3 -lpthread
 LIBS = 
 
 # define the C++ source files
-SRCS = clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Globals.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp
-
-#dlib path
-#../dlib-19.4/dlib/all/source.cpp
+SRCS = clusters/Similarity.cpp clusters/Globals.cpp clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp ../dlib-18.18/dlib/all/source.cpp
 
 
 # define the C++ object files 
