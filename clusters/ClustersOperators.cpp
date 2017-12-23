@@ -183,11 +183,8 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 {
 	if (sim_.checkLimitations(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
-	else if (!activateIntoBfgs)
-	{
-		if (sim_.checkSimilarity(x_vec[ind_i]))
-			energy[ind_i] = 1.0e99;
-	}
+	if (sim_.checkSimilarity(x_vec[ind_i]))
+		energy[ind_i] = 1.0e99;
 	sim_.appendTosimilarity();	
 }
 

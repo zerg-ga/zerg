@@ -1,6 +1,6 @@
 #include "Printing.h"
 
-//#define UNIX
+#define UNIX
 
 #include <fstream>
 #include <vector>
@@ -335,7 +335,7 @@ void Printing::histogramEndl()
 
 void Printing::printCreationIsEqual(double diff1, int i1)
 {
-	similarityOutput_ << "New individuals is equal to "
+	similarityOutput_ << "New individual is equal to "
 		<< i1
 		<< "  ->   value: "
 		<< diff1

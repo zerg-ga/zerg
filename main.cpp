@@ -205,6 +205,8 @@ int main(int argc, char *argv[])
 
 		clFit_.printAllIndividuals("finalPopulation.xyz");
 
+		clFit_.printBfgsSteps();
+
 
 	}
 
