@@ -29,6 +29,7 @@ void Similarity::startSimilarity(
 	int seed_in,
 	int nAtoms_in,
 	int printLevel_in,
+	double energyReturnBfgs_in,
 	double tol_similarity_in,
 	double maxDistance_in,
 	double minDistance_in,
@@ -40,6 +41,7 @@ void Similarity::startSimilarity(
 	method = method_in;
 	seed = seed_in;
 	nAtoms = nAtoms_in;
+	energyReturnBfgs = energyReturnBfgs_in;
 	tolSimilarity = tol_similarity_in;
 	maxDistance = maxDistance_in;
 	minDistance = minDistance_in;

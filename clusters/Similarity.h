@@ -22,6 +22,7 @@ public:
 		int seed_in,
 		int nAtoms_in,
 		int printLevel_in,
+		double enerfyReturnBfgs_in,
 		double tolSimilarity_in,
 		double maxDistance_in,
 		double minDistance_in,

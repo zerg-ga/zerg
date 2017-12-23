@@ -112,6 +112,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.similarityDebugLevel;
 		else if (type == "tolSimilarity")
 			convert >> gaParam.tolSimilarity;
+		else if (type == "energyReturnBfgs")
+			convert >> gaParam.energyReturnBfgs;
 		else if (type == "number_of_atoms")
 		{
 			convert >> gaParam.numberOfParameters;
@@ -318,7 +320,7 @@ void ReadGaInput::setDefaults()
 	gaParam.similarityMethod = 1;
 	gaParam.tolSimilarity = 0.05;
 	gaParam.similarityDebugLevel = 2;
-
+	gaParam.energyReturnBfgs = -1.0e99;
 
 	// INITIAL OPERATORS
 	gaParam.initialCreationRate.resize(7);

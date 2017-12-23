@@ -45,6 +45,7 @@ void ClustersOperators::startClustersOperators(
 		gaParam.seed,
 		nAtoms,
 		gaParam.similarityDebugLevel,
+		gaParam.energyReturnBfgs,
 		gaParam.tolSimilarity,
 		gaParam.maxDistance,
 		gaParam.minDistance,

@@ -82,6 +82,7 @@ void Printing::showAllParameters(
 	mainOutput_ << "Similarity method:  " << gaParam.similarityMethod << endl;
 	mainOutput_ << "Similarity Debug level:  " << gaParam.similarityDebugLevel << endl;
 	mainOutput_ << "Similirity tolerance:  " << gaParam.tolSimilarity << endl;
+	mainOutput_ << "Energy return bfgs:  " << gaParam.energyReturnBfgs << endl;
 	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
 	{
 		mainOutput_ << "Creation rate " << i << ": " << gaParam.initialCreationRate[i] << endl;
