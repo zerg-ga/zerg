@@ -80,6 +80,17 @@ retorna todos os arquivos para a versao original
 git reset --hard
 
 
+PARA QUE O BFGS-SIMILARITY FUNCIONE É NECESSARIO INCLUIR AS SEGUINTES
+LINHAS NO ARQUIVO optimize.h DA BIBLIOTECA DLIB
+
+declaracao antes do loop (perto da linha 200)
+		T xBfgs;
+
+perto da linha 227 do arquivo optimize.h
+			double dummy = f(x);
+			double bfgsTest = f(xBfgs);
+			if (bfgsTest < min_f)
+				f_value = bfgsTest;
 
 
 
@@ -112,5 +123,8 @@ estudo das formas de gerar clusters iniciais:
 
 
 */
+
+
+
 
 
