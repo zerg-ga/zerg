@@ -130,7 +130,6 @@ void Printing::setCreationDebug(int creationDebug)
 void Printing::showExperimentMethod(string experimentMethod)
 {
 	mainOutput_.open("ga-output.txt");
-	similarityOutput_.open("similarity-output.txt");
 	mainOutput_ << "//////////////////////////////////////////" << endl
 		<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
 		<< "//////////////////////////////////////////" << endl
@@ -149,6 +148,10 @@ void Printing::showExperimentMethod(string experimentMethod)
 	mainOutput_ << "Chosen GA option:  " << experimentMethod << endl << endl;
 }
 
+void Printing::openSimilarityFile()
+{
+	similarityOutput_.open("similarity-output.txt");
+}
 
 void Printing::writeOpenMessage()
 {
@@ -323,6 +326,15 @@ void Printing::histogramEndl()
 		creationOutput_ << endl;
 }
 
+void Printing::printCreationIsEqual(double diff1, int i1)
+{
+	similarityOutput_ << "New individuals is equal to "
+		<< i1
+		<< "  ->   value: "
+		<< diff1
+		<< endl;
+}
+
 void Printing::printSimilarityDistances(vector<double> &distances)
 {
 	for (size_t i = 0; i < distances.size(); i++)
@@ -330,6 +342,11 @@ void Printing::printSimilarityDistances(vector<double> &distances)
 		similarityOutput_ << distances[i] << "  ";
 	}
 	similarityOutput_ << endl;
+}
+
+void Printing::endlSimilarity()
+{
+	similarityOutput_ << endl << endl;
 }
 
 

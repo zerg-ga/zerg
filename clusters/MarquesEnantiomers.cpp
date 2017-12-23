@@ -145,7 +145,7 @@ double MarquesEnantiomers::assignStruct(
 			}
 		}
 	}
-	cout << "WARNING - MARQUESRMSD DIDN'T CONVERGED" << endl;
+	//cout << "WARNING - MARQUESRMSD DIDN'T CONVERGED" << endl;
 	return rmsdmin;
 }
 

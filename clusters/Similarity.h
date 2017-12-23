@@ -6,6 +6,7 @@
 
 #include "InitializeAtoms.h"
 #include "MarquesEnantiomers.h"
+#include "Coordstructs.h"
 #include "../Printing.h"
 #include "../Random.h"
 
@@ -28,8 +29,14 @@ public:
 	bool checkLimitations(std::vector<double> &x);
 	bool checkSimilarity(std::vector<double> &x);
 	bool checkSimilarity(std::vector<double> &x, std::vector< std::vector<double> > &targetIndividuals);
-	std::vector<double>  checkSimilarityGetRmsd(std::vector<double> &x);
+	void checkSimilarityGetRmsd(std::vector<double> &x);
 	void appendTosimilarity();
+
+	void addTargetIndividuals(
+		std::vector< std::vector<double> > & x_vec,
+		std::vector<int> & fitnessRank);
+
+	void printNewBfgsInd();
 
 private:
 	double calcDistancesOverIAndGetMin(std::vector<double> &x, int i);
@@ -39,11 +46,17 @@ private:
 
 	int seed;
 	int method;
+	int bestIndividualsSize;
+	int printLevel; // 0-none ; 1-bfgs ; 2-all
+	bool activateIntoBfgsRmsd;
 	double minDistance;
 	double maxDistance;
 	double tolSimilarity;
 	std::vector<double> tempDistance;
+	std::vector<double> xTemp;
 	std::vector< std::vector<double> > allDistances;
+	std::vector< std::vector<double> > allCoordinates;
+	std::vector< std::vector<double> > targetIndividuals;
 
 	int nAtoms;
 

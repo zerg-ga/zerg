@@ -66,7 +66,10 @@ namespace zerg {
 		void histogramEndl();
 	
 		//similarity
+		void openSimilarityFile();
+		void printCreationIsEqual(double diff1, int i1);
 		void printSimilarityDistances(std::vector<double> &distances);
+		void endlSimilarity();
 
 	private:
 		std::ofstream mainOutput_;

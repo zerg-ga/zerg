@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "Similarity.h"
+
 class Fitness
 {
 public:
@@ -13,6 +15,11 @@ public:
 	double fit(std::vector<double> &point, int type);
 
 	double optimizeLennardJones(std::vector<double> &x, int fitType);
+
+	double optimizeLennardJones(
+		std::vector<double> &x, 
+		int fitType,
+		Similarity * pSim_);
 
 	double runGamess(
 		std::vector<double> &x,

@@ -8,7 +8,6 @@
 #include "../AuxMath.h"
 #include "../StructOptions.h"
 #include "../Printing.h"
-#include "Globals.h"
 
 using namespace std;
 using namespace zerg;
@@ -21,7 +20,7 @@ ClustersOperators::ClustersOperators(
 {
 	pPrinting_ = pPrinting_in;
 	number_of_creation_methods = 7;
-	tol_similarity = 3.0e-2;
+	tol_similarity = 0.2e0;
 }
 
 ClustersOperators::~ClustersOperators(){}
@@ -42,7 +41,7 @@ void ClustersOperators::startClustersOperators(
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;
 	sim_.startSimilarity(
-		0,
+		1,
 		gaParam.seed,
 		nAtoms,
 		tol_similarity,
@@ -187,15 +186,7 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 
 bool ClustersOperators::check_similarity(int target)
 {
-	vector< vector<double> > bestIndividuals;
-	if (fitnessRank.size() != 0)
-	{
-		for (size_t i = 0; i < 10; i++)
-			bestIndividuals.push_back(x_vec[fitnessRank[i]]);
-	}
-
-	globalInd = bestIndividuals;
-	//xxx = 5;
+	sim_.addTargetIndividuals(x_vec, fitnessRank);
 
 	if (sim_.checkLimitations(x_vec[target]))
 	{

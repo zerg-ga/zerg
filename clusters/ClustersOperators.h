@@ -49,6 +49,7 @@ protected:
 	double contractionMaxMtco;
 
 	zerg::Printing * pPrinting_;
+	Similarity sim_;
 
 private:
 	//set on startUserOperators()
@@ -89,7 +90,6 @@ private:
 
 	//Objects
 	InitializeAtoms init_;
-	Similarity sim_;
 };
 
 #endif
