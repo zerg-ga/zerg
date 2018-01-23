@@ -30,7 +30,13 @@ tetaMaxTwistOperator = R               - parametro do Twist
 contractionMinMoveToCenter = R         - parametro do move to center
 contractionMaxMoveToCenter = R         - parametro do move to center
 number_of_atoms = n                    - numero de atomos
+user_defined_method = n                - operadores fixos - consultar codigo
 gamma_creation_radius = R              - parametro da IMIGRACAO
+activateIntoBfgs = n                   - make comparisson between bfgs steps
+similarityMethod = n                   - (-1) no similarity; (0) distance; (1) marques rmsd
+similarityDebugLevel = n               - debug level - 0(none) to 2(full)
+tolSimilarity = R                      - similarity criterion cut
+energyReturnBfgs = -1.0e99             - parameter for debug considerations
 radius_factor = R                      - parametro da IMIGRACAO
 max_distance_between_atoms = R         - impede distancia maxima
 iterations_to_repeat_if_it_is_similar  - similaridade

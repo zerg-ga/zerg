@@ -22,7 +22,7 @@ public:
 
 	std::vector<std::string> getOptions();
 
-	int getSeed() {return seed;}
+	int getSeed() {return gaParam.seed;}
 
 	zerg::GaParameters getGaParameters() { return gaParam; }
 
@@ -42,6 +42,7 @@ private:
 	std::string gamessScr;
 	std::string gamessNproc;
 	void setDefaults();
+	void userDefinedSet(int userMethod);
 
 	zerg::Printing * pPrinting_;
 };

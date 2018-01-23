@@ -14,7 +14,7 @@ using namespace zerg;
 
 Similarity::Similarity()
 {
-	bestIndividualsSize = 10;
+	bestIndividualsSize = 3;
 	printLevel = 2;
 	activateIntoBfgsRmsd = true;
 	energyReturnBfgs = -1.0e99;
@@ -134,6 +134,10 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 		}
 		return false;
 	}
+	else if(method == -1)
+	{
+		return false;
+	}
 	else
 	{
 		cout << "SIMILARITY METHOD NOT FOUND" << endl;
@@ -222,6 +226,10 @@ bool Similarity::checkSimilarity(
 		}
 		return false;
 	}
+	else if(method == -1)
+        {
+                return false;
+        }
 	else
 	{
 		cout << "SIMILARITY METHOD NOT FOUND" << endl;
@@ -314,6 +322,8 @@ double Similarity::checkSimilarityIntoBfgs()
 		}
 		return 0.0e0;
 	}
+	else if(method == -1)
+		return false;
 	else
 	{
 		cout << "SIMILARITY METHOD NOT FOUND" << endl;

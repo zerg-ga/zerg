@@ -119,6 +119,12 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.numberOfParameters;
 			gaParam.numberOfParameters *= 3;
 		}
+		else if(type == "user_defined_method")
+		{
+			int userMethod;
+			convert >> userMethod;
+			userDefinedSet(userMethod);
+		}
 		else if (type == "gamma_creation_radius")
 			convert >> gaParam.gammaInitializeAtoms;
 		else if (type == "radius_factor")
@@ -277,6 +283,21 @@ void ReadGaInput::setInputInformations(GaParameters gaParam_in)
 vector<string> ReadGaInput::getOptions()
 {
 	return options;
+}
+
+void ReadGaInput::userDefinedSet(int userMethod)
+{
+
+	// Deaven and Ho genetic algorithm
+        gaParam.initialCreationRate[0] = 0.1e0;
+        gaParam.initialCreationRate[1] = 0.0e0;
+        gaParam.initialCreationRate[2] = 0.2e0;
+        gaParam.initialCreationRate[3] = 0.0e0;
+        gaParam.initialCreationRate[4] = 0.7e0;
+        gaParam.initialCreationRate[5] = 0.0e0;
+        gaParam.initialCreationRate[6] = 0.0e0;
+	gaParam.adminMaxCreationVariation = 0.0e0;
+
 }
 
 void ReadGaInput::setDefaults()
