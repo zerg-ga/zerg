@@ -237,6 +237,7 @@ void ReadGaInput::readGaInput()
 		else
 			atomTypesTemp[i] = 2;
 	}
+	gaParam.atomTypes = atomTypesTemp;
 
 	if (interactionPotential == "lennardjones")
 		gaParam.interactionPotentialType = 0;

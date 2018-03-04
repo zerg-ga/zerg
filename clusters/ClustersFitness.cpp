@@ -35,6 +35,7 @@ ClustersFitness::ClustersFitness(
 	makeExperiment = false;
 	interactionType = gaParam.interactionPotentialType;
 	interactionParameters = gaParam.potentialParams;
+	atomTypes = gaParam.atomTypes;
 	if (gaParam.restart)
 	{
 		readRestartFile();
@@ -122,8 +123,10 @@ void ClustersFitness::optimize(int ind_i)
 	if (options.size() == 0)
 	{
 		energy[ind_i] = fit_.optimizeEmpiricalPotential(
-			x_vec[ind_i], 
+			x_vec[ind_i],
 			interactionType,
+			interactionParameters,
+			atomTypes,
 			&sim_);
 		//energy[ind_i] = fit_.optimizeEmpiricalPotential(x_vec[ind_i], 0);
 		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);

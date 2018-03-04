@@ -16,10 +16,17 @@ typedef dlib::matrix<double, 0, 1> column_vector;
 class FunctionDlibSim
 {
 public:
-	FunctionDlibSim(int size_in, int fitType_in, Similarity * pSim_in)
+	FunctionDlibSim(
+		int size_in, 
+		int fitType_in, 
+		std::vector<double> &parameters,
+		std::vector<int> &atomTypes_in,
+		Similarity * pSim_in)
 	{
 		size = size_in;
 		fitType = fitType_in;
+		paramFunc = parameters;
+		atomTypes= atomTypes_in;
 		pSim_ = pSim_in;
 	}
 
@@ -42,12 +49,14 @@ public:
 
 		Fitness fit_;
 
-		return  fit_.fit(x, fitType);
+		return  fit_.fit(x, fitType, paramFunc, atomTypes);
 	}
 
 private:
 	int size;
 	int fitType;
+	std::vector<double> paramFunc;
+	std::vector<int> atomTypes;
 	Similarity * pSim_;
 };
 

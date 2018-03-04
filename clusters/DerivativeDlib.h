@@ -15,10 +15,16 @@ typedef dlib::matrix<double, 0, 1> column_vector;
 class DerivativeDlib
 {
 public:
-	DerivativeDlib(int size_in, int fitType_in)
+	DerivativeDlib(
+		int size_in, 
+		int fitType_in,
+		std::vector<double> & parameters,
+		std::vector<int> & atomTypes_in)
 	{
 		size = size_in;
 		fitType = fitType_in;
+		paramFunc = parameters;
+		atomTypes = atomTypes_in;
 	}
 
 	~DerivativeDlib(){}
@@ -33,7 +39,11 @@ public:
 
 		Derivative dfit_;
 
-		std::vector<double> dxvector = dfit_.Dfit(x, fitType);
+		std::vector<double> dxvector = dfit_.Dfit(
+			x, 
+			fitType, 
+			paramFunc, 
+			atomTypes);
 
 		column_vector dxcolumn(size);
 		for (int i = 0; i < size; i++)
@@ -47,6 +57,8 @@ public:
 private:
 	int size;
 	int fitType;
+	std::vector<double> paramFunc;
+	std::vector<int> atomTypes;
 };
 
 #endif

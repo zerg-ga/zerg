@@ -14,11 +14,17 @@ public:
 
 	double fit(std::vector<double> &point, int type);
 
-	double optimizeEmpiricalPotential(std::vector<double> &x, int fitType);
+	double fit(
+		std::vector<double> &point, 
+		int type,
+		const std::vector<double> params,
+		const std::vector<int> atomTypes);
 
 	double optimizeEmpiricalPotential(
 		std::vector<double> &x, 
 		int fitType,
+		std::vector<double> &parameters,
+		std::vector<int> &atomTypes,
 		Similarity * pSim_);
 
 	double runGamess(
@@ -40,13 +46,16 @@ public:
 private:
 	double lennardJones(std::vector<double> &x);
 
-	double gupta(std::vector<double> &x);
+	double gupta(
+		std::vector<double> &x,
+		const std::vector<double> params,
+		const std::vector<int> atomTypes);
 
 	std::vector<double> getGuptaParameters(
 		int i,
 		int j,
-		std::vector<int> & atomTypes,
-		std::vector<double> & atomsParameters);
+		const std::vector<int> atomTypes,
+		const std::vector<double> atomsParameters);
 
 	double lowestPossibleEnergy;
 

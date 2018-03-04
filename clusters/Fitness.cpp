@@ -37,57 +37,45 @@ double Fitness::fit(vector<double> &point, int type)
 		break;
 
 	case 1:
-		return gupta(point);
-		
+		cout << "ERROR ON: Fitness::fit - need to set parameters" << endl;
+		exit(1);
+		break;
+
 	default:
 		cout << "FITNESS FUNCTION NOT FOUND" << endl;
 		exit(3);
 	}
 }
 
-double Fitness::gupta(
-	vector<double> &x)
+double Fitness::fit(
+	vector<double> &point, 
+	int type,
+	const vector<double> params,
+	const vector<int> atomTypes)
 {
-	vector<int> atomTypes(10);
-	atomTypes[0] = 0;
-	atomTypes[1] = 0;
-	atomTypes[2] = 0;
-	atomTypes[3] = 0;
-	atomTypes[4] = 1;
-	atomTypes[5] = 1;
-	atomTypes[6] = 1;
-	atomTypes[7] = 1;
-	atomTypes[8] = 1;
-	atomTypes[9] = 1;
+	switch (type)
+	{
+	case 0:
+		return lennardJones(point);
+		break;
 
-	vector<double> atomsParameters(15);
-	// 0-0, 0-1, 0-2 ... 1-1, 1-2, ..., n-n.
-	// A, zeta, p, q e r0.
-	atomsParameters[0] = 1.1727;
-	atomsParameters[1] = 21.398;
-	atomsParameters[2] = 10.13;
-	atomsParameters[3] = 1.30;
-	atomsParameters[4] = 6.99;
-	atomsParameters[10] = 1.51;
-	atomsParameters[11] = 19.30;
-	atomsParameters[12] = 10.58;
-	atomsParameters[13] = 1.34;
-	atomsParameters[14] = 8.253;
+	case 1:
+		return gupta(point, params, atomTypes);
+		break;
 
-	atomsParameters[5] = 0.5e0*(atomsParameters[0] + atomsParameters[10]);
-	atomsParameters[6] = 0.5e0*(atomsParameters[1] + atomsParameters[11]);
-	atomsParameters[7] = 0.5e0*(atomsParameters[2] + atomsParameters[12]);
-	atomsParameters[8] = 0.5e0*(atomsParameters[3] + atomsParameters[13]);
-	atomsParameters[9] = 0.5e0*(atomsParameters[4] + atomsParameters[14]);
+	default:
+		cout << "FITNESS FUNCTION NOT FOUND" << endl;
+		exit(3);
+	}
+}
 
 
-	double r0, p, q, A, eps;
-	A = 9.6e0;
-	p = 4.5e0;
-	eps = 1.8e0;
-	q = 0.4e0;
-	r0 = 1.0e0; // unit of distance
-
+double Fitness::gupta(
+	vector<double> &x,
+	const vector<double> atomsParameters,
+	const vector<int> atomTypes)
+{
+	
 	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
 	int natm = x.size() / 3;
 	double r;
@@ -305,38 +293,11 @@ double Fitness::runGamessFrequency(
 
 }
 
-
-double Fitness::optimizeEmpiricalPotential(
-	std::vector<double> &x, 
-	int fitType)
-{
-#ifdef useDlib
-	using namespace dlib;
-
-	int size = x.size();
-	column_vector starting_point(size);
-	for (int i = 0; i < size; i++)
-		starting_point(i) = x[i];
-
-	double fMin = find_min(bfgs_search_strategy(),
-		objective_delta_stop_strategy(1e-6),
-		FunctionDlib(size, fitType),
-		DerivativeDlib(size, fitType),
-		starting_point,
-		lowestPossibleEnergy);
-
-	for (int i = 0; i < size; i++)
-		x[i] = starting_point(i);
-
-	return fMin;
-#else
-	return lennardJones(x);
-#endif	
-}
-
 double Fitness::optimizeEmpiricalPotential(
 	std::vector<double> &x,
 	int fitType,
+	vector<double> &parameters,
+	vector<int> &atomTypes,
 	Similarity * pSim_)
 {
 #ifdef useDlib
@@ -349,8 +310,17 @@ double Fitness::optimizeEmpiricalPotential(
 
 	double fMin = find_min(bfgs_search_strategy(),
 		objective_delta_stop_strategy(1e-6),
-		FunctionDlibSim(size, fitType, pSim_),
-		DerivativeDlib(size, fitType),
+		FunctionDlibSim(
+			size, 
+			fitType, 
+			parameters,
+			atomTypes,
+			pSim_),
+		DerivativeDlib(
+			size, 
+			fitType, 
+			parameters,
+			atomTypes),
 		starting_point,
 		lowestPossibleEnergy);
 
@@ -367,11 +337,12 @@ double Fitness::optimizeEmpiricalPotential(
 }
 
 
+
 std::vector<double> Fitness::getGuptaParameters(
 	int iPar,
 	int jPar,
-	std::vector<int> & atomTypes,
-	std::vector<double> & atomsParameters)
+	const std::vector<int> atomTypes,
+	const std::vector<double> atomsParameters)
 {
 	int maxElem = *max_element(atomTypes.begin(), atomTypes.end());
 
@@ -383,8 +354,8 @@ std::vector<double> Fitness::getGuptaParameters(
 		{
 			k++;
 			if (
-				((atomTypes[iPar] == i) || (atomTypes[iPar] == j)) &&
-				((atomTypes[jPar] == i) || (atomTypes[jPar] == j))
+				((atomTypes[iPar] == i) && (atomTypes[jPar] == j)) ||
+				((atomTypes[iPar] == j) && (atomTypes[jPar] == i))
 				)
 			{
 				for (int l = 0; l < 5; l++)
