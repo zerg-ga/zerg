@@ -14,6 +14,8 @@ public:
 private:
 	std::vector<double> DlennardJones(std::vector<double> &x);
 
+	std::vector<double> Dgupta(std::vector<double> &x);
+
 
 };
 

@@ -35,11 +35,64 @@ double Fitness::fit(vector<double> &point, int type)
 	case 0:
 		return lennardJones(point);
 		break;
+
+	case 1:
+		return gupta(point);
 		
 	default:
 		cout << "FITNESS FUNCTION NOT FOUND" << endl;
 		exit(3);
 	}
+}
+
+double Fitness::gupta(
+	vector<double> &x)
+{
+	double r0, p, q, A, eps;
+	A = 9.6e0;
+	p = 4.5e0;
+	eps = 1.8e0;
+	q = 0.4e0;
+	r0 = 1.0e0; // unit of distance
+
+	// ro is the nearest atom?
+	// programming this shit
+
+
+	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
+	int natm = x.size() / 3;
+	double r;
+	double totalRep = 0.0e0;
+	double totalAttr = 0.0e0;
+	for (int i = 0; i < natm; i++)
+	{
+		double repSum = 0.0e0;
+		double attrSum = 0.0e0;
+		for (int j = 0; j < natm; j++)
+		{
+			if (j == i)
+				continue;
+			r = sqrt(
+				(x[i] - x[j])*(x[i] - x[j]) +
+				(x[i + natm] - x[j + natm])*(x[i + natm] - x[j + natm]) +
+				(x[i + 2 * natm] - x[j + 2 * natm])*(x[i + 2 * natm] - x[j + 2 * natm])
+				);
+
+			r /= r0;
+
+			repSum += exp(p*(1.0e0 - r));
+
+			attrSum += exp(2.0e0*q*(1.0e0 - r));
+		}
+		totalRep += repSum;
+		totalAttr += sqrt(attrSum);
+
+	}
+	totalRep *= A;
+	totalAttr *= eps;
+
+	return totalRep - totalAttr;
+
 }
 
 double Fitness::lennardJones(vector<double> &x)
@@ -56,7 +109,7 @@ double Fitness::lennardJones(vector<double> &x)
 				(x[i] - x[j])*(x[i] - x[j]) +
 				(x[i + natm] - x[j + natm])*(x[i + natm] - x[j + natm]) +
 				(x[i + 2 * natm] - x[j + 2 * natm])*(x[i + 2 * natm] - x[j + 2 * natm])
-				);
+			);
 			r2 = r * r;
 			r4 = r2 * r2;
 			r6 = r4 * r2;
@@ -68,6 +121,8 @@ double Fitness::lennardJones(vector<double> &x)
 	//	return 1.0e99;
 	return vlj;
 }
+
+
 
 double Fitness::runGamess(
 	vector<double> &x, 
@@ -215,7 +270,7 @@ double Fitness::runGamessFrequency(
 }
 
 
-double Fitness::optimizeLennardJones(
+double Fitness::optimizeEmpiricalPotential(
 	std::vector<double> &x, 
 	int fitType)
 {
@@ -243,7 +298,7 @@ double Fitness::optimizeLennardJones(
 #endif	
 }
 
-double Fitness::optimizeLennardJones(
+double Fitness::optimizeEmpiricalPotential(
 	std::vector<double> &x,
 	int fitType,
 	Similarity * pSim_)
@@ -282,6 +337,6 @@ double Fitness::optimizeLennardJones(
 //vector<double> x = init_.generateCluster(20, 0.2, 2.5);
 //Fitness fit_;
 //printAtomsVectorDouble(x, "teste1.xyz");
-//fit_.optimizeLennardJones(x, 0);
+//fit_.optimizeEmpiricalPotential(x, 0);
 //printAtomsVectorDouble(x, "teste2.xyz");
 */

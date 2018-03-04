@@ -14,9 +14,9 @@ public:
 
 	double fit(std::vector<double> &point, int type);
 
-	double optimizeLennardJones(std::vector<double> &x, int fitType);
+	double optimizeEmpiricalPotential(std::vector<double> &x, int fitType);
 
-	double optimizeLennardJones(
+	double optimizeEmpiricalPotential(
 		std::vector<double> &x, 
 		int fitType,
 		Similarity * pSim_);
@@ -39,6 +39,8 @@ public:
 
 private:
 	double lennardJones(std::vector<double> &x);
+
+	double gupta(std::vector<double> &x);
 
 	double lowestPossibleEnergy;
 
