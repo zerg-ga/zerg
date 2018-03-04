@@ -29,7 +29,32 @@ tetaMinTwistOperator = R               - parametro do Twist
 tetaMaxTwistOperator = R               - parametro do Twist
 contractionMinMoveToCenter = R         - parametro do move to center
 contractionMaxMoveToCenter = R         - parametro do move to center
+%
+%
 number_of_atoms = n                    - numero de atomos
+% apontar os tipos de atomos
+  logo depois. Default todos-1
+n_atom_type_1 = n                      - numero de atomos do tipo 1
+n_atom_type_2 = n                      - numero de atomos do tipo 2
+n_atom_type_3 = n                      - numero de atomos do tipo 3
+%
+number_of_parameters = n               - ATENCAO - a lista de parametros precisa estar em seguida
+A1                                     - formato - 1-1, 1-2, 1-3, 2-2, 2-3, 3-3
+eps1                                   - se nao existir o tipo correspondente, elimine os parametros dele da lista
+p1                                     - gupta - ordem:  A, zeta, p, q e r0.
+q1
+r01
+A12
+eps12
+...
+12
+...
+A22
+eps22
+...
+%
+%
+%
 user_defined_method = n                - operadores fixos - consultar codigo
 gamma_creation_radius = R              - parametro da IMIGRACAO
 activateIntoBfgs = n                   - make comparisson between bfgs steps
@@ -40,9 +65,12 @@ energyReturnBfgs = -1.0e99             - parameter for debug considerations
 radius_factor = R                      - parametro da IMIGRACAO
 max_distance_between_atoms = R         - impede distancia maxima
 iterations_to_repeat_if_it_is_similar  - similaridade
-interaction_potential = text           - potencial de interacao
+interaction_potential = text           - potencial de interacao opcoes: gamess ; lennardjones ; gupta
 gamess_executable_path = text          - caminho do gamess
 gamess_scr_path = text                 - caminho do scr 
+%
+%
+%
 bases_files_number = n                 - numero de bases
 [ ATENCAO - OS NOMES DA BASES DEVEM VIR LOGO EM SEGUIDA
 base = text
@@ -50,8 +78,10 @@ base = text
 ...
 (elas devem estar na pasta 'auxFiles' - nao e necessario incluir o caminho da pasta)
 ]
+%
+%
+%
 gamess_header_file = text              - gamess header (lido sempre na pasta auxFiles)
-
 
 
 FORMATO DA BASE

@@ -30,7 +30,6 @@ struct GaParameters
 	double mutationValue;
 	double crossoverWeight;
 	double corssoverProbability;
-	int numberOfParameters;
 	double gammaInitializeAtoms;
 	double rcaInitializeAtoms;
 	double maxDistance;
@@ -38,6 +37,14 @@ struct GaParameters
 	int insistOnSimilar;
 	int printingDebug;
 	std::vector<double> initialCreationRate;
+
+	// system parameters
+	int numberOfParameters;
+	int nAtomTypes1;
+	int nAtomTypes2;
+	int nAtomTypes3;
+	int interactionPotentialType;
+	std::vector<double> potentialParams;
 
 	//operators parameters
 	double scdo;

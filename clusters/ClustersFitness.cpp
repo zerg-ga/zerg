@@ -33,6 +33,8 @@ ClustersFitness::ClustersFitness(
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
 	makeExperiment = false;
+	interactionType = gaParam.interactionPotentialType;
+	interactionParameters = gaParam.potentialParams;
 	if (gaParam.restart)
 	{
 		readRestartFile();
@@ -119,7 +121,10 @@ void ClustersFitness::optimize(int ind_i)
 	Fitness fit_;
 	if (options.size() == 0)
 	{
-		energy[ind_i] = fit_.optimizeEmpiricalPotential(x_vec[ind_i], 1, &sim_);
+		energy[ind_i] = fit_.optimizeEmpiricalPotential(
+			x_vec[ind_i], 
+			interactionType,
+			&sim_);
 		//energy[ind_i] = fit_.optimizeEmpiricalPotential(x_vec[ind_i], 0);
 		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	}

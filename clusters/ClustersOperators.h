@@ -38,7 +38,6 @@ protected:
 	void appendTosimilarity(int ind_i);
 	void translateToGeometricCenter(std::vector<double> & x);
 
-
 	// OPERATORS PARAMETERS
 	double scdo;
 	double alfaMinGcdo;
@@ -53,8 +52,12 @@ protected:
 	Similarity sim_;
 
 private:
-	//set on startUserOperators()
 	int nAtoms;
+	int nAtomType1;
+	int nAtomType2;
+	int nAtomType3;
+
+	//set on startUserOperators()
 	double gamma;
 	double rca;
 	double adminLargeEnergyVariation;

@@ -54,6 +54,10 @@ private:
 	int iRestart;
 	int restartMax;
 
+	// interation parameters
+	int interactionType;
+	std::vector<double> interactionParameters;
+
 	// experiment util
 	bool makeExperiment;
 	double globalMinimaEnergy;

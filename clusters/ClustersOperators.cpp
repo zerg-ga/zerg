@@ -31,6 +31,9 @@ void ClustersOperators::startClustersOperators(
 	rand_ = rand_in; // Basic Operators
 	init_.initializeSetSeed(rand_);
 	nAtoms = gaParam.numberOfParameters / 3;
+	nAtomType1 = gaParam.nAtomTypes1;
+	nAtomType2 = gaParam.nAtomTypes2;
+	nAtomType3 = gaParam.nAtomTypes3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;

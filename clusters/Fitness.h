@@ -42,6 +42,12 @@ private:
 
 	double gupta(std::vector<double> &x);
 
+	std::vector<double> getGuptaParameters(
+		int i,
+		int j,
+		std::vector<int> & atomTypes,
+		std::vector<double> & atomsParameters);
+
 	double lowestPossibleEnergy;
 
 };

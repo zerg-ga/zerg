@@ -48,16 +48,45 @@ double Fitness::fit(vector<double> &point, int type)
 double Fitness::gupta(
 	vector<double> &x)
 {
+	vector<int> atomTypes(10);
+	atomTypes[0] = 0;
+	atomTypes[1] = 0;
+	atomTypes[2] = 0;
+	atomTypes[3] = 0;
+	atomTypes[4] = 1;
+	atomTypes[5] = 1;
+	atomTypes[6] = 1;
+	atomTypes[7] = 1;
+	atomTypes[8] = 1;
+	atomTypes[9] = 1;
+
+	vector<double> atomsParameters(15);
+	// 0-0, 0-1, 0-2 ... 1-1, 1-2, ..., n-n.
+	// A, zeta, p, q e r0.
+	atomsParameters[0] = 1.1727;
+	atomsParameters[1] = 21.398;
+	atomsParameters[2] = 10.13;
+	atomsParameters[3] = 1.30;
+	atomsParameters[4] = 6.99;
+	atomsParameters[10] = 1.51;
+	atomsParameters[11] = 19.30;
+	atomsParameters[12] = 10.58;
+	atomsParameters[13] = 1.34;
+	atomsParameters[14] = 8.253;
+
+	atomsParameters[5] = 0.5e0*(atomsParameters[0] + atomsParameters[10]);
+	atomsParameters[6] = 0.5e0*(atomsParameters[1] + atomsParameters[11]);
+	atomsParameters[7] = 0.5e0*(atomsParameters[2] + atomsParameters[12]);
+	atomsParameters[8] = 0.5e0*(atomsParameters[3] + atomsParameters[13]);
+	atomsParameters[9] = 0.5e0*(atomsParameters[4] + atomsParameters[14]);
+
+
 	double r0, p, q, A, eps;
 	A = 9.6e0;
 	p = 4.5e0;
 	eps = 1.8e0;
 	q = 0.4e0;
 	r0 = 1.0e0; // unit of distance
-
-	// ro is the nearest atom?
-	// programming this shit
-
 
 	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
 	int natm = x.size() / 3;
@@ -72,24 +101,31 @@ double Fitness::gupta(
 		{
 			if (j == i)
 				continue;
+			vector<double> parameters = getGuptaParameters(
+				i,
+				j,
+				atomTypes,
+				atomsParameters);
+
 			r = sqrt(
 				(x[i] - x[j])*(x[i] - x[j]) +
 				(x[i + natm] - x[j + natm])*(x[i + natm] - x[j + natm]) +
 				(x[i + 2 * natm] - x[j + 2 * natm])*(x[i + 2 * natm] - x[j + 2 * natm])
 				);
 
-			r /= r0;
+			// parameters: A, zeta, p, q e r0.
 
-			repSum += exp(p*(1.0e0 - r));
 
-			attrSum += exp(2.0e0*q*(1.0e0 - r));
+			r /= parameters[4];
+
+			repSum += parameters[0]*exp(parameters[2]*(1.0e0 - r));
+
+			attrSum += parameters[1]*parameters[1]*exp(2.0e0*parameters[3]*(1.0e0 - r));
 		}
 		totalRep += repSum;
 		totalAttr += sqrt(attrSum);
 
 	}
-	totalRep *= A;
-	totalAttr *= eps;
 
 	return totalRep - totalAttr;
 
@@ -328,6 +364,39 @@ double Fitness::optimizeEmpiricalPotential(
 #else
 	return lennardJones(x);
 #endif	
+}
+
+
+std::vector<double> Fitness::getGuptaParameters(
+	int iPar,
+	int jPar,
+	std::vector<int> & atomTypes,
+	std::vector<double> & atomsParameters)
+{
+	int maxElem = *max_element(atomTypes.begin(), atomTypes.end());
+
+	vector<double> parameters(5);
+	int k = -1;
+	for (int i = 0; i <= maxElem; i++)
+	{
+		for (int j = i; j <= maxElem; j++)
+		{
+			k++;
+			if (
+				((atomTypes[iPar] == i) || (atomTypes[iPar] == j)) &&
+				((atomTypes[jPar] == i) || (atomTypes[jPar] == j))
+				)
+			{
+				for (int l = 0; l < 5; l++)
+				{
+					parameters[l] = atomsParameters[5 * k + l];
+				}
+				return parameters;
+			}
+		}
+	}
+	cout << "ERROR ON: Fitness::getGuptaParameters" << endl;
+	exit(1);
 }
 
 
