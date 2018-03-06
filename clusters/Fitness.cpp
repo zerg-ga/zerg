@@ -103,7 +103,6 @@ double Fitness::gupta(
 
 			// parameters: A, zeta, p, q e r0.
 
-
 			r /= parameters[4];
 
 			repSum += parameters[0]*exp(parameters[2]*(1.0e0 - r));

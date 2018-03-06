@@ -46,6 +46,7 @@ struct GaParameters
 	int interactionPotentialType;
 	std::vector<double> potentialParams;
 	std::vector<int> atomTypes;
+	std::vector<std::string> atomLabels;
 
 	//operators parameters
 	double scdo;

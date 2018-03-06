@@ -33,6 +33,7 @@ ClustersFitness::ClustersFitness(
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
 	makeExperiment = false;
+	atomLabels = gaParam.atomLabels;
 //	setExperimentConditions(-108.315e0, 3000); SBQT - EXPERIMENTOS
 	interactionType = gaParam.interactionPotentialType;
 	interactionParameters = gaParam.potentialParams;
@@ -174,7 +175,7 @@ void ClustersFitness::printAllIndividuals(string fileName)
 			if(options.size() != 0)
 				printAll_ << writeInp_.getAtomName(i) << " ";
 			else
-				printAll_ << "H  ";
+				printAll_ << atomLabels[i] <<  "  ";
 
 			printAll_ << x_vec[best][i] << "  "
 				<< x_vec[best][i + nAtoms] << "  "

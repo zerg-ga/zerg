@@ -540,7 +540,10 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	// IGUAL O GEOMETRIC CENTER DISPLACEMENT so que mais forte e com menos regras
-	int nMaxAtoms = rand_->randomNumber(1, (int)(0.05 * nAtoms));
+	int nMaxPossible = (int)(0.05 * nAtoms);
+	if (nMaxPossible < 1)
+		nMaxPossible = 1;
+	int nMaxAtoms = rand_->randomNumber(1, nMaxPossible);
 
 	vector<double> newX = x;
 
@@ -809,14 +812,21 @@ std::vector<double> ClustersOperators::exchangeOperator(
 	const std::vector<double> & x)
 {
 	vector<double> newX;
-	if (nAtomType2 == 0)
+	int totalN = nAtomType1 + nAtomType2 + nAtomType3;
+	if ((totalN == nAtomType1)
+		|| (totalN == nAtomType2)
+		|| (totalN == nAtomType3))
+	{
 		return newX;
+	}
 
 	newX = x;
 
 	vector<int> allAtomsTypes;
-	allAtomsTypes.push_back(nAtomType1);
-	allAtomsTypes.push_back(nAtomType2);
+	if (nAtomType1 != 0)
+		allAtomsTypes.push_back(nAtomType1);
+	if (nAtomType2 != 0)
+		allAtomsTypes.push_back(nAtomType2);
 	if (nAtomType3 != 0)
 		allAtomsTypes.push_back(nAtomType3);
 

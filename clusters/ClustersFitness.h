@@ -57,6 +57,7 @@ private:
 	// interation parameters
 	int interactionType;
 	std::vector<double> interactionParameters;
+	std::vector<std::string> atomLabels;
 
 	// experiment util
 	bool makeExperiment;

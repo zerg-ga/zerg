@@ -37,6 +37,9 @@ number_of_atoms = n                    - numero de atomos
 n_atom_type_1 = n                      - numero de atomos do tipo 1
 n_atom_type_2 = n                      - numero de atomos do tipo 2
 n_atom_type_3 = n                      - numero de atomos do tipo 3
+n_label_type_1 = text                  - label do atomo 1
+n_label_type_2 = text                  - label do atomo 2
+n_label_type_3 = text                  - label do atomo 3
 %
 number_of_parameters = n               - ATENCAO - a lista de parametros precisa estar em seguida
 A1                                     - formato - 1-1, 1-2, 1-3, 2-2, 2-3, 3-3

@@ -25,6 +25,10 @@ ReadGaInput::ReadGaInput(Printing * pPrinting_in)
 void ReadGaInput::readGaInput()
 {
 	setDefaults();
+	string atom1Default = "H";
+	string atom2Default = "N";
+	string atom3Default = "C";
+
 	ifstream input_(inputName.c_str());
 	vector<string> baseFiles;
 	string auxline, type, equal, value, projectName, gamessHeader;
@@ -124,10 +128,16 @@ void ReadGaInput::readGaInput()
 		}
 		else if (type == "n_atom_type_1")
 			convert >> gaParam.nAtomTypes1;
+		else if (type == "n_label_type_1")
+			convert >> atom1Default;
 		else if (type == "n_atom_type_2")
 			convert >> gaParam.nAtomTypes2;
+		else if (type == "n_label_type_2")
+			convert >> atom2Default;
 		else if (type == "n_atom_type_3")
 			convert >> gaParam.nAtomTypes3;
+		else if (type == "n_label_type_3")
+			convert >> atom3Default;
 		else if(type == "user_defined_method")
 		{
 			int userMethod;
@@ -206,6 +216,8 @@ void ReadGaInput::readGaInput()
 	}
 	input_.close();
 
+
+
 	//show final options
 	pPrinting_->showAllParameters(
 		gaParam,
@@ -227,15 +239,26 @@ void ReadGaInput::readGaInput()
 		exit(1);
 	}
 
+	vector<string> newLabelVec;
+	gaParam.atomLabels = newLabelVec;
 	vector<int> atomTypesTemp(nAtoms);
 	for (int i = 0; i < nAtoms; i++)
 	{
 		if (i < gaParam.nAtomTypes1)
+		{
 			atomTypesTemp[i] = 0;
+			gaParam.atomLabels.push_back(atom1Default);
+		}
 		else if (i < (gaParam.nAtomTypes1 + gaParam.nAtomTypes2))
+		{
 			atomTypesTemp[i] = 1;
+			gaParam.atomLabels.push_back(atom2Default);
+		}
 		else
+		{
 			atomTypesTemp[i] = 2;
+			gaParam.atomLabels.push_back(atom3Default);
+		}
 	}
 	gaParam.atomTypes = atomTypesTemp;
 
@@ -460,9 +483,11 @@ void ReadGaInput::setDefaults()
 	gaParam.nAtomTypes2 = 0;
 	gaParam.nAtomTypes3 = 0;
 	gaParam.interactionPotentialType = 0;
+	for (int i = 0; i < nAtoms; i++)
+		gaParam.atomLabels.push_back("H");
 
 	// INITIAL OPERATORS
-	int nOperators = 13;
+	int nOperators = 8;
 	double nOperatorsRate = 1.0e0 / (double)nOperators;
 	gaParam.initialCreationRate.resize(nOperators);
 	for(int i = 0; i < nOperators; i++)
