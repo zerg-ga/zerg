@@ -5,7 +5,7 @@ CC = g++
 CFLAGS = -Wall -g -std=c++11
 
 # define any directories containing header files other than /usr/include
-INCLUDES = -I. -Iclusters/ -I../dlib-18.8/ -I/home/vultor/zerg/dlib-18.18/
+INCLUDES = -I. -Iclusters/ -I./lib/dlib-18.18/ -I../lib/dlib-18.18/
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -18,7 +18,7 @@ LFLAGS = -lpthread -std=c++11 -lX11
 LIBS = 
 
 # define the C++ source files
-SRCS = Random.cpp clusters/Similarity.cpp clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp ../dlib-18.18/dlib/all/source.cpp
+SRCS = Random.cpp clusters/Similarity.cpp clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp ./lib/dlib-18.18/dlib/all/source.cpp
 
 
 # define the C++ object files 
