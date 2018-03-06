@@ -19,7 +19,7 @@ ClustersOperators::ClustersOperators(
 :BasicOperators(pop_size, number_parameters)
 {
 	pPrinting_ = pPrinting_in;
-	number_of_creation_methods = 7;
+	number_of_creation_methods = 13;
 }
 
 ClustersOperators::~ClustersOperators(){}
@@ -61,20 +61,20 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		x_vec[target] = init_.generateCluster(nAtoms, gamma, rca);
 		break;
 
-	case 1:
+	case 9:
 		if (!sphereCutAndSplice(target, parent1, parent2))
 			make_mutation(target, parent1);
 		break;
 
-	case 2:
+	case 6:
 		x_vec[target] = rondinaGeometricCenterDisplacementOperator(x_vec[parent1]);
 		break;
 
-	case 3:
+	case 1:
 		x_vec[target] = rondinaTwistOperator(x_vec[parent1]);
 		break;
 
-	case 4:
+	case 3:
 		x_vec[target] = deavenHoCutSplice(x_vec[parent1], x_vec[parent2]);
 		break;
 
@@ -82,19 +82,19 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		x_vec[target] = rondinaAngularOperator(x_vec[parent1]);
 		break;
 
-	case 6:
+	case 4:
 		x_vec[target] = rondinaAngularSurfaceOperator(x_vec[parent1]);
 		break;
 
-	case 7:
+	case 11:
 		make_crossover_mean(target,parent1,parent2);
 		break;
 
-	case 8:
+	case 7:
 		make_crossover_2_points(target, parent1, parent2);
 		break;
 
-	case 9:
+	case 12:
 		make_mutation(target, parent1);
 		break;
 
@@ -102,11 +102,11 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		make_crossover_probability(target, parent1, parent2);
 		break;
 
-	case 11:
+	case 8:
 		x_vec[target] = rondinaCartesianDisplacementOperator(x_vec[parent1]);
 		break;
 
-	case 12:
+	case 2:
 		x_vec[target] = rondinaMoveToCenterOperator(x_vec[parent1]);
 		break;
 
@@ -429,9 +429,10 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vec
 			continue;
 		alreadyMoved.push_back(atom);
 		double multiplyFactor = scdo * calcDistancesOverIAndGetMin(newX, atom);
-		newX[atom] += multiplyFactor * rand_->randomNumber(-1.0e0, 1.0e0);
-		newX[atom + nAtoms] += multiplyFactor *  rand_->randomNumber(-1.0e0, 1.0e0);
-		newX[atom + 2 * nAtoms] += multiplyFactor * rand_->randomNumber(-1.0e0, 1.0e0);
+
+		newX[atom] += multiplyFactor * rand_->randomNumber(-1.0e0,1.0e0);
+		newX[atom + nAtoms] += multiplyFactor * rand_->randomNumber(-1.0e0,1.0e0);
+		newX[atom + 2 * nAtoms] += multiplyFactor * rand_->randomNumber(-1.0e0,1.0e0);
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
 
@@ -534,7 +535,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	// IGUAL O GEOMETRIC CENTER DISPLACEMENT so que mais forte e com menos regras
-	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
+	int nMaxAtoms = rand_->randomNumber(1, (int)(0.05 * nAtoms));
 
 	vector<double> newX = x;
 
@@ -579,7 +580,8 @@ vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & 
 vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
+	//int nMaxAtoms = rand_->randomNumber(1, nAtoms);
+	int nMaxAtoms = 1;
 
 	vector<double> newX = x;
 
@@ -668,7 +670,8 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double
 vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<double> & x)
 {
 //  parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	int nMaxAtoms = rand_->randomNumber(1, nAtoms);
+//	int nMaxAtoms = rand_->randomNumber(1,(int)(0.10 * nAtoms));
+	int nMaxAtoms = 1;
 
 	vector<double> newX = x;
 
@@ -696,14 +699,15 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<doubl
 			x[atom + nAtoms] * x[atom + nAtoms] +
 			x[atom + 2 * nAtoms] * x[atom + 2 * nAtoms]);
 
-		double moveFactor = rand_->randomNumber(
-			contractionMinMtco * atomRadius, 
-			contractionMaxMtco * atomRadius);
+		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
-		newX[atom] *= moveFactor;
-		newX[atom + nAtoms] = moveFactor;
-		newX[atom + 2 * nAtoms] = moveFactor;
+		double moveFactor = atomRadius * rand_->randomNumber(0.01e0,0.10e0);
+
+                newX[atom] = moveFactor * unitSphericalVector[0];
+                newX[atom + nAtoms] = moveFactor * unitSphericalVector[1];
+                newX[atom + 2 * nAtoms] = moveFactor * unitSphericalVector[2];
 		nMaxAtoms--;
+
 	} while (nMaxAtoms != 0);
 
 //	printAtomsVectorDouble(newX, "MTCO.xyz");

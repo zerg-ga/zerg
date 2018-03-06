@@ -17,6 +17,7 @@ public:
 
 	std::vector<double> unitarySphericalVector();
 
+	std::vector<double> unitaryCartesianVector();
 
 private:
 

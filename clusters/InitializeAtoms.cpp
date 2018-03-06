@@ -74,16 +74,17 @@ vector<double> InitializeAtoms::generateClusterFred(int natm_in, double gamma_in
 	Rca = Rca_in;
 	natm = natm_in;
 
-	double rSphere = 0.8e0 * Rca *
+//	double rSphere = 0.8e0 * Rca *
+	double rSphere = Rca *
 		(0.5e0 + pow((3.0e0 * (double)natm) / pi4sqr2, exp3));
 	double lowerLimit = (1.0e0 - gamma) * Rca;
 	vector<double> x(3 * natm);
 	double r, teta, fi;
 	double xi, yi, zi;
-	int breakLoop = 0;
 	for (int i = 0; i < natm; i++)
 	{
 		int k = 0;
+		//fredmudar do desativado
 		do
 		{
 			r = rand_->randomNumber(0.0e0, rSphere);

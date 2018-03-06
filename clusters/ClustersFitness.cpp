@@ -33,6 +33,7 @@ ClustersFitness::ClustersFitness(
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
 	makeExperiment = false;
+	setExperimentConditions(-108.315e0, 3000);
 	if (gaParam.restart)
 	{
 		readRestartFile();

@@ -253,7 +253,7 @@ void ReadGaInput::setExperimentDefaults(int seed)
 
 	AuxMath auxMath_;
 	// OPERATORS PARAMETERS
-	gaParam.scdo = 0.1e0;
+	gaParam.scdo = 0.2e0;
 	gaParam.alfaMinGcdo = 0.2e0;
 	gaParam.alfaMaxGcdo = 0.45e0;
 	gaParam.wGcdo = 2;
@@ -287,17 +287,72 @@ vector<string> ReadGaInput::getOptions()
 
 void ReadGaInput::userDefinedSet(int userMethod)
 {
-
-	// Deaven and Ho genetic algorithm
-        gaParam.initialCreationRate[0] = 0.1e0;
-        gaParam.initialCreationRate[1] = 0.0e0;
-        gaParam.initialCreationRate[2] = 0.2e0;
-        gaParam.initialCreationRate[3] = 0.0e0;
-        gaParam.initialCreationRate[4] = 0.7e0;
-        gaParam.initialCreationRate[5] = 0.0e0;
-        gaParam.initialCreationRate[6] = 0.0e0;
 	gaParam.adminMaxCreationVariation = 0.0e0;
-
+	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
+		gaParam.initialCreationRate[i] = 0.0e0;
+	switch(userMethod)
+	{
+		case 1:
+			// Deaven and Ho genetic algorithm
+        		gaParam.initialCreationRate[0] = 0.1e0;
+        		gaParam.initialCreationRate[1] = 0.0e0;
+        		gaParam.initialCreationRate[2] = 0.2e0;
+        		gaParam.initialCreationRate[3] = 0.0e0;
+        		gaParam.initialCreationRate[4] = 0.7e0;
+        		gaParam.initialCreationRate[5] = 0.0e0;
+        		gaParam.initialCreationRate[6] = 0.0e0;
+			break;
+		case 2:
+        		gaParam.initialCreationRate[0] = 1.0e0;
+			break;
+		case 3:
+        		gaParam.initialCreationRate[1] = 1.0e0;
+			break;
+		case 4:
+        		gaParam.initialCreationRate[2] = 1.0e0;
+			break;
+		case 5:
+        		gaParam.initialCreationRate[3] = 1.0e0;
+			break;
+		case 6:
+        		gaParam.initialCreationRate[4] = 1.0e0;
+			break;
+		case 7:
+        		gaParam.initialCreationRate[5] = 1.0e0;
+			break;
+		case 8:
+        		gaParam.initialCreationRate[6] = 1.0e0;
+			break;
+		case 9:
+        		gaParam.initialCreationRate[7] = 1.0e0;
+			break;
+		case 10:
+        		gaParam.initialCreationRate[8] = 1.0e0;
+			break;
+		case 11:
+        		gaParam.initialCreationRate[9] = 1.0e0;
+			break;
+		case 12:
+        		gaParam.initialCreationRate[10] = 1.0e0;
+			break;
+		case 13:
+        		gaParam.initialCreationRate[11] = 1.0e0;
+			break;
+		case 14:
+        		gaParam.initialCreationRate[12] = 1.0e0;
+			break;
+		case 15:
+        		gaParam.initialCreationRate[13] = 1.0e0;
+			break;
+		case 16:
+        		gaParam.initialCreationRate[0] = 0.1e0;
+        		gaParam.initialCreationRate[9] = 0.7e0;
+        		gaParam.initialCreationRate[12] = 0.2e0;
+			break;
+		default:
+			cout << "user method not found" << endl;
+			exit(1);
+	}
 }
 
 void ReadGaInput::setDefaults()
@@ -332,7 +387,7 @@ void ReadGaInput::setDefaults()
 	gaParam.tetaMinTwisto = 0.1e0 * auxMath_._pi;
 	gaParam.tetaMaxTwisto = 0.5e0 *auxMath_._pi;
 
-	gaParam.scdo = 0.1e0;
+	gaParam.scdo = 0.2e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
 
@@ -344,12 +399,17 @@ void ReadGaInput::setDefaults()
 	gaParam.energyReturnBfgs = -1.0e99;
 
 	// INITIAL OPERATORS
-	gaParam.initialCreationRate.resize(7);
-	gaParam.initialCreationRate[0] = 0.14e0;
-	gaParam.initialCreationRate[1] = 0.14e0;
-	gaParam.initialCreationRate[2] = 0.14e0;
-	gaParam.initialCreationRate[3] = 0.14e0;
-	gaParam.initialCreationRate[4] = 0.14e0;
-	gaParam.initialCreationRate[5] = 0.14e0;
-	gaParam.initialCreationRate[6] = 0.14e0;
+	int nOperators = 13;
+	double nOperatorsRate = 1.0e0 / (double)nOperators;
+	gaParam.initialCreationRate.resize(nOperators);
+	for(int i = 0; i < nOperators; i++)
+	{
+		gaParam.initialCreationRate[i] = nOperatorsRate;
+	}
+
+
 }
+
+
+
+

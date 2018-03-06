@@ -35,6 +35,16 @@ vector<double> Random::unitarySphericalVector()
 	return unit;
 }
 
-
-
+vector<double> Random::unitaryCartesianVector()
+{
+	vector<double> unit(3);
+	double x = randomNumber(-1.0e0,1.0e0);
+	double y = randomNumber(-1.0e0,1.0e0);
+	double z = randomNumber(-1.0e0,1.0e0);
+	double r = sqrt(x*x + y*y + z*z);
+	unit[0] = x / r;
+	unit[1] = y / r;
+	unit[2] = z / r;
+	return unit;
+}
 
