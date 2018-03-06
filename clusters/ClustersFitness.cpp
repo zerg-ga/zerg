@@ -35,7 +35,6 @@ ClustersFitness::ClustersFitness(
 	makeExperiment = false;
 	interactionType = gaParam.interactionPotentialType;
 	interactionParameters = gaParam.potentialParams;
-	atomTypes = gaParam.atomTypes;
 	if (gaParam.restart)
 	{
 		readRestartFile();

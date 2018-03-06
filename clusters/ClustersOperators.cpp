@@ -34,6 +34,7 @@ void ClustersOperators::startClustersOperators(
 	nAtomType1 = gaParam.nAtomTypes1;
 	nAtomType2 = gaParam.nAtomTypes2;
 	nAtomType3 = gaParam.nAtomTypes3;
+	atomTypes = gaParam.atomTypes;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
@@ -65,6 +66,11 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		break;
 
 	case 1:
+		x_vec[target] = exchangeOperator(x_vec[parent1]);
+		if (x_vec[target].size() != 0)
+			break;
+
+	//case 1:
 		if (!sphereCutAndSplice(target, parent1, parent2))
 			make_mutation(target, parent1);
 		break;
@@ -799,5 +805,61 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 	return x1;
 }
 
+std::vector<double> ClustersOperators::exchangeOperator(
+	const std::vector<double> & x)
+{
+	vector<double> newX;
+	if (nAtomType2 == 0)
+		return newX;
 
+	newX = x;
+
+	vector<int> allAtomsTypes;
+	allAtomsTypes.push_back(nAtomType1);
+	allAtomsTypes.push_back(nAtomType2);
+	if (nAtomType3 != 0)
+		allAtomsTypes.push_back(nAtomType3);
+
+	int minNumber = *min_element(allAtomsTypes.begin(), allAtomsTypes.end());
+	
+	int nPairs = rand_->randomNumber(1, minNumber);
+
+	vector<int> pairs;
+	while(nPairs != 0)
+	{
+		int n1 = rand_->randomNumber(0, atomTypes.size() - 1);
+		int n2 = rand_->randomNumber(0, atomTypes.size() - 1);
+		if (n1 == n2)
+			continue;
+
+		std::vector<int>::iterator it1, it2;
+		it1 = find(pairs.begin(), pairs.end(), n1);
+		it2 = find(pairs.begin(), pairs.end(), n2);
+		if ((it1 != pairs.end()) || it2 != pairs.end())
+			continue;
+
+		if (atomTypes[n1] != atomTypes[n2])
+		{
+			pairs.push_back(n1);
+			pairs.push_back(n2);
+			nPairs--;
+		}
+	}
+
+	// troca os pares
+	for(size_t i = 0; i < pairs.size()/2; i++)
+	{
+		int n1 = pairs[2*i];
+		int n2 = pairs[2 * i + 1];
+
+		newX[n1] = x[n2];
+		newX[n1 + nAtoms] = x[n2 + nAtoms];
+		newX[n1 + 2 * nAtoms] = x[n2 + 2 * nAtoms];
+		newX[n2] = x[n1];
+		newX[n2 + nAtoms] = x[n1 + nAtoms];
+		newX[n2 + 2 * nAtoms] = x[n1 + 2 * nAtoms];
+	}
+
+	return newX;
+}
 

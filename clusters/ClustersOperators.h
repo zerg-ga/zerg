@@ -51,12 +51,15 @@ protected:
 	zerg::Printing * pPrinting_;
 	Similarity sim_;
 
-private:
+	// TYPES
 	int nAtoms;
 	int nAtomType1;
 	int nAtomType2;
 	int nAtomType3;
+	std::vector<int> atomTypes;
 
+
+private:
 	//set on startUserOperators()
 	double gamma;
 	double rca;
@@ -90,6 +93,7 @@ private:
 	std::vector<double> rondinaMoveToCenterOperator(const std::vector<double> & x);
 	std::vector<double> fredAngularSurfaceOperator(const std::vector<double> & x);
 	std::vector<double> deavenHoCutSplice(const std::vector<double> & x1_parent, const std::vector<double> & x2_parent);
+	std::vector<double> exchangeOperator(const std::vector<double> & x);
 
 	//Objects
 	InitializeAtoms init_;
