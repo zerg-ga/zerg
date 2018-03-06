@@ -25,13 +25,17 @@ Experiment::~Experiment() {}
 
 void Experiment::makeExperiment(int seed, string experimentMethod, vector<double> & additionalParams)
 {
+	cout << "not working" << endl;
+	exit(1);
+
+
 	Printing printing_;
 
 	int nAtoms = 26;
 
 	ReadGaInput readGa_ (&printing_);
 		
-	readGa_.setExperimentDefaults(seed);
+//	readGa_.setExperimentDefaults(seed);
 
 	zerg::GaParameters gaParam = readGa_.getGaParameters();
 

@@ -16,7 +16,7 @@ using namespace std;
 
 ReadGaInput::~ReadGaInput(){}
 
-ReadGaInput::ReadGaInput(Printing * pPrinting_in) 
+ReadGaInput::ReadGaInput(Printing * pPrinting_in)
 {
 	inputName = "GaInput.txt";
 	pPrinting_ = pPrinting_in;
@@ -118,7 +118,16 @@ void ReadGaInput::readGaInput()
 		{
 			convert >> gaParam.numberOfParameters;
 			gaParam.numberOfParameters *= 3;
+			gaParam.nAtomTypes1 = gaParam.numberOfParameters / 3;
+			gaParam.nAtomTypes2 = 0;
+			gaParam.nAtomTypes3 = 0;
 		}
+		else if (type == "n_atom_type_1")
+			convert >> gaParam.nAtomTypes1;
+		else if (type == "n_atom_type_2")
+			convert >> gaParam.nAtomTypes2;
+		else if (type == "n_atom_type_3")
+			convert >> gaParam.nAtomTypes3;
 		else if(type == "user_defined_method")
 		{
 			int userMethod;
@@ -137,6 +146,29 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.insistOnSimilar;
 		else if (type == "interaction_potential")
 			convert >> interactionPotential;
+		else if (type == "number_of_parameters")
+		{
+			int nParameters;
+			convert >> nParameters;
+			for (int i = 0; i < nParameters; i++)
+			{
+				string parametersLine, typeParam;
+				double paramValue;
+				getline(input_, parametersLine);
+				stringstream lineBase;
+				lineBase << parametersLine;
+				lineBase >> typeParam >> equal >> paramValue;
+
+				if (typeParam == "%")
+					continue;
+				else if (equal != "=")
+				{
+					cout << "wrong input format" << endl;
+					exit(1);
+				}
+				gaParam.potentialParams.push_back(paramValue);
+			}
+		}
 		else if (type == "gamess_executable_path")
 			convert >> gamessPath;
 		else if (type == "gamess_scr_path")
@@ -183,11 +215,35 @@ void ReadGaInput::readGaInput()
 		gamessPath,
 		gamessScr,
 		gamessHeader,
-		baseFiles);	
+		baseFiles);
 
+	int nAtoms = gaParam.numberOfParameters / 3;
+	int nTotalTypes = gaParam.nAtomTypes1 + gaParam.nAtomTypes2 + gaParam.nAtomTypes3;
+	if (nAtoms != nTotalTypes)
+	{
+		cout << "total entered atoms: " << nAtoms << endl
+			<< "sum of atoms on atom types: " << nTotalTypes << endl
+			<< "values don't match, check input for errors" << endl;
+		exit(1);
+	}
 
+	vector<int> atomTypesTemp(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		if (i < gaParam.nAtomTypes1)
+			atomTypesTemp[i] = 0;
+		else if (i < (gaParam.nAtomTypes1 + gaParam.nAtomTypes2))
+			atomTypesTemp[i] = 1;
+		else
+			atomTypesTemp[i] = 2;
+	}
+	gaParam.atomTypes = atomTypesTemp;
 
-	if (interactionPotential == "gamess")
+	if (interactionPotential == "lennardjones")
+		gaParam.interactionPotentialType = 0;
+	else if (interactionPotential == "gupta")
+		gaParam.interactionPotentialType = 1;
+	else if (interactionPotential == "gamess")
 	{
 		options.push_back("gamess");
 		options.push_back(projectName);
@@ -228,6 +284,7 @@ void ReadGaInput::readGaInput()
 
 }
 
+/*
 void ReadGaInput::setExperimentDefaults(int seed)
 {
 	gaParam.seed = seed;
@@ -271,7 +328,7 @@ void ReadGaInput::setExperimentDefaults(int seed)
 	gaParam.initialCreationRate[5] = 0.0e0;
 	gaParam.initialCreationRate[6] = 0.0e0;
 }
-
+*/
 
 void ReadGaInput::setInputInformations(GaParameters gaParam_in)
 {
@@ -386,7 +443,6 @@ void ReadGaInput::setDefaults()
 	gaParam.wGcdo = 2;
 	gaParam.tetaMinTwisto = 0.1e0 * auxMath_._pi;
 	gaParam.tetaMaxTwisto = 0.5e0 *auxMath_._pi;
-
 	gaParam.scdo = 0.2e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
@@ -397,6 +453,13 @@ void ReadGaInput::setDefaults()
 	gaParam.tolSimilarity = 0.05;
 	gaParam.similarityDebugLevel = 2;
 	gaParam.energyReturnBfgs = -1.0e99;
+
+	// SYSTEM PARAMETERS
+	int nAtoms = gaParam.numberOfParameters / 15;
+	gaParam.nAtomTypes1 = nAtoms;
+	gaParam.nAtomTypes2 = 0;
+	gaParam.nAtomTypes3 = 0;
+	gaParam.interactionPotentialType = 0;
 
 	// INITIAL OPERATORS
 	int nOperators = 13;

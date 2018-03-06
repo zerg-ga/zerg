@@ -35,11 +35,88 @@ double Fitness::fit(vector<double> &point, int type)
 	case 0:
 		return lennardJones(point);
 		break;
-		
+
+	case 1:
+		cout << "ERROR ON: Fitness::fit - need to set parameters" << endl;
+		exit(1);
+		break;
+
 	default:
 		cout << "FITNESS FUNCTION NOT FOUND" << endl;
 		exit(3);
 	}
+}
+
+double Fitness::fit(
+	vector<double> &point, 
+	int type,
+	const vector<double> params,
+	const vector<int> atomTypes)
+{
+	switch (type)
+	{
+	case 0:
+		return lennardJones(point);
+		break;
+
+	case 1:
+		return gupta(point, params, atomTypes);
+		break;
+
+	default:
+		cout << "FITNESS FUNCTION NOT FOUND" << endl;
+		exit(3);
+	}
+}
+
+
+double Fitness::gupta(
+	vector<double> &x,
+	const vector<double> atomsParameters,
+	const vector<int> atomTypes)
+{
+	
+	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
+	int natm = x.size() / 3;
+	double r;
+	double totalRep = 0.0e0;
+	double totalAttr = 0.0e0;
+	for (int i = 0; i < natm; i++)
+	{
+		double repSum = 0.0e0;
+		double attrSum = 0.0e0;
+		for (int j = 0; j < natm; j++)
+		{
+			if (j == i)
+				continue;
+			vector<double> parameters = getGuptaParameters(
+				i,
+				j,
+				atomTypes,
+				atomsParameters);
+
+			r = sqrt(
+				(x[i] - x[j])*(x[i] - x[j]) +
+				(x[i + natm] - x[j + natm])*(x[i + natm] - x[j + natm]) +
+				(x[i + 2 * natm] - x[j + 2 * natm])*(x[i + 2 * natm] - x[j + 2 * natm])
+				);
+
+			// parameters: A, zeta, p, q e r0.
+
+
+			r /= parameters[4];
+
+			repSum += parameters[0]*exp(parameters[2]*(1.0e0 - r));
+
+			attrSum += parameters[1]*parameters[1]*exp(2.0e0*parameters[3]*(1.0e0 - r));
+		}
+		totalRep += repSum;
+		totalAttr += sqrt(attrSum);
+
+	}
+
+	return totalRep - totalAttr;
+
 }
 
 double Fitness::lennardJones(vector<double> &x)
@@ -56,7 +133,7 @@ double Fitness::lennardJones(vector<double> &x)
 				(x[i] - x[j])*(x[i] - x[j]) +
 				(x[i + natm] - x[j + natm])*(x[i + natm] - x[j + natm]) +
 				(x[i + 2 * natm] - x[j + 2 * natm])*(x[i + 2 * natm] - x[j + 2 * natm])
-				);
+			);
 			r2 = r * r;
 			r4 = r2 * r2;
 			r6 = r4 * r2;
@@ -68,6 +145,8 @@ double Fitness::lennardJones(vector<double> &x)
 	//	return 1.0e99;
 	return vlj;
 }
+
+
 
 double Fitness::runGamess(
 	vector<double> &x, 
@@ -214,38 +293,11 @@ double Fitness::runGamessFrequency(
 
 }
 
-
-double Fitness::optimizeLennardJones(
-	std::vector<double> &x, 
-	int fitType)
-{
-#ifdef useDlib
-	using namespace dlib;
-
-	int size = x.size();
-	column_vector starting_point(size);
-	for (int i = 0; i < size; i++)
-		starting_point(i) = x[i];
-
-	double fMin = find_min(bfgs_search_strategy(),
-		objective_delta_stop_strategy(1e-6),
-		FunctionDlib(size, fitType),
-		DerivativeDlib(size, fitType),
-		starting_point,
-		lowestPossibleEnergy);
-
-	for (int i = 0; i < size; i++)
-		x[i] = starting_point(i);
-
-	return fMin;
-#else
-	return lennardJones(x);
-#endif	
-}
-
-double Fitness::optimizeLennardJones(
+double Fitness::optimizeEmpiricalPotential(
 	std::vector<double> &x,
 	int fitType,
+	vector<double> &parameters,
+	vector<int> &atomTypes,
 	Similarity * pSim_)
 {
 #ifdef useDlib
@@ -258,8 +310,17 @@ double Fitness::optimizeLennardJones(
 
 	double fMin = find_min(bfgs_search_strategy(),
 		objective_delta_stop_strategy(1e-6),
-		FunctionDlibSim(size, fitType, pSim_),
-		DerivativeDlib(size, fitType),
+		FunctionDlibSim(
+			size, 
+			fitType, 
+			parameters,
+			atomTypes,
+			pSim_),
+		DerivativeDlib(
+			size, 
+			fitType, 
+			parameters,
+			atomTypes),
 		starting_point,
 		lowestPossibleEnergy);
 
@@ -276,12 +337,46 @@ double Fitness::optimizeLennardJones(
 }
 
 
+
+std::vector<double> Fitness::getGuptaParameters(
+	int iPar,
+	int jPar,
+	const std::vector<int> atomTypes,
+	const std::vector<double> atomsParameters)
+{
+	int maxElem = *max_element(atomTypes.begin(), atomTypes.end());
+
+	vector<double> parameters(5);
+	int k = -1;
+	for (int i = 0; i <= maxElem; i++)
+	{
+		for (int j = i; j <= maxElem; j++)
+		{
+			k++;
+			if (
+				((atomTypes[iPar] == i) && (atomTypes[jPar] == j)) ||
+				((atomTypes[iPar] == j) && (atomTypes[jPar] == i))
+				)
+			{
+				for (int l = 0; l < 5; l++)
+				{
+					parameters[l] = atomsParameters[5 * k + l];
+				}
+				return parameters;
+			}
+		}
+	}
+	cout << "ERROR ON: Fitness::getGuptaParameters" << endl;
+	exit(1);
+}
+
+
 /* EXMPLO DE OPTIMIZE
 //main:
 //InitializeAtoms init_;
 //vector<double> x = init_.generateCluster(20, 0.2, 2.5);
 //Fitness fit_;
 //printAtomsVectorDouble(x, "teste1.xyz");
-//fit_.optimizeLennardJones(x, 0);
+//fit_.optimizeEmpiricalPotential(x, 0);
 //printAtomsVectorDouble(x, "teste2.xyz");
 */

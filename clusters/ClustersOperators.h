@@ -38,7 +38,6 @@ protected:
 	void appendTosimilarity(int ind_i);
 	void translateToGeometricCenter(std::vector<double> & x);
 
-
 	// OPERATORS PARAMETERS
 	double scdo;
 	double alfaMinGcdo;
@@ -52,9 +51,16 @@ protected:
 	zerg::Printing * pPrinting_;
 	Similarity sim_;
 
+	// TYPES
+	int nAtoms;
+	int nAtomType1;
+	int nAtomType2;
+	int nAtomType3;
+	std::vector<int> atomTypes;
+
+
 private:
 	//set on startUserOperators()
-	int nAtoms;
 	double gamma;
 	double rca;
 	double adminLargeEnergyVariation;
@@ -87,6 +93,7 @@ private:
 	std::vector<double> rondinaMoveToCenterOperator(const std::vector<double> & x);
 	std::vector<double> fredAngularSurfaceOperator(const std::vector<double> & x);
 	std::vector<double> deavenHoCutSplice(const std::vector<double> & x1_parent, const std::vector<double> & x2_parent);
+	std::vector<double> exchangeOperator(const std::vector<double> & x);
 
 	//Objects
 	InitializeAtoms init_;

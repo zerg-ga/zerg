@@ -4,6 +4,8 @@
 #include <cmath>
 #include <stdlib.h>
 
+#include "Fitness.h"
+
 using namespace std;
 
 Derivative::Derivative(){}
@@ -17,11 +19,38 @@ vector<double> Derivative::Dfit(vector<double> &point, int type)
 	case 0:
 		return DlennardJones(point);
 		break;
+	case 1:
+		cout << "ERROR ON: Fitness::Dfit - need to set parameters" << endl;
+		exit(1);
+		break;
+
 	default:
 		cout << "DERIVATIVA FUNCTION NOT FOUND" << endl;
 		exit(3);
 	}
 }
+
+vector<double> Derivative::Dfit(
+	vector<double> &point, 
+	int type,
+	const vector<double> params,
+	const vector<int> atomTypes)
+{
+	switch (type)
+	{
+	case 0:
+		return DlennardJones(point);
+		break;
+	case 1:
+		return Dgupta(point, params, atomTypes);
+		break;
+
+	default:
+		cout << "DERIVATIVA FUNCTION NOT FOUND" << endl;
+		exit(3);
+	}
+}
+
 
 vector<double> Derivative::DlennardJones(vector<double> &x)
 {
@@ -59,4 +88,27 @@ vector<double> Derivative::DlennardJones(vector<double> &x)
 	}
 	return dlj;
 }
+
+
+vector<double> Derivative::Dgupta(
+	vector<double> &x,
+	const vector<double> params,
+	const vector<int> atomTypes)
+{
+	vector<double> der(x.size());
+	Fitness fit_;
+	double e0 = fit_.fit(x, 1, params, atomTypes);
+	double h = 1.0e-5;
+	for (size_t i = 0; i < x.size(); i++)
+	{
+		vector<double> xh = x;
+		xh[i] += h;
+		double ei = fit_.fit(xh, 1, params, atomTypes);
+		der[i] = (ei - e0) / h;
+	}
+	return der;
+}
+
+
+
 

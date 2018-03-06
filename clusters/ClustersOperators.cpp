@@ -13,13 +13,13 @@ using namespace std;
 using namespace zerg;
 
 ClustersOperators::ClustersOperators(
-	int pop_size, 
+	int pop_size,
 	int number_parameters,
 	Printing * pPrinting_in)
 :BasicOperators(pop_size, number_parameters)
 {
 	pPrinting_ = pPrinting_in;
-	number_of_creation_methods = 13;
+	number_of_creation_methods = 8;
 }
 
 ClustersOperators::~ClustersOperators(){}
@@ -31,6 +31,10 @@ void ClustersOperators::startClustersOperators(
 	rand_ = rand_in; // Basic Operators
 	init_.initializeSetSeed(rand_);
 	nAtoms = gaParam.numberOfParameters / 3;
+	nAtomType1 = gaParam.nAtomTypes1;
+	nAtomType2 = gaParam.nAtomTypes2;
+	nAtomType3 = gaParam.nAtomTypes3;
+	atomTypes = gaParam.atomTypes;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
@@ -61,57 +65,58 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		x_vec[target] = init_.generateCluster(nAtoms, gamma, rca);
 		break;
 
-	case 9:
-		if (!sphereCutAndSplice(target, parent1, parent2))
-			make_mutation(target, parent1);
-		break;
-
-	case 6:
-		x_vec[target] = rondinaGeometricCenterDisplacementOperator(x_vec[parent1]);
-		break;
-
 	case 1:
+		x_vec[target] = exchangeOperator(x_vec[parent1]);
+		if (x_vec[target].size() != 0)
+			break;
+
+	case 2:
 		x_vec[target] = rondinaTwistOperator(x_vec[parent1]);
 		break;
 
 	case 3:
+		x_vec[target] = rondinaMoveToCenterOperator(x_vec[parent1]);
+		break;
+
+	case 4:
 		x_vec[target] = deavenHoCutSplice(x_vec[parent1], x_vec[parent2]);
 		break;
 
 	case 5:
-		x_vec[target] = rondinaAngularOperator(x_vec[parent1]);
-		break;
-
-	case 4:
 		x_vec[target] = rondinaAngularSurfaceOperator(x_vec[parent1]);
 		break;
 
-	case 11:
-		make_crossover_mean(target,parent1,parent2);
+	case 6:
+		x_vec[target] = rondinaAngularOperator(x_vec[parent1]);
 		break;
 
 	case 7:
-		make_crossover_2_points(target, parent1, parent2);
-		break;
-
-	case 12:
-		make_mutation(target, parent1);
-		break;
-
-	case 10:
-		make_crossover_probability(target, parent1, parent2);
+		x_vec[target] = rondinaGeometricCenterDisplacementOperator(x_vec[parent1]);
 		break;
 
 	case 8:
+		make_crossover_2_points(target, parent1, parent2);
+		break;
+
+	case 9:
 		x_vec[target] = rondinaCartesianDisplacementOperator(x_vec[parent1]);
 		break;
 
-	case 2:
-		x_vec[target] = rondinaMoveToCenterOperator(x_vec[parent1]);
+	case 10:
+		if (!sphereCutAndSplice(target, parent1, parent2))
+			make_mutation(target, parent1);
+		break;
+
+	case 11:
+		make_crossover_probability(target, parent1, parent2);
+		break;
+
+	case 12:
+		make_crossover_mean(target,parent1,parent2);
 		break;
 
 	case 13:
-		x_vec[target] = fredAngularSurfaceOperator(x_vec[parent1]);
+		make_mutation(target, parent1);
 		break;
 
 	default:
@@ -185,7 +190,7 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 		energy[ind_i] = 1.0e99;
 	if (sim_.checkSimilarity(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
-	sim_.appendTosimilarity();	
+	sim_.appendTosimilarity();
 }
 
 bool ClustersOperators::check_similarity(int target)
@@ -253,8 +258,8 @@ std::vector<double> ClustersOperators::calcDistanceToCenter(vector<double> &x)
 	for (int i = 0; i < nAtoms; i++)
 	{
 		auxDistances[i] = sqrt(
-			x[i] * x[i] + 
-			x[i + nAtoms] * x[i + nAtoms] + 
+			x[i] * x[i] +
+			x[i + nAtoms] * x[i + nAtoms] +
 			x[i + 2 * nAtoms] * x[i + 2 * nAtoms]);
 	}
 	return auxDistances;
@@ -471,8 +476,8 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(con
 		vector<double> unitSphericalVector = rand_->unitarySphericalVector();
 
 		double multiplyFactor = (
-			(alfaMaxGcdo - alfaMinGcdo) * 
-			pow(rCenterDistances[atom] / rMax, wGcdo) + alfaMinGcdo) 
+			(alfaMaxGcdo - alfaMinGcdo) *
+			pow(rCenterDistances[atom] / rMax, wGcdo) + alfaMinGcdo)
 			* calcDistancesOverIAndGetMin(newX,atom);
 
 		newX[atom] += multiplyFactor * unitSphericalVector[0];
@@ -515,9 +520,9 @@ vector<double> ClustersOperators::rondinaTwistOperator(const vector<double> & x)
 		{
 			vector<double> newCoordinates =
 				auxMath_.matrixXVector(
-					mRot, 
+					mRot,
 					x[i],
-					x[i + nAtoms], 
+					x[i + nAtoms],
 					x[i + 2 * nAtoms]);
 			newX[i] = newCoordinates[0];
 			newX[i + nAtoms] = newCoordinates[1];
@@ -716,7 +721,7 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<doubl
 }
 
 vector<double> ClustersOperators::deavenHoCutSplice(
-	const vector<double> & x1_parent, 
+	const vector<double> & x1_parent,
 	const vector<double> & x2_parent)
 {
 	vector<double> x1 = x1_parent;
@@ -736,9 +741,9 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 			unit[0] * x1[i] +
 			unit[1] * x1[i + nAtoms] +
 			unit[2] * x1[i + 2 * nAtoms];
-		double prodInt2 = 
-			unit[0] * x2[i] + 
-			unit[1] * x2[i + nAtoms] + 
+		double prodInt2 =
+			unit[0] * x2[i] +
+			unit[1] * x2[i + nAtoms] +
 			unit[2] * x2[i + 2 * nAtoms];
 		if (prodInt1 > 0)
 		{
@@ -746,7 +751,7 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 			d1 = sqrt(
 				x1[i] * x1[i] +
 				x1[i + nAtoms] * x1[i + nAtoms] +
-				x1[i + 2 * nAtoms] * x1[i + 2 * nAtoms]);			
+				x1[i + 2 * nAtoms] * x1[i + 2 * nAtoms]);
 			rDistance1.push_back(d1);
 		}
 		if (prodInt2 > 0)
@@ -800,5 +805,61 @@ vector<double> ClustersOperators::deavenHoCutSplice(
 	return x1;
 }
 
+std::vector<double> ClustersOperators::exchangeOperator(
+	const std::vector<double> & x)
+{
+	vector<double> newX;
+	if (nAtomType2 == 0)
+		return newX;
 
+	newX = x;
+
+	vector<int> allAtomsTypes;
+	allAtomsTypes.push_back(nAtomType1);
+	allAtomsTypes.push_back(nAtomType2);
+	if (nAtomType3 != 0)
+		allAtomsTypes.push_back(nAtomType3);
+
+	int minNumber = *min_element(allAtomsTypes.begin(), allAtomsTypes.end());
+
+	int nPairs = rand_->randomNumber(1, minNumber);
+
+	vector<int> pairs;
+	while(nPairs != 0)
+	{
+		int n1 = rand_->randomNumber(0, atomTypes.size() - 1);
+		int n2 = rand_->randomNumber(0, atomTypes.size() - 1);
+		if (n1 == n2)
+			continue;
+
+		std::vector<int>::iterator it1, it2;
+		it1 = find(pairs.begin(), pairs.end(), n1);
+		it2 = find(pairs.begin(), pairs.end(), n2);
+		if ((it1 != pairs.end()) || it2 != pairs.end())
+			continue;
+
+		if (atomTypes[n1] != atomTypes[n2])
+		{
+			pairs.push_back(n1);
+			pairs.push_back(n2);
+			nPairs--;
+		}
+	}
+
+	// troca os pares
+	for(size_t i = 0; i < pairs.size()/2; i++)
+	{
+		int n1 = pairs[2*i];
+		int n2 = pairs[2 * i + 1];
+
+		newX[n1] = x[n2];
+		newX[n1 + nAtoms] = x[n2 + nAtoms];
+		newX[n1 + 2 * nAtoms] = x[n2 + 2 * nAtoms];
+		newX[n2] = x[n1];
+		newX[n2 + nAtoms] = x[n1 + nAtoms];
+		newX[n2 + 2 * nAtoms] = x[n1 + 2 * nAtoms];
+	}
+
+	return newX;
+}
 

@@ -16,7 +16,7 @@ public:
 
 	void readGaInput();
 
-	void setExperimentDefaults(int seed);
+	//void setExperimentDefaults(int seed);
 
 	void setInputInformations(zerg::GaParameters gaParam_in);
 

@@ -24,7 +24,7 @@ ClustersFitness::ClustersFitness(
 	std::string nProc_in,
 	Printing * pPrinting_in)
 :ClustersOperators(
-	gaParam.pop_size, 
+	gaParam.pop_size,
 	gaParam.numberOfParameters,
 	pPrinting_in)
 {
@@ -33,7 +33,9 @@ ClustersFitness::ClustersFitness(
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
 	makeExperiment = false;
-	setExperimentConditions(-108.315e0, 3000);
+//	setExperimentConditions(-108.315e0, 3000); SBQT - EXPERIMENTOS
+	interactionType = gaParam.interactionPotentialType;
+	interactionParameters = gaParam.potentialParams;
 	if (gaParam.restart)
 	{
 		readRestartFile();
@@ -79,7 +81,7 @@ ClustersFitness::ClustersFitness(
 			aux = create_individual(0, i, 0, 0); //method 0 always random
 			if (!checkInitialSimilarity(i))
 				break;
-		}		
+		}
 		local_optimization(i);
 		if (checkInitialSimilarity(i))
 			energy[i] = 1.0e99;
@@ -112,7 +114,7 @@ void ClustersFitness::optimize(int ind_i)
 	// you have:
 	// x_vec[ind_i] is a vector<double> -> to be optimized
 	// I want:
-	// energy[ind_i] -> fitness function 
+	// energy[ind_i] -> fitness function
 
 	sim_.printNewBfgsInd();
 //	sim_.bestIndividualsCheck();
@@ -120,8 +122,13 @@ void ClustersFitness::optimize(int ind_i)
 	Fitness fit_;
 	if (options.size() == 0)
 	{
-		energy[ind_i] = fit_.optimizeLennardJones(x_vec[ind_i], 0, &sim_);
-		//energy[ind_i] = fit_.optimizeLennardJones(x_vec[ind_i], 0);
+		energy[ind_i] = fit_.optimizeEmpiricalPotential(
+			x_vec[ind_i],
+			interactionType,
+			interactionParameters,
+			atomTypes,
+			&sim_);
+		//energy[ind_i] = fit_.optimizeEmpiricalPotential(x_vec[ind_i], 0);
 		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	}
 	else
@@ -182,8 +189,8 @@ void ClustersFitness::saveIndividual(int ind_i)
 {
 	saveIndividual_.open("restart.ga", std::ofstream::out | std::ofstream::app);
 	int nAtoms = x_vec[0].size() / 3;
-	saveIndividual_ 
-		<< nAtoms << endl 
+	saveIndividual_
+		<< nAtoms << endl
 		<< setprecision(16) << energy[ind_i] << endl;
 	for (int i = 0; i < nAtoms; i++)
 	{
@@ -218,7 +225,7 @@ void ClustersFitness::readRestartFile()
 			getline(restart_, auxline);
 			stringstream line;
 			line << auxline;
-			line >> dummy 
+			line >> dummy
 				>> coord[i]
 				>> coord[i + nAtoms]
 				>> coord[i + 2 * nAtoms];
