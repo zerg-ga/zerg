@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdlib.h>
+#include <cmath>
 
 #include "Coordstructs.h"
 #include "../Printing.h"
