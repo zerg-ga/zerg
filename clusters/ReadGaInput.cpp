@@ -374,9 +374,10 @@ void ReadGaInput::userDefinedSet(int userMethod)
 	{
 		case 1:
 			// Deaven and Ho genetic algorithm
+        		gaParam.initialCreationRate[0] = 0.1e0;
         		gaParam.initialCreationRate[1] = 0.1e0;
         		gaParam.initialCreationRate[4] = 0.7e0;
-        		gaParam.initialCreationRate[7] = 0.2e0;
+        		gaParam.initialCreationRate[7] = 0.1e0;
 			break;
 		case 2:
         		gaParam.initialCreationRate[0] = 1.0e0;
