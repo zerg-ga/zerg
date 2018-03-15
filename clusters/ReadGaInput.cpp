@@ -66,7 +66,14 @@ void ReadGaInput::readGaInput()
 		else if (type == "printing_debug")
 			convert >> gaParam.printingDebug;
 		else if (type == "population_size")
+		{
 			convert >> gaParam.pop_size;
+			if(gaParam.pop_size % 4 != 0)
+			{
+				cout << "Sorry, population_size have to be a multiple of four." << endl << "Exiting" << endl;
+				exit(1);
+			}
+		}
 		else if (type == "maximum_number_of_generations")
 			convert >> gaParam.maxGeneration;
 		else if (type == "highlander_initial_energy")
