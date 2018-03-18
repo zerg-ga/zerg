@@ -97,8 +97,11 @@ void Creation::set_creation_methods(Predator &pred)
 		else
 		{
 			normalizeNumberToCreate = rand_->randomNumber(0, number_methods - 1);
-			creation_methods[normalizeNumberToCreate][0]++;
-			numberToCreateOnCreationMethods++;
+			if(creation_rate[normalizeNumberToCreate] > 0.001)
+			{
+				creation_methods[normalizeNumberToCreate][0]++;
+				numberToCreateOnCreationMethods++;
+			}
 		}
 	}
 

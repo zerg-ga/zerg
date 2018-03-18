@@ -1,3 +1,4 @@
+
 Rodar frequencia a partir de um arquivo xyz
 
 ./zerg.exe frequency [file]
@@ -160,6 +161,7 @@ estudo das formas de gerar clusters iniciais:
 
 - a energia minima possibel no fitness e: -1.0e90. No Similarity::checkIntoBfgs, portanto, ele retorna -1.0e99 para parar.
 
+- se o individuo possuir rate inferior a 0.001 ele nao e considerado para ser criado na etapa de criacao.
 
 */
 

@@ -2,3 +2,4 @@
 *.exe
 tests/*
 lib/*
+*.swp
