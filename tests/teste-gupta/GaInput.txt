@@ -17,6 +17,7 @@ n_label_type_2 = K
 population_size = 16
 maximum_number_of_generations = 300
 highlander_max_iteration = 20
+highlander_threshold = 1.0e2
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % activateIntoBfgs = 1 pra entrar no bfgs ; 0 para nao entrar
 %

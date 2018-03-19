@@ -80,6 +80,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.highlanderInitialFitness;
 		else if (type == "highlander_max_iteration")
 			convert >> gaParam.highlanderMaxIteration;
+		else if (type == "highlander_threshold")
+			convert >> gaParam.highlanderThreshold;
 		else if (type == "large_energy_value")
 			convert >> gaParam.adminLargeEnergyVariation;
 		else if (type == "maximum_creation_operators_boost")
@@ -447,6 +449,7 @@ void ReadGaInput::setDefaults()
 	gaParam.maxGeneration = 300;
 	gaParam.highlanderInitialFitness = 1.0e99;
 	gaParam.highlanderMaxIteration = 50;
+	gaParam.highlanderThreshold = 1.0e-6;
 	gaParam.insistOnSimilar = 30;
 	gaParam.adminLargeEnergyVariation = 2.0e0;
 	gaParam.adminMaxCreationVariation = 0.9e0;

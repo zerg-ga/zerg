@@ -36,6 +36,7 @@ GeneticAlgorithm::GeneticAlgorithm(
 	pop_size = gaParam.pop_size;
 	highlanderFitness = gaParam.highlanderInitialFitness;
 	highlanderMaxIteration = gaParam.highlanderMaxIteration;
+	highlanderThreshold = gaParam.highlanderThreshold;
 
 	//initializing objects
 	pred_.initialize_predator(pop_size, pPrinting_);
@@ -85,7 +86,7 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 {
 	for(int j=0; j<pop_size; j++)
 	{
-		if(pop.getfitness(j)<highlanderFitness)
+		if(pop.getfitness(j)<(highlanderFitness - highlanderThreshold))
 		{
 			highlander = j;
 			highlanderFitness = pop.getfitness(j);

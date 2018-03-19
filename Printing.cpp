@@ -57,6 +57,7 @@ void Printing::showAllParameters(
 	mainOutput_ << "Max generation:  " << gaParam.maxGeneration << endl;
 	mainOutput_ << "Highlander initial:  " << gaParam.highlanderInitialFitness << endl;
 	mainOutput_ << "Highlander max generation: " << gaParam.highlanderMaxIteration << endl;
+	mainOutput_ << "Highlander threshold: " << gaParam.highlanderThreshold << endl;
 	mainOutput_ << "Admin energy variation: " << gaParam.adminLargeEnergyVariation << endl;
 	mainOutput_ << "Admin max percentage: " << gaParam.adminMaxCreationVariation << endl;
 	mainOutput_ << "Predator method: " << gaParam.predatorMethod << endl;

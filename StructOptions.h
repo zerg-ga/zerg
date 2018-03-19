@@ -23,6 +23,7 @@ struct GaParameters
 	int pop_size;
 	int maxGeneration;
 	double highlanderInitialFitness;
+	double highlanderThreshold;
 	int highlanderMaxIteration;
 	double adminLargeEnergyVariation;
 	double adminMaxCreationVariation;

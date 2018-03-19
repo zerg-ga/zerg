@@ -16,6 +16,7 @@ population_size = n                    - populacao, precisa ser multipla de 4
 maxinum_number_of_generations = n      - numero maximo de geracoes do GA
 highlander_initial_energy = R          - numero considerado infinto
 highlander_max_iteration = n           - numero de geracoes q o highlander precisa sobreviver para considerar o calculo terminado
+highlander_threshold = R               - limite de tolerancia para o highlander ser deposto.
 large_energy_value = R                 - parametro do auto-adjust
 maximum_creation_operators_boost = R   - parametro do auto-adjust
 predator_method = n                    - metodo de predacao
