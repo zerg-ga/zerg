@@ -14,6 +14,7 @@ printing_debug                         - 0 nada ; 1 histogram ; 2 all
 project_name = text                    - nome q sera usado nos inputs do gamess
 population_size = n                    - populacao, precisa ser multipla de 4
 maxinum_number_of_generations = n      - numero maximo de geracoes do GA
+number_of_predated = n                 - numero de individuos para serem eliminados por geracao
 highlander_initial_energy = R          - numero considerado infinto
 highlander_max_iteration = n           - numero de geracoes q o highlander precisa sobreviver para considerar o calculo terminado
 highlander_threshold = R               - limite de tolerancia para o highlander ser deposto.

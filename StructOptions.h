@@ -21,6 +21,7 @@ struct GaParameters
 	bool restart;
 	int n_process;
 	int pop_size;
+	int numberOfKilling;
 	int maxGeneration;
 	double highlanderInitialFitness;
 	double highlanderThreshold;

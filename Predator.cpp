@@ -14,13 +14,14 @@ using namespace zerg;
 namespace zerg{
 void Predator::initialize_predator(
 	int pop_size_in,
+	int numberOfKilling,
 	Printing * pPrinting_in)
 {
 	pop_size = pop_size_in;
 	pPrinting_ = pPrinting_in;
 	fitness_energies.resize(pop_size);
 	fitness_rank.resize(pop_size);
-	dead_individuals.resize(pop_size/4);
+	dead_individuals.resize(numberOfKilling);
 }
 
 void Predator::get_dead_individuals(Population &pop)
@@ -39,7 +40,7 @@ void Predator::get_dead_individuals(Population &pop)
 
 	// choose last to kill
 	int i_index = 0;
-	for(int j=(pop_size-1); j>=((3*pop_size)/4); j--)
+	for (int j = (pop_size - 1); j >= (pop_size - dead_individuals.size()); j--)
 	{
 		dead_individuals[i_index] = fitness_rank[j];
 		i_index++;

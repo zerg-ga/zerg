@@ -13,7 +13,8 @@ class Predator
 {
 public:
 	void initialize_predator(
-		int pop_size_in, 
+		int pop_size_in,
+		int numberOfKilling,
 		zerg::Printing * pPrinting_in);
 	void get_dead_individuals(zerg::Population &pop);//change name to calculate
 

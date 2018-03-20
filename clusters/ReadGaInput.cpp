@@ -68,9 +68,10 @@ void ReadGaInput::readGaInput()
 		else if (type == "population_size")
 		{
 			convert >> gaParam.pop_size;
-			if(gaParam.pop_size % 4 != 0)
+			if (gaParam.pop_size < 4)
 			{
-				cout << "Sorry, population_size have to be a multiple of four." << endl << "Exiting" << endl;
+				cout << "Sorry, population_size must be higher than four" << endl 
+					<< "Exiting" << endl;
 				exit(1);
 			}
 		}
@@ -88,6 +89,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.adminMaxCreationVariation;
 		else if (type == "predator_method")
 			convert >> gaParam.predatorMethod;
+		else if (type == "number_of_predated")
+			convert >> gaParam.numberOfKilling;
 		else if (type == "mutation_value")
 			convert >> gaParam.mutationValue;
 		else if (type == "crossover_weight")
@@ -225,6 +228,18 @@ void ReadGaInput::readGaInput()
 	}
 	input_.close();
 
+	if (gaParam.numberOfKilling >= gaParam.pop_size)
+	{
+		cout << "number_of_predated must be lower than population_size" << endl
+			<< "exiting" << endl;
+		exit(1);
+	}
+	if (gaParam.numberOfKilling < 1)
+	{
+		cout << "number_of_predated must be equal to one or higher" << endl
+			<< "exiting" << endl;
+		exit(1);
+	}
 
 
 	//show final options
@@ -477,6 +492,7 @@ void ReadGaInput::setDefaults()
 	gaParam.scdo = 0.2e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
+	gaParam.numberOfKilling = (int)gaParam.pop_size / 4;
 
 	// SIMILARITY PARAMETERS
 	gaParam.activateIntoBfgs = false;

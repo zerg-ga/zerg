@@ -89,6 +89,14 @@ void Creation::set_creation_methods(Predator &pred)
 				createWheel.push_back(createWheel[createWheel.size() - 1] + creation_rate[i]);
 		}
 	}
+	if (createWheel.size() == 0)
+	{
+		createWheel.push_back(1.0e0);
+		int randPos = creation_rate.size() - 1;
+		int randomOperator = rand_->randomNumber(0, randPos);
+		operatorPositionWheel.push_back(randomOperator);
+	}
+	
 	int numberToCreateOnCreationMethods = 0;
 	while (numberToCreateOnCreationMethods != pred.dead_individuals.size())
 	{

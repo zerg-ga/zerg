@@ -18,10 +18,10 @@ void AdministrateCreation::initializeAdministration(
 {
 	popSize = gaParam.pop_size;
 	pPrinting_ = pPrinting_in;
-	oldFitness.resize(popSize/4);
-	methodUsed.resize(popSize/4);
-	newIndividuals.resize(popSize/4);
-	for(int i=0; i<popSize/4;i++)
+	oldFitness.resize(gaParam.numberOfKilling);
+	methodUsed.resize(gaParam.numberOfKilling);
+	newIndividuals.resize(gaParam.numberOfKilling);
+	for(int i=0; i<gaParam.numberOfKilling;i++)
 		newIndividuals[i]=-1;
 
 	fixed = gaParam.adminLargeEnergyVariation < 1.0e-5;

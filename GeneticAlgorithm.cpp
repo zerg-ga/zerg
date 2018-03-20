@@ -39,7 +39,7 @@ GeneticAlgorithm::GeneticAlgorithm(
 	highlanderThreshold = gaParam.highlanderThreshold;
 
 	//initializing objects
-	pred_.initialize_predator(pop_size, pPrinting_);
+	pred_.initialize_predator(pop_size, gaParam.numberOfKilling, pPrinting_);
 	creation_.initialize_creation(
 		pop_size, 
 		pop.get_number_of_creation_methods(),
