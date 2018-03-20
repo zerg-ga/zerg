@@ -17,15 +17,7 @@ public:
 	~Similarity();
 
 	void startSimilarity(
-		bool activateIntoBfgsRmsd_in,
-		int method_in,
-		int seed_in,
-		int nAtoms_in,
-		int printLevel_in,
-		double enerfyReturnBfgs_in,
-		double tolSimilarity_in,
-		double maxDistance_in,
-		double minDistance_in,
+		zerg::GaParameters & gaParam,
 		zerg::Printing * pPrinting_in,
 		zerg::Random * rand_in);
 
@@ -54,7 +46,6 @@ private:
 	std::vector<double> calcAndSortAllDistances(std::vector<double> &x);
 
 	int nAtoms;
-	int seed;
 	int method;
 	int bestIndividualsSize;
 	int printLevel; // 0-none ; 1-bfgs ; 2-all
@@ -70,7 +61,7 @@ private:
 	std::vector< std::vector<double> > allDistances;
 	std::vector< std::vector<double> > allCoordinates;
 	std::vector< std::vector<double> > targetIndividuals;
-
+	std::vector<std::string> atomLabels; 
 	
 	zerg::Printing * pPrinting_;
 	MarquesEnantiomers marqRmsd_;

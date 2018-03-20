@@ -25,28 +25,21 @@ Similarity::Similarity()
 Similarity::~Similarity(){}
 
 void Similarity::startSimilarity(
-	bool activateIntoBfgsRmsd_in,
-	int method_in,
-	int seed_in,
-	int nAtoms_in,
-	int printLevel_in,
-	double energyReturnBfgs_in,
-	double tol_similarity_in,
-	double maxDistance_in,
-	double minDistance_in,
+	zerg::GaParameters & gaParam,
 	Printing * pPrinting_in,
 	Random * rand_in)
 {
-	activateIntoBfgsRmsd = activateIntoBfgsRmsd_in;
-	printLevel = printLevel_in;
-	method = method_in;
-	seed = seed_in;
-	nAtoms = nAtoms_in;
-	energyReturnBfgs = energyReturnBfgs_in;
-	tolSimilarity = tol_similarity_in;
-	maxDistance = maxDistance_in;
-	minDistance = minDistance_in;
+	activateIntoBfgsRmsd = gaParam.activateIntoBfgs;
+	printLevel = gaParam.similarityDebugLevel;
+	method = gaParam.similarityMethod;
+	nAtoms = gaParam.numberOfParameters / 3;
+	energyReturnBfgs = gaParam.energyReturnBfgs;
+	tolSimilarity = gaParam.tolSimilarity;
+	maxDistance = gaParam.maxDistance;
+	minDistance = gaParam.minDistance;
 	pPrinting_ = pPrinting_in;
+	atomLabels = gaParam.atomLabels;
+
 	if (printLevel != 0)
 		pPrinting_->openSimilarityFile();
 
@@ -105,7 +98,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 		vector<CoordXYZ> mol1(nAtoms);
 		for (int i = 0; i < nAtoms; i++)
 		{
-			mol1[i].atomlabel = "H";
+			mol1[i].atomlabel = atomLabels[i];
 			mol1[i].x = x[i];
 			mol1[i].y = x[i + nAtoms];
 			mol1[i].z = x[i + 2 * nAtoms];
@@ -116,7 +109,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = "H";
+				mol2[k].atomlabel = atomLabels[i];
 				mol2[k].x = targetIndividuals[i][k];
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];
@@ -189,7 +182,7 @@ bool Similarity::checkSimilarity(
 		vector<CoordXYZ> mol1(nAtoms);
 		for (int i = 0; i < nAtoms; i++)
 		{
-			mol1[i].atomlabel = "H";
+			mol1[i].atomlabel = atomLabels[i];
 			mol1[i].x = x[i];
 			mol1[i].y = x[i + nAtoms];
 			mol1[i].z = x[i + 2 * nAtoms];
@@ -202,7 +195,7 @@ bool Similarity::checkSimilarity(
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = "H";
+				mol2[k].atomlabel = atomLabels[i];
 				mol2[k].x = targedIndividuals[i][k];
 				mol2[k].y = targedIndividuals[i][k + nAtoms];
 				mol2[k].z = targedIndividuals[i][k + 2 * nAtoms];
@@ -285,7 +278,7 @@ double Similarity::checkSimilarityIntoBfgs()
 		vector<CoordXYZ> mol1(nAtoms);
 		for (int i = 0; i < nAtoms; i++)
 		{
-			mol1[i].atomlabel = "H";
+			mol1[i].atomlabel = atomLabels[i];
 			mol1[i].x = xToCheckBfgs[i];
 			mol1[i].y = xToCheckBfgs[i + nAtoms];
 			mol1[i].z = xToCheckBfgs[i + 2 * nAtoms];
@@ -298,7 +291,7 @@ double Similarity::checkSimilarityIntoBfgs()
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = "H";
+				mol2[k].atomlabel = atomLabels[i];
 				mol2[k].x = targetIndividuals[i][k];
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];

@@ -44,15 +44,7 @@ void ClustersOperators::startClustersOperators(
 
 	activateIntoBfgs = gaParam.activateIntoBfgs;
 	sim_.startSimilarity(
-		gaParam.activateIntoBfgs,
-		gaParam.similarityMethod,
-		gaParam.seed,
-		nAtoms,
-		gaParam.similarityDebugLevel,
-		gaParam.energyReturnBfgs,
-		gaParam.tolSimilarity,
-		gaParam.maxDistance,
-		gaParam.minDistance,
+		gaParam,
 		pPrinting_,
 		rand_);
 }
