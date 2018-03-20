@@ -377,6 +377,7 @@ vector<string> ReadGaInput::getOptions()
 void ReadGaInput::userDefinedSet(int userMethod)
 {
 	gaParam.adminMaxCreationVariation = 0.0e0;
+	gaParam.adminLargeEnergyVariation = 0.0e0;
 	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
 		gaParam.initialCreationRate[i] = 0.0e0;
 	switch(userMethod)

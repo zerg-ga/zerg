@@ -27,6 +27,7 @@ public:
 
 private:
 	int popSize;
+	bool fixed;
 
 	std::vector<double> oldFitness;
 	std::vector<int> newIndividuals;

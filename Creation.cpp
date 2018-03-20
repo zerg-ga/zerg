@@ -75,7 +75,39 @@ void Creation::set_creation_methods(Predator &pred)
 {
 	double to_create = (double)pred.dead_individuals.size();
 
-	// normalize number of creations
+	vector<double> operatorPositionWheel;
+	vector<double> createWheel;
+	for (size_t i = 0; i < creation_rate.size(); i++)
+	{
+		creation_methods[i][0] = 0;
+		if (creation_rate[i] > 0.001)
+		{
+			operatorPositionWheel.push_back(i);
+			if (createWheel.size() == 0)
+				createWheel.push_back(creation_rate[i]);
+			else
+				createWheel.push_back(createWheel[createWheel.size() - 1] + creation_rate[i]);
+		}
+	}
+	int numberToCreateOnCreationMethods = 0;
+	while (numberToCreateOnCreationMethods != pred.dead_individuals.size())
+	{
+		// gera um numero aleatorio de 0 a 1.
+		double randomWheel = rand_->randomNumber(0.0e0, 1.0e0);
+		int sortedOperator = createWheel.size() - 1;
+		for (size_t i = 0; i < createWheel.size(); i++)
+		{
+			if (randomWheel < createWheel[i])
+			{
+				sortedOperator = i;
+				break;
+			}
+		}
+		creation_methods[operatorPositionWheel[sortedOperator]][0] += 1;
+		numberToCreateOnCreationMethods++;
+	}
+
+	/* normalize number of creations --- ANTIGO
 	int numberToCreateOnCreationMethods = 0;
 	for (int i = 0; i < number_methods; i++)
 	{
@@ -104,6 +136,7 @@ void Creation::set_creation_methods(Predator &pred)
 			}
 		}
 	}
+	*/
 
 	// set individuals to be created from dead (1,12 etc.)
 	int dead = 0;

@@ -24,6 +24,7 @@ void AdministrateCreation::initializeAdministration(
 	for(int i=0; i<popSize/4;i++)
 		newIndividuals[i]=-1;
 
+	fixed = gaParam.adminLargeEnergyVariation < 1.0e-5;
 	fuzzy_.setFuzzyRules(gaParam.adminLargeEnergyVariation, gaParam.adminMaxCreationVariation);
 }
 
@@ -132,7 +133,7 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 		{
 			creation_rate[i] += fuzzy_.getCreateRateVariation(methodMean[i]);
 			pPrinting_->printFactor(i, fuzzy_.getCreateRateVariation(methodMean[i]));
-			if(creation_rate[i]<0.05)
+			if((creation_rate[i]<0.05) && (!fixed))
 				creation_rate[i]=0.05e0;
 		}
 	}
