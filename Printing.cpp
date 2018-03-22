@@ -376,6 +376,20 @@ void Printing::printBfgsSteps(int bfgsSteps)
 		<< endl;
 }
 
+void Printing::printHighlanderStatus(
+	int highI,
+	int firstAppearence,
+	double highFit)
+{
+
+	mainOutput_ << "BEST INDIVIDUAL CHANGE" << endl
+		<< "best individual:  " << highI << endl
+		<< "first appearance:  generation " << firstAppearence << endl
+		<< "energy of best individual:  " << highFit << endl << endl;
+}
+
+
+
 
 }
 

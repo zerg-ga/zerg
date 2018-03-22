@@ -51,6 +51,10 @@ namespace zerg {
 		void highlanderMessage(int i, double frequency);
 		void lastIndividualMessage(double frequency);
 		void endMessage();
+		void printHighlanderStatus(
+        		int highI,
+        		int firstAppearence,
+        		double highFit);
 
 		// Creation output
 		void setCreationDebug(int creationDebug);

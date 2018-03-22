@@ -33,7 +33,7 @@ private:
 	double highlanderFitness;
 	int highlander;
 	int highlanderMaxIteration;
-	int highlanderThreshold;
+	double highlanderThreshold;
 	int highlanderFirstAppearence;
 
 	zerg::Population &pop;
