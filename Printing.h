@@ -76,6 +76,13 @@ namespace zerg {
 		void printSimilarityDistancesSelected(std::vector<double> &distances);
 		void endlSimilarity();
 		void printBfgsSteps(int bfgsSteps);
+		void printSimInitOutBfgs();
+		void printSimUnique();
+		void printSimInitIntoBfgs();
+		void printEndIntoBfgs();
+		void printSimTitle();
+		void printInitialSimTitle();
+
 
 	private:
 		std::ofstream mainOutput_;

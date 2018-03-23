@@ -3,10 +3,10 @@ seed = 33
 project_name = teste-com-input
 number_of_atoms = 3
 % 
-n_atom_type_1 = 3
-n_label_type_1 = Cu
-n_atom_type_2 = 0
-n_label_type_2 = Al
+n_atom_type_1 = 2
+n_label_type_1 = Al
+n_atom_type_2 = 1
+n_label_type_2 = Cu
 %
 %
 %
@@ -15,7 +15,7 @@ population_size = 20
 number_of_predated = 10
 maximum_number_of_generations = 100
 highlander_max_iteration = 15
-highlander_threshold = 0.0001
+highlander_threshold = 0.00001
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % activateIntoBfgs = 1 pra entrar no bfgs ; 0 para nao entrar
 %
@@ -27,7 +27,7 @@ similarityMethod = 1
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % tolerancia desejada
 %
-tolSimilarity = 0.02
+tolSimilarity = 0.5
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 user_defined_method = 1
@@ -73,8 +73,3 @@ gamess_executable_path = /home/programas/rungms
 %
 %
 %
-
-
-
-
-

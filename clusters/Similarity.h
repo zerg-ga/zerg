@@ -39,6 +39,14 @@ public:
 
 	void printBfgsSteps();
 
+	void printEndIntoBfgs();
+	
+	void printInitialTitle();
+
+	void printTitle();
+
+	int printLevel; // 0-none ; 1-bfgs ; 2-all
+
 private:
 	double calcDistancesOverIAndGetMin(std::vector<double> &x, int i);
 	std::vector<double> calcDistanceToCenter(std::vector<double> &x);
@@ -48,7 +56,6 @@ private:
 	int nAtoms;
 	int method;
 	int bestIndividualsSize;
-	int printLevel; // 0-none ; 1-bfgs ; 2-all
 	int bfgsSteps;
 	bool activateIntoBfgsRmsd;
 	double minDistance;

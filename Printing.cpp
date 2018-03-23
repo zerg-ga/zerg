@@ -341,6 +341,7 @@ void Printing::printCreationIsEqual(double diff1, int i1)
 		<< i1
 		<< "  ->   value: "
 		<< diff1
+		<< endl
 		<< endl;
 }
 
@@ -366,7 +367,9 @@ void Printing::printSimilarityDistancesSelected(vector<double> &distances)
 
 void Printing::endlSimilarity()
 {
-	similarityOutput_ << endl << endl;
+	similarityOutput_ << endl 
+			<< "STARTING INTO BFGS COMPARISSONS"
+			<< endl << endl;
 }
 
 void Printing::printBfgsSteps(int bfgsSteps)
@@ -388,6 +391,41 @@ void Printing::printHighlanderStatus(
 		<< "energy of best individual:  " << highFit << endl << endl;
 }
 
+void Printing::printSimInitOutBfgs()
+{
+	similarityOutput_ << "CALCULATING ROUTINE SIMILARITY" << endl;
+}
+
+void Printing::printSimUnique()
+{
+	similarityOutput_ << "INDIVIDUAL IS UNIQUE" << endl;
+}
+
+void Printing::printSimInitIntoBfgs()
+{
+	similarityOutput_ << "CALCULATING SIMILARITY INTO BFGS" << endl;
+}
+
+void Printing::printEndIntoBfgs()
+{
+	similarityOutput_ << endl
+			<< "END OF INTO BFGS" << endl << endl;
+}
+
+void Printing::printSimTitle()
+{
+	similarityOutput_ << endl << endl
+			<< "STARTING SIMILARITY" 
+			<< endl << endl;
+	
+}
+
+void Printing::printInitialSimTitle()
+{
+	similarityOutput_ << "FIRST POPULATION SIMILARITY" 
+			<< endl << endl;
+	
+}
 
 
 

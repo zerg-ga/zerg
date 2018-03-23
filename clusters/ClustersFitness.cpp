@@ -28,7 +28,6 @@ ClustersFitness::ClustersFitness(
 	gaParam.numberOfParameters,
 	pPrinting_in)
 {
-//	pPrinting_ = pPrinting_in;
 	options = options_in;
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
@@ -68,6 +67,9 @@ ClustersFitness::ClustersFitness(
 	// estimated time . . .
 	bool aux;
 
+	if(sim_.printLevel > 1)
+		sim_.printLevel = 1;
+	sim_.printInitialTitle();
 	pPrinting_->startingFirstIndividual();
 	aux = create_individual(0, 0, 0, 0); //method 0 always random
 	local_optimization(0);
@@ -88,6 +90,8 @@ ClustersFitness::ClustersFitness(
 			energy[i] = 1.0e99;
 	}
 	pPrinting_->endOfInitialPopulation();
+	sim_.printLevel = gaParam.similarityDebugLevel;
+	sim_.printTitle();
 }
 
 ClustersFitness::~ClustersFitness(){}
@@ -140,6 +144,8 @@ void ClustersFitness::optimize(int ind_i)
 			gamessScr,
 			nProc);
 
+
+	sim_.printEndIntoBfgs();
 
 	numberOfLocalMinimizations++;
 

@@ -70,6 +70,9 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 {
 	if (method == 0)
 	{
+		if (printLevel > 1)
+			pPrinting_->printSimInitOutBfgs();
+
 		// Distance similarity
 		int size = tempDistance.size();
 		for (size_t i = 0; i < allDistances.size(); i++)
@@ -81,7 +84,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 			distanceDiffererence /= (double)size;
 			if (distanceDiffererence < tolSimilarity)
 			{
-				if (printLevel > 1)
+				if (printLevel > 0)
 				{
 					pPrinting_->printCreationIsEqual(
 						distanceDiffererence,
@@ -90,10 +93,15 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 				return true;
 			}
 		}
+		if (printLevel > 1)
+			pPrinting_->printSimUnique();
 		return false;
 	}
 	else if (method == 1)
 	{
+		if (printLevel > 1)
+			pPrinting_->printSimInitOutBfgs();
+
 		// Marques rmsd similarity
 		vector<CoordXYZ> mol1(nAtoms);
 		for (int i = 0; i < nAtoms; i++)
@@ -117,7 +125,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
 			if (distanceDiffererence < tolSimilarity)
 			{
-				if (printLevel > 1)
+				if (printLevel > 0)
 				{
 					pPrinting_->printCreationIsEqual(
 						distanceDiffererence,
@@ -126,6 +134,8 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 				return true;
 			}
 		}
+		if (printLevel > 1)
+			pPrinting_->printSimUnique();
 		return false;
 	}
 	else if(method == -1)
@@ -147,6 +157,9 @@ bool Similarity::checkSimilarity(
 {
 	if (method == 0)
 	{
+		if (printLevel > 1)
+			pPrinting_->printSimInitOutBfgs();
+
 		// Distance similarity
 		int size = tempDistance.size();
 		vector<double> colectAllDifferences;
@@ -170,15 +183,20 @@ bool Similarity::checkSimilarity(
 				return true;
 			}
 		}
-		if (printLevel > 1)
+		if (printLevel > 0)
 		{
 			if (targedIndividuals.size() != 0)
 				pPrinting_->printSimilarityDistancesSelected(colectAllDifferences);
 		}
+		if (printLevel > 1)
+			pPrinting_->printSimUnique();
 		return false;
 	}
 	else if (method == 1)
 	{
+		if (printLevel > 1)
+			pPrinting_->printSimInitOutBfgs();
+
 		vector<CoordXYZ> mol1(nAtoms);
 		for (int i = 0; i < nAtoms; i++)
 		{
@@ -213,11 +231,13 @@ bool Similarity::checkSimilarity(
 				return true;
 			}
 		}
-		if (printLevel > 1)
+		if (printLevel > 0)
 		{
 			if (targedIndividuals.size() != 0)
 				pPrinting_->printSimilarityDistancesSelected(colectAllDifferences);
 		}
+		if (printLevel > 1)
+			pPrinting_->printSimUnique();
 		return false;
 	}
 	else if(method == -1)
@@ -357,13 +377,13 @@ else if (method == 1)
 
 void Similarity::printNewBfgsInd()
 {
-	if ((printLevel > 0) &&
-		(targetIndividuals.size() != 0) &&
+	if ((targetIndividuals.size() != 0) &&
 		(activateIntoBfgsRmsd))
 	{
 		xToCheckBfgs.clear();
-		pPrinting_->endlSimilarity();
 	}
+	if ((activateIntoBfgsRmsd) && (printLevel > 1))
+		pPrinting_->endlSimilarity();
 }
 
 void Similarity::bestIndividualsCheck()
@@ -461,5 +481,23 @@ double Similarity::calcDistancesOverIAndGetMin(vector<double> &x, int i)
 		auxDistances.push_back(dist);
 	}
 	return *min_element(auxDistances.begin(), auxDistances.end());
+}
+
+void Similarity::printEndIntoBfgs()
+{
+	if((activateIntoBfgsRmsd) && (printLevel > 1))
+		pPrinting_->printEndIntoBfgs();
+}
+
+void Similarity::printTitle()
+{
+	if(printLevel > 1)
+		pPrinting_->printSimTitle();
+}
+
+void Similarity::printInitialTitle()
+{
+	if(printLevel > 0)
+		pPrinting_->printInitialSimTitle();
 }
 
