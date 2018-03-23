@@ -109,7 +109,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = atomLabels[i];
+				mol2[k].atomlabel = atomLabels[k];
 				mol2[k].x = targetIndividuals[i][k];
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];
@@ -195,7 +195,7 @@ bool Similarity::checkSimilarity(
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = atomLabels[i];
+				mol2[k].atomlabel = atomLabels[k];
 				mol2[k].x = targedIndividuals[i][k];
 				mol2[k].y = targedIndividuals[i][k + nAtoms];
 				mol2[k].z = targedIndividuals[i][k + 2 * nAtoms];
@@ -291,7 +291,7 @@ double Similarity::checkSimilarityIntoBfgs()
 			vector<CoordXYZ> mol2(nAtoms);
 			for (int k = 0; k < nAtoms; k++)
 			{
-				mol2[k].atomlabel = atomLabels[i];
+				mol2[k].atomlabel = atomLabels[k];
 				mol2[k].x = targetIndividuals[i][k];
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];

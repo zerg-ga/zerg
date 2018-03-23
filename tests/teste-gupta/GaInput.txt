@@ -1,11 +1,11 @@
 % SYSTEM OPTIONS
 seed = 33
 project_name = teste-com-input
-number_of_atoms = 8
+number_of_atoms = 3
 % 
-n_atom_type_1 = 6
+n_atom_type_1 = 3
 n_label_type_1 = Cu
-n_atom_type_2 = 2
+n_atom_type_2 = 0
 n_label_type_2 = Al
 %
 %
@@ -23,7 +23,7 @@ activateIntoBfgs = 1
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % similarityMethod = 0 metodo das distancias. 1 metodo do Marques   -1 Nada (GA padrao)
 %
-similarityMethod = -1
+similarityMethod = 1
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % tolerancia desejada
 %
