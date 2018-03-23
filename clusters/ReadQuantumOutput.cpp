@@ -19,6 +19,7 @@ ReadQuantumOutput::ReadQuantumOutput(string type_in)
 	ionizationActivation = false;
 	dipoleActivation = false;
 	frequencyActivation = false;
+	nserchActivation = true;
 
 	if ((type == "mopac") || (type == "mopac2009"))
 	{
@@ -49,6 +50,7 @@ ReadQuantumOutput::ReadQuantumOutput(string type_in)
 		gamessDipoleFlag = "ELECTROSTATIC MOMENTS";
 		gamessFrequency = "FREQUENCY:";
 		stopReadingFrequency = false;
+		gamessNserchFlag =  "BEGINNING GEOMETRY SEARCH";
 	}
 }
 
@@ -122,6 +124,11 @@ void ReadQuantumOutput::readOutput(string outName)
 		{
 			readFrequency(quantumOut_, auxline);
 		}
+		else if (haveToReadNserch(auxline) && nserchActivation)
+		{
+			readNserch(auxline);
+		}
+
 	}
 
 	quantumOut_.close();
@@ -310,6 +317,17 @@ void ReadQuantumOutput::readFrequency(ifstream & quantumOut_, string auxline)
 }
 
 
+void ReadQuantumOutput::readNserch(string & auxline)
+{
+	string aux1, aux2, aux3, aux4, aux5;
+	stringstream convert;
+	convert << auxline;
+	convert >> aux1 >> aux2 >> aux3 >> aux4 >> aux5 >> nserch;
+
+}
+
+
+
 bool ReadQuantumOutput::haveToReadCoordinates(string auxline)
 {
 	if ((type == "mopac") || (type == "mopac2009"))
@@ -428,6 +446,22 @@ bool ReadQuantumOutput::haveToReadFrequency(string auxline)
 
 	return false;
 }
+
+bool ReadQuantumOutput::haveToReadNserch(string auxline)
+{
+        if ((type == "mopac") || (type == "mopac2009"))
+        {
+		return false;
+        }
+        else if (type == "gamess")
+        {
+                return auxline.find(gamessNserchFlag) != string::npos;
+        }
+
+        return false;
+}
+
+
 
 double ReadQuantumOutput::readnDoubles(string auxline, int nEigens)
 {

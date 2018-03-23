@@ -26,6 +26,8 @@ public:
 
 	 inline double getFirstFrequency(){ return firstFrequency; }
 
+	 inline int getNserch(){ return nserch; }
+
 	 //set options
 	 void activateDeactivateReadings(std::string activateOption, bool activate);
 
@@ -35,6 +37,7 @@ private:
 	//GENERIC DATA
 	std::vector<CoordXYZ> coordinates;
 	std::vector<double> dipole;
+	int nserch;
 	double energy;
 	double ionizationPotential;
 	double firstFrequency;
@@ -43,7 +46,8 @@ private:
 	bool ionizationActivation;
 	bool dipoleActivation;
 	bool frequencyActivation;
-
+	bool nserchActivation;
+	
 	//END OF GENERERIC DATA
 
 	//MOPAC FLAGS
@@ -73,6 +77,7 @@ private:
 	std::string gamessIonizationFlag;
 	std::string gamessDipoleFlag;
 	std::string gamessFrequency;
+	std::string gamessNserchFlag;
 	int gamessIonizationPos;
 	bool stopReadingFrequency;
 	double readnDoubles(std::string auxline, int nEigens);
@@ -84,6 +89,7 @@ private:
 	void readIonization(std::string auxline, std::ifstream & quantumOut_);
 	void readDipole(std::ifstream & quantumOut_);
 	void readFrequency(std::ifstream & quantumOut_, std::string auxline);
+	void readNserch(std::string & auxline);
 
 	// Control flags - when to read.
 	bool haveToReadCoordinates(std::string auxline);
@@ -91,6 +97,7 @@ private:
 	bool haveToReadIonization(std::string auxline);
 	bool haveToReadDipole(std::string auxline);
 	bool haveToReadFrequency(std::string auxline);
+	bool haveToReadNserch(std::string auxline);
 
 };
 

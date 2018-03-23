@@ -24,6 +24,7 @@
 #include "clusters/Fitness.h"
 #include "clusters/ClustersOperators.h"
 #include "clusters/Experiment.h"
+#include "clusters/GamessIntoBfgs.h"
 
 using namespace std;
 using namespace zerg;
@@ -37,9 +38,10 @@ std::vector< std::vector<double> > globalInd;
 
 int main(int argc, char *argv[])
 {
-//	MarquesEnantiomers mq_;
-//	mq_.calculateMarquesEnantiomers("highlander.xyz", "high-segundo.xyz");
+//	GamessIntoBfgs pal_;
+//	pal_.runGamess("h2o.inp", "/home/vultor/gamess/rungms");
 //	return 0;
+
 
 	Printing printing_;
 	string experimentMethod;

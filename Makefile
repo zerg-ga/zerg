@@ -18,7 +18,7 @@ LFLAGS = -lpthread -std=c++11 -lX11
 LIBS = 
 
 # define the C++ source files
-SRCS = Random.cpp clusters/Similarity.cpp clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp ./lib/dlib-18.18/dlib/all/source.cpp
+SRCS = clusters/GamessIntoBfgs.cpp Random.cpp clusters/Similarity.cpp clusters/Hungarian.cpp clusters/MarquesEnantiomers.cpp AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp Printing.cpp ./lib/dlib-18.18/dlib/all/source.cpp
 
 
 # define the C++ object files 
