@@ -374,9 +374,11 @@ void Printing::endlSimilarity()
 
 void Printing::printBfgsSteps(int bfgsSteps)
 {
-	similarityOutput_ << endl
-		<< "bfgs steps: " << bfgsSteps
-		<< endl;
+	mainOutput_ << endl
+		<< "BFGS STEPS OF WHOLE SIMULATION"
+		<< endl
+		<< "steps: " << bfgsSteps
+		<< endl << endl;
 }
 
 void Printing::printHighlanderStatus(
