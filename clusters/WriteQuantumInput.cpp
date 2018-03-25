@@ -93,11 +93,12 @@ void WriteQuantumInput::setInputProperties(vector<string> &options)
 
 void WriteQuantumInput::readGamessAuxFiles()
 {
-	bool ecp = false;
 	int nAtoms = gamessAtomBasisFiles.size();
 	atomBasis.resize(nAtoms);
+	atomEcp.resize(nAtoms);
 	for (int i = 0; i < nAtoms; i++)
 	{
+		bool ecp = false;
 		ifstream readBasis_(("auxFiles/" + gamessAtomBasisFiles[i]).c_str());
 		string auxline;
 		getline(readBasis_, auxline);
@@ -126,7 +127,6 @@ void WriteQuantumInput::readGamessAuxFiles()
 		}
 		if (ecp)
 		{
-			atomEcp.resize(nAtoms);
 			string auxlineEcp;
 			while (getline(readBasis_, auxlineEcp))
 			{
@@ -140,6 +140,9 @@ void WriteQuantumInput::readGamessAuxFiles()
 				atomEcp[i].push_back(auxlineEcp);
 			}
 		}
+		else
+			atomEcp[i].push_back(" " + getAtomName(i) + "-ECP NONE");
+
 		readBasis_.close();
 	}
 }

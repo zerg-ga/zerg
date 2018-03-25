@@ -34,6 +34,14 @@ public:
 		std::string gamessScr,
 		std::string nProc);
 
+	double runGamess(
+		std::vector<double> &x,
+		std::vector< std::string > &options,
+		std::string gamessPath,
+		std::string gamessScr,
+		std::string nProc,
+		Similarity * pSim_);
+
 	double runGamessFrequency(
 		int numberOfOptimizations,
 		std::vector<double> &x,

@@ -11,6 +11,7 @@
 #include "WriteQuantumInput.h"
 #include "ReadQuantumOutput.h"
 #include "Similarity.h"
+#include "GamessIntoBfgs.h"
 
 #ifdef useDlib
 #include <dlib/optimization.h>
@@ -191,6 +192,64 @@ double Fitness::runGamess(
 		return readQ_.getEnergy();
 	}
 }
+
+
+double Fitness::runGamess(
+	vector<double> &x, 
+	vector<string> &options, 
+	string gamessPath,
+	string gamessScr,
+	string nProc,
+	Similarity * pSim_)
+{
+	WriteQuantumInput writeInp_(options);
+	int nAtoms = x.size() / 3;
+	vector<CoordXYZ> mol(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		mol[i].atomlabel = writeInp_.getAtomName(i);
+		mol[i].x = x[i];
+		mol[i].y = x[i + nAtoms];
+		mol[i].z = x[i + 2 * nAtoms];
+	}
+
+	writeInp_.createInput(mol);
+
+	system(("rm " + gamessScr + "/" + options[1] + "*").c_str());
+
+	GamessIntoBfgs gameInto_;
+
+	double energy = gameInto_.runGamess(
+		mol.size(),
+		mol,
+		options[1] + ".inp",
+		gamessPath,
+		nProc,
+		pSim_);
+
+//	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
+//	ReadQuantumOutput readQ_("gamess");
+//	readQ_.readOutput((options[1] + ".inp-.log").c_str());
+//	mol = readQ_.getCoordinates();
+	if(mol.size() == 0)
+	{
+		return 0.0e0;
+	}
+	else
+	{
+		for (int i = 0; i < nAtoms; i++)
+		{
+			x[i] = mol[i].x;
+			x[i + nAtoms] = mol[i].y;
+			x[i + 2 * nAtoms] = mol[i].z;
+		}
+		return energy;
+	}
+}
+
+
+
+
 
 double Fitness::runGamessFrequency(
 	int numberOfOptimizations,

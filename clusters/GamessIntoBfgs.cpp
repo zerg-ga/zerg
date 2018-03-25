@@ -14,6 +14,7 @@
 #include <sstream>
 
 #include "ReadQuantumOutput.h"
+#include "Similarity.h"
 #include "Coordstructs.h"
 
 using namespace std;
@@ -22,7 +23,13 @@ GamessIntoBfgs::GamessIntoBfgs(){}
 
 GamessIntoBfgs::~GamessIntoBfgs(){}
 
-void GamessIntoBfgs::runGamess(std::string inputName, string gamessExec) 
+double GamessIntoBfgs::runGamess(
+	int nAtoms,
+	std::vector<CoordXYZ> &mol,
+	std::string inputName, 
+	string gamessExec,
+	string nProc,
+	Similarity * pSim_) 
 {
 	pid_t child_pid;
 	child_pid = fork();
@@ -30,8 +37,10 @@ void GamessIntoBfgs::runGamess(std::string inputName, string gamessExec)
     	{
         	if (child_pid == 0) 
 		{
-			vector<string> commands(1);
+			vector<string> commands(3);
 			commands[0] = inputName;
+			commands[1] = "00";
+			commands[2] = nProc;
 			remove((inputName + "-.log").c_str());
 			int fd = open((inputName + "-.log").c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 			dup2(fd,1);
@@ -52,7 +61,8 @@ void GamessIntoBfgs::runGamess(std::string inputName, string gamessExec)
 		else
 		{
        			ReadQuantumOutput readQ_("gamess");
-			vector<CoordXYZ> mol;
+			int oldNserch = -1;
+			mol.clear();
 			while(true)
 			{
 
@@ -60,58 +70,46 @@ void GamessIntoBfgs::runGamess(std::string inputName, string gamessExec)
 
 				sleep(1);
 			       	readQ_.readOutput(inputName + "-.log");
-				cout << "NSERCH:  " << readQ_.getNserch() << endl;
 			        mol = readQ_.getCoordinates();
- 			        for(size_t i = 0; i < mol.size(); i++)
-       				{
-          				     cout << mol[i].atomlabel << "  "
-                   				  << mol[i].x << "  "
-                     				  << mol[i].y << "  "
-                       				  << mol[i].z << endl;
-		        	} 		
+				if(((int)mol.size() == nAtoms) && (readQ_.getNserch() != oldNserch))
+				{
+					oldNserch = readQ_.getNserch();
+					vector<double> x(3*mol.size());
+					for(size_t i = 0; i < mol.size(); i++)
+					{
+						x[i] = mol[i].x;
+						x[i + nAtoms] = mol[i].y;
+						x[i + 2 * nAtoms] = mol[i].z;
+					}
+					pSim_->saveXToCheckBfgs(x);
+					double simFlag = pSim_->checkSimilarityIntoBfgs();
+					if(simFlag < -1.0e90)
+						killGamess();
+			
+					cout << "NSERCH:  " << readQ_.getNserch() << endl;
+			        	for(size_t i = 0; i < mol.size(); i++)
+       					{
+          					     cout << mol[i].atomlabel << "  "
+                   					  << mol[i].x << "  "
+                     					  << mol[i].y << "  "
+                       					  << mol[i].z << endl;
+		        		} 		
+
+				}
 				if(!checkGamess())
 					break;
-
-				if(readQ_.getNserch() > 10)
-					killGamess();
-
 			}
-			cout << "done" << endl;
-			exit(1);
-
-			sleep(5);
-			cout << "reading again" << endl;
-			cout << "NSERCH:  " << readQ_.getNserch() << endl;
-		        readQ_.readOutput(inputName + "-.log");
-		        mol = readQ_.getCoordinates();
- 		        for(size_t i = 0; i < mol.size(); i++)
-       			{
-          		     cout << mol[i].atomlabel << "  "
-              			  << mol[i].x << "  "
-                      		<< mol[i].y << "  "
-                        	  << mol[i].z << endl;
-			}
-			sleep(10); 				
-			cout << "reading again" << endl;
-			cout << "NSERCH:  " << readQ_.getNserch() << endl;
-		        readQ_.readOutput(inputName + "-.log");
-		        mol = readQ_.getCoordinates();
- 		        for(size_t i = 0; i < mol.size(); i++)
-        		{
-          		     cout << mol[i].atomlabel << "  "
-              			  << mol[i].x << "  "
-              			  << mol[i].y << "  "
-                     		  << mol[i].z << endl;
-		        } 				
-			killGamess();
-			// continuacao do codigo depois do fork
+			if(mol.size() == 0)
+				return 0.0e0;
+			else
+				return readQ_.getEnergy();
 		}
 	}
 	else 
 	{
-	        cout << "Error on creating a parallel process" << endl
-			<< "This shouldn't have happen, please, contact developers." << endl;
-	        exit(0);
+	        cout << "Error on creating parallel process" << endl
+			<< "This shouldn't have happened, please, contact developers." << endl;
+	        exit(1);
 	}
 }
 

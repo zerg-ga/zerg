@@ -72,7 +72,9 @@ ClustersFitness::ClustersFitness(
 	sim_.printInitialTitle();
 	pPrinting_->startingFirstIndividual();
 	aux = create_individual(0, 0, 0, 0); //method 0 always random
+
 	local_optimization(0);
+
 	pPrinting_->endOfFirstIndividual();
 
 	bool addInd;
@@ -122,7 +124,6 @@ void ClustersFitness::optimize(int ind_i)
 	// energy[ind_i] -> fitness function
 
 	sim_.printNewBfgsInd();
-//	sim_.bestIndividualsCheck();
 
 	Fitness fit_;
 	if (options.size() == 0)
@@ -137,13 +138,15 @@ void ClustersFitness::optimize(int ind_i)
 		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	}
 	else
+	{
 		energy[ind_i] = fit_.runGamess(
 			x_vec[ind_i],
 			options,
 			gamessPath,
 			gamessScr,
-			nProc);
-
+			nProc,
+			&sim_);
+	}
 
 	sim_.printEndIntoBfgs();
 
@@ -155,9 +158,6 @@ void ClustersFitness::optimize(int ind_i)
 
 void ClustersFitness::printAllIndividuals(string fileName)
 {
-	// gamess labels
-	WriteQuantumInput writeInp_(options);
-
 	// ordering
 	int pop_size = energy.size();
 	vector<double> fitness_energies(pop_size);
@@ -178,10 +178,7 @@ void ClustersFitness::printAllIndividuals(string fileName)
 		printAll_ << nAtoms << endl << setprecision(16) << energy[best] << endl;
 		for (int i = 0; i < nAtoms; i++)
 		{
-			if(options.size() != 0)
-				printAll_ << writeInp_.getAtomName(i) << " ";
-			else
-				printAll_ << atomLabels[i] <<  "  ";
+			printAll_ << atomLabels[i] <<  "  ";
 
 			printAll_ << x_vec[best][i] << "  "
 				<< x_vec[best][i + nAtoms] << "  "

@@ -16,6 +16,7 @@
 
 #include "ReadQuantumOutput.h"
 #include "Coordstructs.h"
+#include "Similarity.h"
 
 class GamessIntoBfgs
 {
@@ -23,7 +24,13 @@ public:
 	GamessIntoBfgs();
 	~GamessIntoBfgs();
 
-	void runGamess(std::string inputName, std::string gamessExec); 
+	double runGamess(
+		int nAtoms,
+		std::vector<CoordXYZ> & mol,
+		std::string inputName, 
+		std::string gamessExec,
+		std::string nProc,
+		Similarity * pSim_); 
 
 
 private:

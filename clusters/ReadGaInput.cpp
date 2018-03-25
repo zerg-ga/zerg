@@ -10,6 +10,7 @@
 
 #include "../AuxMath.h"
 #include "../Printing.h"
+#include "WriteQuantumInput.h"
 
 using namespace zerg;
 using namespace std;
@@ -315,6 +316,12 @@ void ReadGaInput::readGaInput()
 				<< "it must be uppercase, check header and input for errors" << endl;
 			exit(1);
 		}
+	
+		baseFilesOrdering(
+			baseFiles, 
+			gaParam.nAtomTypes1, 
+			gaParam.nAtomTypes2, 
+			gaParam.nAtomTypes3);
 
 		for (size_t k = 0; k < baseFiles.size(); k++)
 			options.push_back(baseFiles[k]);
@@ -325,11 +332,95 @@ void ReadGaInput::readGaInput()
 		options.push_back("Header name");
 		options.push_back(gamessHeader);
 
-	}
-	if(interactionPotential == "gamess")
-		pPrinting_->endOfGamessOptions();
+		vector<int> auxAtomTypes(nAtoms);
+		gaParam.atomLabels.clear();
+		WriteQuantumInput writeInp_(options);
+		for (int i = 0; i < nAtoms; i++)
+		{
+			if (i < gaParam.nAtomTypes1)
+			{
+				auxAtomTypes[i] = 0;
+			}
+			else if (i < (gaParam.nAtomTypes1 + gaParam.nAtomTypes2))
+			{
+				auxAtomTypes[i] = 1;
+			}
+			else
+			{
+				auxAtomTypes[i] = 2;
+			}
+			gaParam.atomLabels.push_back(writeInp_.getAtomName(i));
+		}
+		gaParam.atomTypes = atomTypesTemp;
 
+		pPrinting_->endOfGamessOptions();
+	}
 }
+
+void ReadGaInput::baseFilesOrdering(
+	std::vector<std::string> & baseFiles,
+	int & n1,
+	int & n2,
+	int & n3)
+{
+
+	string firstBaseFile = baseFiles[0];
+	bool tradePositions = true;	
+	while(tradePositions)
+	{
+		tradePositions = false;	
+		for(size_t i = 0; i < baseFiles.size() - 1; i++)
+		{
+			if((baseFiles[i + 1] == firstBaseFile) &&
+				(baseFiles[i] != firstBaseFile))
+			{
+				tradePositions = true;
+				string auxBase = baseFiles[i];
+				baseFiles[i] = baseFiles[i + 1];
+				baseFiles[i + 1] = auxBase;
+			}
+		}
+	}
+
+	string lastBaseFile = baseFiles[baseFiles.size() - 1];
+	if(lastBaseFile == firstBaseFile)
+		tradePositions = false;	
+	else
+		tradePositions = true;	
+
+	while(tradePositions)
+	{
+		tradePositions = false;	
+		for(size_t i = 0; i < baseFiles.size() - 1; i++)
+		{
+			if(baseFiles[i] == firstBaseFile)
+				continue;
+			else if(baseFiles[i] == lastBaseFile)
+				continue;
+			else
+			{
+				tradePositions = true;
+				string auxBase = baseFiles[i];
+				baseFiles[i] = baseFiles[i + 1];
+				baseFiles[i + 1] = auxBase;
+			}
+		}
+	}
+
+	n1 = 0;
+	n2 = 0;
+	n3 = 0;
+	for(size_t i = 0; i < baseFiles.size(); i++)
+	{
+		if(baseFiles[i] == firstBaseFile)
+			n1++;	
+		else if(baseFiles[i] == lastBaseFile)
+			n2++;
+		else
+			n3++;	
+	}
+}
+
 
 /*
 void ReadGaInput::setExperimentDefaults(int seed)

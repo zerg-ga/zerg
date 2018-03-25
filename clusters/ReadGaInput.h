@@ -43,8 +43,14 @@ private:
 	std::string gamessNproc;
 	void setDefaults();
 	void userDefinedSet(int userMethod);
+	void baseFilesOrdering(
+		std::vector<std::string> & baseFiles,
+		int & n1,
+		int & n2,
+		int & n3);
 
 	zerg::Printing * pPrinting_;
+
 };
 
 
