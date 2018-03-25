@@ -1,7 +1,6 @@
 #ifndef GAMESSINTOBFGS_H
 #define GAMESSINTOBFGS_H
 
-
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -36,7 +35,7 @@ public:
 private:
 	bool checkGamess();
 	
-	void killGamess();
+	void killGamess(pid_t child_pid);
 
 };
 

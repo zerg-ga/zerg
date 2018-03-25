@@ -229,6 +229,8 @@ void ReadGaInput::readGaInput()
 	}
 	input_.close();
 
+	if(gaParam.numberOfKilling == 0)
+		gaParam.numberOfKilling = (int)gaParam.pop_size / 4;
 	if (gaParam.numberOfKilling >= gaParam.pop_size)
 	{
 		cout << "number_of_predated must be lower than population_size" << endl
@@ -351,7 +353,7 @@ void ReadGaInput::readGaInput()
 			}
 			gaParam.atomLabels.push_back(writeInp_.getAtomName(i));
 		}
-		gaParam.atomTypes = atomTypesTemp;
+		gaParam.atomTypes = auxAtomTypes;
 
 		pPrinting_->endOfGamessOptions();
 	}
@@ -583,7 +585,7 @@ void ReadGaInput::setDefaults()
 	gaParam.scdo = 0.2e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
-	gaParam.numberOfKilling = (int)gaParam.pop_size / 4;
+	gaParam.numberOfKilling = 0;
 
 	// SIMILARITY PARAMETERS
 	gaParam.activateIntoBfgs = false;

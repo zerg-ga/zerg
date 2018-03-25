@@ -84,7 +84,7 @@ double GamessIntoBfgs::runGamess(
 					pSim_->saveXToCheckBfgs(x);
 					double simFlag = pSim_->checkSimilarityIntoBfgs();
 					if(simFlag < -1.0e90)
-						killGamess();
+						killGamess(child_pid);
 			
 					cout << "NSERCH:  " << readQ_.getNserch() << endl;
 			        	for(size_t i = 0; i < mol.size(); i++)
@@ -126,8 +126,9 @@ bool GamessIntoBfgs::checkGamess()
 	return true;
 }
 
-void GamessIntoBfgs::killGamess()
+void GamessIntoBfgs::killGamess(pid_t child_pid)
 {
+	kill(child_pid, SIGTERM);
 	system("ps ax | grep gamess.00.x > pidGamess.ga");
 	ifstream readPid_("pidGamess.ga");
 	string auxline;
@@ -137,6 +138,8 @@ void GamessIntoBfgs::killGamess()
 	system(("kill " + pidGamess).c_str());
 	readPid_.close();
 	remove("pidGamess.ga");
+	int status;
+	wait(&status);
 	sleep(0.5);
 }
 
