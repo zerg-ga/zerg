@@ -1,0 +1,48 @@
+% SYSTEM OPTIONS
+seed = 34235
+project_name = n2-na4
+number_of_atoms = 6
+%
+%
+% INTERACTION OPTIONS
+interaction_potential = gamess
+bases_files_number = 6
+base = n-base.txt
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+base = na-base.txt
+base = n-base.txt
+gamess_header_file = na-header.txt
+%
+%
+% GA OPTIONS
+population_size = 12
+maximum_number_of_generations = 20
+highlander_max_iteration = 5
+%
+%
+% PARAMETERS
+max_distance_between_atoms = 3.0
+min_distance_between_atoms = 0.5
+%
+%
+%
+activateIntoBfgs = 1
+similarityMethod = 1
+similarityDebugLevel = 2
+printing_debug = 2
+tolSimilarity = 0.2
+%
+%
+%
+%
+% MACHINE OPTIONS
+number_of_cores = 8
+restart = no
+gamess_executable_path = /home/vultor/gamess/rungms
+gamess_scr_path = /scr/
+%
+%
+%
+%
