@@ -85,7 +85,8 @@ double GamessIntoBfgs::runGamess(
 					double simFlag = pSim_->checkSimilarityIntoBfgs();
 					if(simFlag < -1.0e90)
 						killGamess(child_pid);
-			
+		
+					/*	
 					cout << "NSERCH:  " << readQ_.getNserch() << endl;
 			        	for(size_t i = 0; i < mol.size(); i++)
        					{
@@ -94,6 +95,7 @@ double GamessIntoBfgs::runGamess(
                      					  << mol[i].y << "  "
                        					  << mol[i].z << endl;
 		        		} 		
+					*/
 
 				}
 				if(!checkGamess())

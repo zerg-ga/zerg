@@ -36,7 +36,6 @@ double MarquesEnantiomers::marquesRmsd(
 	vector<CoordXYZ> &mol2)
 {
 
-	ofstream allMol1_, allMol2_;
 	for (size_t i = 0; i < mol1.size(); i++)
 	{
 		mol1[i].mass = setMass(mol1[i].atomlabel);
@@ -45,6 +44,8 @@ double MarquesEnantiomers::marquesRmsd(
 	
 	double marquesRmsd = assignStruct(mol1, mol2);
 
+	/*ofstream allMol1_, allMol2_;
+	for (size_t i = 0; i < mol1.size(); i++)
 	allMol1_.open("allMol1.ga", std::ofstream::out | std::ofstream::app);
 	allMol2_.open("allMol2.ga", std::ofstream::out | std::ofstream::app);
 	allMol1_ << mol1.size() << endl << "rmsd:  " << marquesRmsd << endl;
@@ -62,7 +63,7 @@ double MarquesEnantiomers::marquesRmsd(
 			<< mol2[i].y << "  "
 			<< mol2[i].z << endl;
 	}
-
+	*/
 	return marquesRmsd;
 }
 
