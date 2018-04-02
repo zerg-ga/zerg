@@ -429,6 +429,66 @@ std::vector<double> Fitness::getGuptaParameters(
 }
 
 
+
+
+double Fitness::runMopac(
+	vector<double> &x, 
+	vector<string> &options,
+	vector<string> &atomLabels)
+{
+	WriteQuantumInput writeInp_(options);
+	int nAtoms = x.size() / 3;
+	vector<CoordXYZ> mol(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		mol[i].atomlabel = atomLabels[i];
+		mol[i].x = x[i];
+		mol[i].y = x[i + nAtoms];
+		mol[i].z = x[i + 2 * nAtoms];
+	}
+
+	writeInp_.createInput(mol);
+
+	system(("/opt/mopac/MOPAC2016.exe " + options[1] + ".mop ").c_str());
+
+	ReadQuantumOutput readQ_("mopac");
+
+	readQ_.readOutput((options[1] + ".out").c_str());
+
+	mol = readQ_.getCoordinates();
+
+	if(mol.size() == 0)
+	{
+		return 0.0e0;
+	}
+	else
+	{
+		for (int i = 0; i < nAtoms; i++)
+		{
+			x[i] = mol[i].x;
+			x[i + nAtoms] = mol[i].y;
+			x[i + 2 * nAtoms] = mol[i].z;
+		}
+		return readQ_.getEnergy();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* EXMPLO DE OPTIMIZE
 //main:
 //InitializeAtoms init_;

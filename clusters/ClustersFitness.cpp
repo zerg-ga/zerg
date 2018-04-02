@@ -139,13 +139,30 @@ void ClustersFitness::optimize(int ind_i)
 	}
 	else
 	{
-		energy[ind_i] = fit_.runGamess(
-			x_vec[ind_i],
-			options,
-			gamessPath,
-			gamessScr,
-			nProc,
-			&sim_);
+		if(options[0] == "gamess")
+		{
+			energy[ind_i] = fit_.runGamess(
+				x_vec[ind_i],
+				options,
+				gamessPath,
+				gamessScr,
+				nProc,
+				&sim_);
+		}
+		else if(options[0] == "mopac")
+		{
+			energy[ind_i] = fit_.runMopac(
+                                x_vec[ind_i],
+                                options,
+				atomLabels);
+		}
+		else
+		{
+			cout << "Quantum method not found - exiting" << endl;
+			exit(1);
+		}
+
+
 	}
 
 	sim_.printEndIntoBfgs();
@@ -274,26 +291,34 @@ double ClustersFitness::checkMinimum(int ind_i)
 {
 	if (options.size() != 0)
 	{
-		Fitness fit_;
-		energy[ind_i] = fit_.runGamess(
-			x_vec[ind_i],
-			options,
-			gamessPath,
-			gamessScr,
-			nProc);
+		if(options[0] == "gamess")
+		{
+			Fitness fit_;
+			energy[ind_i] = fit_.runGamess(
+				x_vec[ind_i],
+				options,
+				gamessPath,
+				gamessScr,
+				nProc);
+	
+			double frequency = fit_.runGamessFrequency(
+				numberOfLocalMinimizations,
+				x_vec[ind_i],
+				options,
+				gamessPath,
+				gamessScr,
+				nProc);
 
-		double frequency = fit_.runGamessFrequency(
-			numberOfLocalMinimizations,
-			x_vec[ind_i],
-			options,
-			gamessPath,
-			gamessScr,
-			nProc);
+			if (frequency < 0.0e0)
+				energy[ind_i] = 1.0e99;
 
-		if (frequency < 0.0e0)
-			energy[ind_i] = 1.0e99;
+			return frequency;
+		}
+		else
+		{
+			return 1.0e0;
 
-		return frequency;
+		}
 	}
 	return 1.0e0;
 }

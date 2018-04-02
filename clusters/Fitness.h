@@ -50,6 +50,11 @@ public:
 		std::string gamessScr,
 		std::string nProc);
 
+	double runMopac(
+		std::vector<double> &x,
+		std::vector<std::string> &options,
+		std::vector<std::string> &atomLabels);
+
 
 private:
 	double lennardJones(std::vector<double> &x);

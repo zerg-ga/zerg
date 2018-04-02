@@ -293,6 +293,14 @@ void ReadGaInput::readGaInput()
 		gaParam.interactionPotentialType = 0;
 	else if (interactionPotential == "gupta")
 		gaParam.interactionPotentialType = 1;
+	else if (interactionPotential == "mopac")
+	{
+		        options.push_back("mopac");
+			options.push_back(projectName);
+			options.push_back("PM7");
+			options.push_back("");
+			options.push_back("");
+	}
 	else if (interactionPotential == "gamess")
 	{
 		options.push_back("gamess");
