@@ -38,6 +38,14 @@ std::vector< std::vector<double> > globalInd;
 
 int main(int argc, char *argv[])
 {
+
+	/*
+	MarquesEnantiomers marques_;
+	marques_.calculateMarquesEnantiomers(
+                "cluster-al9cu2-1",
+                "cluster-al9cu2-2");
+	*/
+
 	/*
 	vector<string> options(5);
 	options[0] = "mopac";

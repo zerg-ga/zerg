@@ -188,6 +188,15 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 bool ClustersOperators::check_similarity(int target)
 {
 	sim_.addTargetIndividuals(x_vec, fitnessRank);
+	if(target == -1)
+	{
+		vector<int> corrections;
+		sim_.bestIndividualsCorrections(corrections);
+		for(size_t i = 0; i < corrections.size(); i++)
+			energy[fitnessRank[corrections[i]]] = 1.0e99;
+
+		return false;
+	}
 
 	if (sim_.checkLimitations(x_vec[target]))
 	{

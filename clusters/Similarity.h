@@ -33,6 +33,9 @@ public:
 		std::vector< std::vector<double> > & x_vec,
 		std::vector<int> & fitnessRank);
 
+	void bestIndividualsCorrections(
+        	std::vector<int> & corrections);
+
 	void printNewBfgsInd();
 
 	void bestIndividualsCheck();

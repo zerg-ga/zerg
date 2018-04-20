@@ -38,6 +38,8 @@ void Predator::get_dead_individuals(Population &pop)
 
 	pop.setFintessRank(fitness_rank);
 
+	pop.check_similarity(-1); //new generation will come
+
 	// choose last to kill
 	int i_index = 0;
 	for (int j = (pop_size - 1); j >= (pop_size - dead_individuals.size()); j--)

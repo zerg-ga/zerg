@@ -362,6 +362,30 @@ void Similarity::addTargetIndividuals(
 }
 
 
+void Similarity::bestIndividualsCorrections(
+	std::vector<int> & corrections)
+{
+	if(method == 1)
+	{
+		for(int i = 0; i < bestIndividualsSize - 1; i++)
+		{
+			for(int j = i + 1; j < bestIndividualsSize; j++)
+			{
+				vector< vector<double> > indJ(1);
+				indJ[0] = targetIndividuals[j];
+				bool equal = checkSimilarity(
+						targetIndividuals[i],
+						indJ);
+				if(equal)
+					corrections.push_back(j);
+			}
+		}
+	}
+}
+
+
+
+
 void Similarity::appendTosimilarity()
 {
 	if (method == 0)
