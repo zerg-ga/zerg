@@ -597,7 +597,7 @@ void ReadGaInput::setDefaults()
 
 	// SIMILARITY PARAMETERS
 	gaParam.activateIntoBfgs = false;
-	gaParam.similarityMethod = 1;
+	gaParam.similarityMethod = -1;
 	gaParam.tolSimilarity = 0.05;
 	gaParam.similarityDebugLevel = 2;
 	gaParam.energyReturnBfgs = -1.0e99;

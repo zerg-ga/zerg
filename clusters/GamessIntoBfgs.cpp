@@ -63,10 +63,20 @@ double GamessIntoBfgs::runGamess(
        			ReadQuantumOutput readQ_("gamess");
 			int oldNserch = -1;
 			mol.clear();
+			for(int i = 0; i < 120; i++)
+			{
+				sleep(1);
+				if(checkGamess())
+					break;
+			}
+			if(!checkGamess())
+			{
+				cout << "Gamess no running - check developers" << endl;
+				exit(1);
+			}
+
 			while(true)
 			{
-
-				// conferir com o numero de atomos
 
 				sleep(1);
 			       	readQ_.readOutput(inputName + "-.log");
@@ -142,7 +152,7 @@ void GamessIntoBfgs::killGamess(pid_t child_pid)
 	remove("pidGamess.ga");
 	int status;
 	wait(&status);
-	sleep(0.5);
+	sleep(1);
 }
 
 
