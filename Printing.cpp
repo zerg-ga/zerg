@@ -90,6 +90,7 @@ void Printing::showAllParameters(
 		mainOutput_ << "Creation rate " << i << ": " << gaParam.initialCreationRate[i] << endl;
 	}
 	mainOutput_ << "Interaction Potential: " << interactionPotential << endl;
+	mainOutput_ << "Change interaction generation: " << gaParam.generationToChangeInteraction << endl;
 	if(interactionPotential == "gamess")
 	{
 		mainOutput_ << "Gamess path: " << gamessPath << endl;

@@ -31,6 +31,13 @@ double GamessIntoBfgs::runGamess(
 	string nProc,
 	Similarity * pSim_) 
 {
+
+	if(checkGamess())
+	{
+		cout << "Don't work with multiple gamess runs - exiting" << endl;
+		exit(1);
+	} 
+
 	pid_t child_pid;
 	child_pid = fork();
 	if (child_pid >= 0)
@@ -71,7 +78,7 @@ double GamessIntoBfgs::runGamess(
 			}
 			if(!checkGamess())
 			{
-				cout << "Gamess no running - check developers" << endl;
+				cout << "Gamess not running - check developers" << endl;
 				exit(1);
 			}
 
@@ -111,6 +118,11 @@ double GamessIntoBfgs::runGamess(
 				if(!checkGamess())
 					break;
 			}
+			killGamess(child_pid);
+			sleep(1);
+			if(checkGamess)
+				killGamess(child_pid);
+
 			if(mol.size() == 0)
 				return 0.0e0;
 			else
@@ -141,6 +153,8 @@ bool GamessIntoBfgs::checkGamess()
 void GamessIntoBfgs::killGamess(pid_t child_pid)
 {
 	kill(child_pid, SIGTERM);
+	int status;
+	wait(&status);
 	system("ps ax | grep gamess.00.x > pidGamess.ga");
 	ifstream readPid_("pidGamess.ga");
 	string auxline;
@@ -150,8 +164,6 @@ void GamessIntoBfgs::killGamess(pid_t child_pid)
 	system(("kill " + pidGamess).c_str());
 	readPid_.close();
 	remove("pidGamess.ga");
-	int status;
-	wait(&status);
 	sleep(1);
 }
 

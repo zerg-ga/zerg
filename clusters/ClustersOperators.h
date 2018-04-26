@@ -58,6 +58,8 @@ protected:
 	int nAtomType3;
 	std::vector<int> atomTypes;
 
+	int generation;
+
 
 private:
 	//set on startUserOperators()

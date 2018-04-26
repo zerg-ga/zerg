@@ -29,12 +29,18 @@ ClustersFitness::ClustersFitness(
 	pPrinting_in)
 {
 	options = options_in;
+	optionsGamess = options_in;
+	generationToChangeInteraction = gaParam.generationToChangeInteraction;
 	iRestart = 0;
+	interactionChanged = false;
 	numberOfLocalMinimizations = 0;
 	makeExperiment = false;
 	atomLabels = gaParam.atomLabels;
 //	setExperimentConditions(-108.315e0, 3000); SBQT - EXPERIMENTOS
 	interactionType = gaParam.interactionPotentialType;
+	if(interactionType == 4)
+		changeInteraction(2);
+
 	interactionParameters = gaParam.potentialParams;
 	if (gaParam.restart)
 	{
@@ -109,6 +115,17 @@ void ClustersFitness::local_optimization(int ind_i)
 	}
 	else
 	{
+		if((generation == generationToChangeInteraction) && (!interactionChanged))
+		{
+			changeInteraction(3);
+			interactionChanged = true;
+			for(size_t i = 0; i < energy.size(); i++)
+			{
+				optimize(i);
+				saveIndividual(i);
+			}
+		}
+
 		optimize(ind_i);
 		saveIndividual(ind_i);
 	}
@@ -321,6 +338,33 @@ double ClustersFitness::checkMinimum(int ind_i)
 		}
 	}
 	return 1.0e0;
+}
+
+
+void ClustersFitness::changeInteraction(int newType)
+{
+	switch(newType)
+	{
+		case 0:
+		case 1:
+			options.clear();
+			interactionType = newType;
+			break;
+		case 2:
+			options.clear();
+	                options.push_back("mopac");
+        	        options.push_back(optionsGamess[1]);
+			options.push_back("PM7");
+			options.push_back("");
+			options.push_back("");
+			break;
+		case 3:
+			options = optionsGamess;
+			break;
+		default:
+			cout << "new interaction type not found - exiting" << endl;
+			exit(1);
+	}
 }
 
 void ClustersFitness::printBfgsSteps()

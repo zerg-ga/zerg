@@ -169,6 +169,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.insistOnSimilar;
 		else if (type == "interaction_potential")
 			convert >> interactionPotential;
+		else if (type == "generation_change_interaction")
+			convert >> gaParam.generationToChangeInteraction;
 		else if (type == "number_of_parameters")
 		{
 			int nParameters;
@@ -295,14 +297,19 @@ void ReadGaInput::readGaInput()
 		gaParam.interactionPotentialType = 1;
 	else if (interactionPotential == "mopac")
 	{
-		        options.push_back("mopac");
-			options.push_back(projectName);
-			options.push_back("PM7");
-			options.push_back("");
-			options.push_back("");
+		gaParam.interactionPotentialType = 2;
+		options.push_back("mopac");
+		options.push_back(projectName);
+		options.push_back("PM7");
+		options.push_back("");
+		options.push_back("");
 	}
-	else if (interactionPotential == "gamess")
+	else if ((interactionPotential == "gamess") || (interactionPotential == "MopacGamess"))
 	{
+		gaParam.interactionPotentialType = 3;
+		if(interactionPotential == "MopacGamess")
+			gaParam.interactionPotentialType = 4;
+
 		options.push_back("gamess");
 		options.push_back(projectName);
 		ifstream gamHeader_(("auxFiles/" + gamessHeader).c_str());
@@ -364,6 +371,11 @@ void ReadGaInput::readGaInput()
 		gaParam.atomTypes = auxAtomTypes;
 
 		pPrinting_->endOfGamessOptions();
+	}
+	else
+	{
+		cout << "Interaction potential not found - exiting" << endl;
+		exit(1);
 	}
 }
 
@@ -608,6 +620,7 @@ void ReadGaInput::setDefaults()
 	gaParam.nAtomTypes2 = 0;
 	gaParam.nAtomTypes3 = 0;
 	gaParam.interactionPotentialType = 0;
+	gaParam.generationToChangeInteraction = -1;
 	for (int i = 0; i < nAtoms; i++)
 		gaParam.atomLabels.push_back("H");
 

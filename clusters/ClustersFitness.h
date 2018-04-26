@@ -38,8 +38,8 @@ public:
 
 private:
 	void optimize(int ind_i);
-
 	std::vector< std::string > options;
+	std::vector< std::string > optionsGamess;
 	std::string gamessPath;
 	std::string gamessScr;
 	std::string nProc;
@@ -58,6 +58,9 @@ private:
 	int interactionType;
 	std::vector<double> interactionParameters;
 	std::vector<std::string> atomLabels;
+	void changeInteraction(int newType);
+	int generationToChangeInteraction;
+	bool interactionChanged;
 
 	// experiment util
 	bool makeExperiment;

@@ -46,6 +46,7 @@ struct GaParameters
 	int nAtomTypes2;
 	int nAtomTypes3;
 	int interactionPotentialType;
+	int generationToChangeInteraction;
 	std::vector<double> potentialParams;
 	std::vector<int> atomTypes;
 	std::vector<std::string> atomLabels;

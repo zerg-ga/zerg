@@ -20,6 +20,7 @@ ClustersOperators::ClustersOperators(
 {
 	pPrinting_ = pPrinting_in;
 	number_of_creation_methods = 8;
+	generation = 0;
 }
 
 ClustersOperators::~ClustersOperators(){}
@@ -187,9 +188,10 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 
 bool ClustersOperators::check_similarity(int target)
 {
-	sim_.addTargetIndividuals(x_vec, fitnessRank);
-	if(target == -1)
+	if(target == -1) //end of a generation
 	{
+		generation++;
+		sim_.addTargetIndividuals(x_vec, fitnessRank);
 		vector<int> corrections;
 		sim_.bestIndividualsCorrections(corrections);
 		for(size_t i = 0; i < corrections.size(); i++)

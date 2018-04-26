@@ -71,7 +71,8 @@ energyReturnBfgs = -1.0e99             - parameter for debug considerations
 radius_factor = R                      - parametro da IMIGRACAO
 max_distance_between_atoms = R         - impede distancia maxima
 iterations_to_repeat_if_it_is_similar  - similaridade
-interaction_potential = text           - potencial de interacao opcoes: gamess ; lennardjones ; gupta
+interaction_potential = text           - potencial de interacao opcoes: lennardjones ; gupta ; mopac ; gamess ; MopacGamess
+generation_change_interaction = n      - da geracao n para frente o potencial de interacao sera o gamess
 gamess_executable_path = text          - caminho do gamess
 gamess_scr_path = text                 - caminho do scr 
 %
