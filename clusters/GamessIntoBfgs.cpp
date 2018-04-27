@@ -120,7 +120,7 @@ double GamessIntoBfgs::runGamess(
 			}
 			killGamess(child_pid);
 			sleep(1);
-			if(checkGamess)
+			if(checkGamess())
 				killGamess(child_pid);
 
 			if(mol.size() == 0)
