@@ -125,10 +125,14 @@ void ReadGaInput::readGaInput()
 		}
 		else if (type == "similarityMethod")
 			convert >> gaParam.similarityMethod;
+		else if (type == "removeSimilarStructures")
+			convert >> gaParam.removeSimilarStructures;
 		else if (type == "similarityDebugLevel")
 			convert >> gaParam.similarityDebugLevel;
 		else if (type == "tolSimilarity")
 			convert >> gaParam.tolSimilarity;
+		else if (type == "bestIndividualSize")
+			convert >> gaParam.bestIndividualSize;
 		else if (type == "energyReturnBfgs")
 			convert >> gaParam.energyReturnBfgs;
 		else if (type == "number_of_atoms")
@@ -245,7 +249,6 @@ void ReadGaInput::readGaInput()
 			<< "exiting" << endl;
 		exit(1);
 	}
-
 
 	//show final options
 	pPrinting_->showAllParameters(
@@ -613,6 +616,8 @@ void ReadGaInput::setDefaults()
 	gaParam.tolSimilarity = 0.05;
 	gaParam.similarityDebugLevel = 2;
 	gaParam.energyReturnBfgs = -1.0e99;
+	gaParam.removeSimilarStructures = 1;
+	gaParam.bestIndividualSize = 3;
 
 	// SYSTEM PARAMETERS
 	int nAtoms = gaParam.numberOfParameters / 15;

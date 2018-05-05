@@ -67,6 +67,8 @@ struct GaParameters
 	int similarityDebugLevel;
 	double tolSimilarity;
 	double energyReturnBfgs;
+	int removeSimilarStructures;
+	int bestIndividualSize;
 
 	//util
 	std::string experimentMethod;

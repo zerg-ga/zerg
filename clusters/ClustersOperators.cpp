@@ -42,6 +42,7 @@ void ClustersOperators::startClustersOperators(
 	mutationValue = gaParam.mutationValue / nAtoms;
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;
+	removeSimilarStructures = gaParam.removeSimilarStructures;
 
 	activateIntoBfgs = gaParam.activateIntoBfgs;
 	sim_.startSimilarity(
@@ -182,7 +183,10 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 	if (sim_.checkLimitations(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
 	if (sim_.checkSimilarity(x_vec[ind_i]))
-		energy[ind_i] = 1.0e99;
+	{
+		if(removeSimilarStructures == 1)
+			energy[ind_i] = 1.0e99;
+	}
 	sim_.appendTosimilarity();
 }
 
@@ -216,6 +220,9 @@ bool ClustersOperators::check_similarity(int target)
 
 bool ClustersOperators::checkInitialSimilarity(int target)
 {
+	if(removeSimilarStructures == 0)
+		return false;
+
 	vector< vector<double> > allXUntilTarget;
 	for (int i = 0; i < target; i++)
 	{

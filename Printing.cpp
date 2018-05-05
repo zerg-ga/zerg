@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <sstream>
 #include <ctime>
+#include <iostream>
 
 using namespace std;
 
@@ -85,6 +86,8 @@ void Printing::showAllParameters(
 	mainOutput_ << "Similarity Debug level:  " << gaParam.similarityDebugLevel << endl;
 	mainOutput_ << "Similirity tolerance:  " << gaParam.tolSimilarity << endl;
 	mainOutput_ << "Energy return bfgs:  " << gaParam.energyReturnBfgs << endl;
+	mainOutput_ << "Remove Similar Structures:  " << gaParam.removeSimilarStructures << endl;
+	mainOutput_ << "Best individuals  size:  " << gaParam.bestIndividualSize << endl;
 	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
 	{
 		mainOutput_ << "Creation rate " << i << ": " << gaParam.initialCreationRate[i] << endl;

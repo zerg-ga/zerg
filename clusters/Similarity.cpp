@@ -39,6 +39,7 @@ void Similarity::startSimilarity(
 	minDistance = gaParam.minDistance;
 	pPrinting_ = pPrinting_in;
 	atomLabels = gaParam.atomLabels;
+	bestIndividualsSize = gaParam.bestIndividualSize;
 
 	if (printLevel != 0)
 		pPrinting_->openSimilarityFile();

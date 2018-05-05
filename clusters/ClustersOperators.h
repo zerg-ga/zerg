@@ -67,6 +67,7 @@ private:
 	double rca;
 	double adminLargeEnergyVariation;
 	bool activateIntoBfgs;
+	int removeSimilarStructures;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
 

@@ -68,6 +68,8 @@ similarityMethod = n                   - (-1) no similarity; (0) distance; (1) m
 similarityDebugLevel = n               - debug level - 0(none) to 2(full)
 tolSimilarity = R                      - similarity criterion cut
 energyReturnBfgs = -1.0e99             - parameter for debug considerations
+removeSimilarStructures = n            - 0 nao remove ; 1 remove estruturas
+bestIndividualSize = n                 - numero de isomeros de comparacao
 radius_factor = R                      - parametro da IMIGRACAO
 max_distance_between_atoms = R         - impede distancia maxima
 iterations_to_repeat_if_it_is_similar  - similaridade
