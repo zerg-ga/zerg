@@ -67,7 +67,7 @@ bool Similarity::checkLimitations(std::vector<double> &x)
 */
 }
 
-bool Similarity::checkSimilarity(std::vector<double> &x)
+int Similarity::checkSimilarity(std::vector<double> &x)
 {
 	if (method == 0)
 	{
@@ -91,12 +91,12 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 						distanceDiffererence,
 						i);
 				}
-				return true;
+				return i;
 			}
 		}
 		if (printLevel > 1)
 			pPrinting_->printSimUnique();
-		return false;
+		return -1;
 	}
 	else if (method == 1)
 	{
@@ -132,16 +132,16 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 						distanceDiffererence,
 						i);
 				}
-				return true;
+				return i;
 			}
 		}
 		if (printLevel > 1)
 			pPrinting_->printSimUnique();
-		return false;
+		return -1;
 	}
 	else if(method == -1)
 	{
-		return false;
+		return -1;
 	}
 	else
 	{
@@ -151,7 +151,7 @@ bool Similarity::checkSimilarity(std::vector<double> &x)
 }
 
 //selected structures
-bool Similarity::checkSimilarity(
+int Similarity::checkSimilarity(
 	vector<double> &x,
 	vector< vector<double> > &targedIndividuals
 )
@@ -181,7 +181,7 @@ bool Similarity::checkSimilarity(
 						distanceDiffererence,
 						i);
 				}
-				return true;
+				return i;
 			}
 		}
 		if (printLevel > 0)
@@ -191,7 +191,7 @@ bool Similarity::checkSimilarity(
 		}
 		if (printLevel > 1)
 			pPrinting_->printSimUnique();
-		return false;
+		return -1;
 	}
 	else if (method == 1)
 	{
@@ -229,7 +229,7 @@ bool Similarity::checkSimilarity(
 						distanceDiffererence,
 						i);
 				}
-				return true;
+				return i;
 			}
 		}
 		if (printLevel > 0)
@@ -239,11 +239,11 @@ bool Similarity::checkSimilarity(
 		}
 		if (printLevel > 1)
 			pPrinting_->printSimUnique();
-		return false;
+		return -1;
 	}
 	else if(method == -1)
         {
-                return false;
+                return -1;
         }
 	else
 	{
@@ -374,10 +374,10 @@ void Similarity::bestIndividualsCorrections(
 			{
 				vector< vector<double> > indJ(1);
 				indJ[0] = targetIndividuals[j];
-				bool equal = checkSimilarity(
+				int equal = checkSimilarity(
 						targetIndividuals[i],
 						indJ);
-				if(equal)
+				if(equal != -1)
 					corrections.push_back(j);
 			}
 		}
@@ -409,18 +409,6 @@ void Similarity::printNewBfgsInd()
 	}
 	if ((activateIntoBfgsRmsd) && (printLevel > 1))
 		pPrinting_->endlSimilarity();
-}
-
-void Similarity::bestIndividualsCheck()
-{
-// checar se os melhores sao iguais
-	if (targetIndividuals.size() != 0)
-	{
-		checkSimilarity(
-			targetIndividuals[0],
-			targetIndividuals);
-	}
-
 }
 
 void Similarity::printBfgsSteps()

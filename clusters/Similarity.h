@@ -22,8 +22,8 @@ public:
 		zerg::Random * rand_in);
 
 	bool checkLimitations(std::vector<double> &x);
-	bool checkSimilarity(std::vector<double> &x);
-	bool checkSimilarity(std::vector<double> &x, std::vector< std::vector<double> > &targetIndividuals);
+	int checkSimilarity(std::vector<double> &x);
+	int checkSimilarity(std::vector<double> &x, std::vector< std::vector<double> > &targetIndividuals);
 	void appendTosimilarity();
 
 	double checkSimilarityIntoBfgs();
@@ -37,8 +37,6 @@ public:
         	std::vector<int> & corrections);
 
 	void printNewBfgsInd();
-
-	void bestIndividualsCheck();
 
 	void printBfgsSteps();
 

@@ -180,11 +180,17 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 
 void ClustersOperators::appendTosimilarity(int ind_i)
 {
+	int indSimilar = sim_.checkSimilarity(x_vec[ind_i]);
 	if (sim_.checkLimitations(x_vec[ind_i]))
 		energy[ind_i] = 1.0e99;
-	if (sim_.checkSimilarity(x_vec[ind_i]))
+	if (indSimilar != -1)
 	{
-		if(removeSimilarStructures == 1)
+
+		if(removeSimilarStructures == 0)
+		{
+			energy[ind_i] = energy[fitnessRank[indSimilar]] + 1.0e-4;
+		}
+		else if(removeSimilarStructures == 1)
 			energy[ind_i] = 1.0e99;
 	}
 	sim_.appendTosimilarity();
@@ -196,11 +202,13 @@ bool ClustersOperators::check_similarity(int target)
 	{
 		generation++;
 		sim_.addTargetIndividuals(x_vec, fitnessRank);
-		vector<int> corrections;
-		sim_.bestIndividualsCorrections(corrections);
-		for(size_t i = 0; i < corrections.size(); i++)
-			energy[fitnessRank[corrections[i]]] = 1.0e99;
-
+		if(removeSimilarStructures == 1)
+		{
+			vector<int> corrections;
+			sim_.bestIndividualsCorrections(corrections);
+			for(size_t i = 0; i < corrections.size(); i++)
+				energy[fitnessRank[corrections[i]]] = 1.0e99;
+		}
 		return false;
 	}
 
@@ -208,7 +216,7 @@ bool ClustersOperators::check_similarity(int target)
 	{
 		return true;
 	}
-	else if (sim_.checkSimilarity(x_vec[target]))
+	else if (sim_.checkSimilarity(x_vec[target]) != -1)
 	{
 		return true;
 	}
@@ -229,7 +237,7 @@ bool ClustersOperators::checkInitialSimilarity(int target)
 		allXUntilTarget.push_back(x_vec[i]);
 	}
 
-	return sim_.checkSimilarity(x_vec[target], allXUntilTarget);
+	return (sim_.checkSimilarity(x_vec[target], allXUntilTarget) != -1);
 
 }
 
