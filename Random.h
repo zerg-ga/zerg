@@ -12,6 +12,8 @@ public:
 	~Random();
 
 	double randomNumber(double fMin, double fMax);
+	
+	double randomNumber3(double fMin, double fMax);
 
 	int randomNumber(int fMin, int fMax);
 
@@ -20,6 +22,8 @@ public:
 	std::vector<double> unitaryCartesianVector();
 
 private:
+
+	float ran3(int * idum);
 
 
 };

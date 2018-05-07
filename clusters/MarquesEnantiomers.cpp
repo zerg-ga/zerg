@@ -229,11 +229,11 @@ void MarquesEnantiomers::eulerRotation(vector<CoordXYZ> &mol)
 	double TWOPI = 2.0e0 * acos(-1.0e0);
 	double upperLimit = 1.0e0;
 	double RAND;
-	RAND = rand_->randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber3(0.0e0, upperLimit);
 	double PHI = TWOPI*RAND;
-	RAND = rand_->randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber3(0.0e0, upperLimit);
 	double CSTHTA = 2.0e0*RAND - 1.0e0;
-	RAND = rand_->randomNumber(0.0e0, upperLimit);
+	RAND = rand_->randomNumber3(0.0e0, upperLimit);
 	double CHI = TWOPI*RAND;
 	double THTA = acos(CSTHTA);
 	double SNTHTA = sin(THTA);
