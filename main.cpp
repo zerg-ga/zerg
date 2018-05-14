@@ -38,55 +38,6 @@ std::vector< std::vector<double> > globalInd;
 
 int main(int argc, char *argv[])
 {
-
-	/*
-	MarquesEnantiomers marques_;
-	marques_.calculateMarquesEnantiomers(
-                "cluster-al9cu2-1",
-                "cluster-al9cu2-2");
-	*/
-
-	/*
-	vector<string> options(5);
-	options[0] = "mopac";
-	options[1] = "teste-mopac";
-	options[2] = "PM7";
-	options[3] = "";
-	options[4] = "";
-        WriteQuantumInput writeInp_(options);
-        int nAtoms = 3;
-        vector<CoordXYZ> mol(nAtoms);
-	mol[0].atomlabel = "H";
-	mol[1].atomlabel = "H";
-	mol[2].atomlabel = "H";
-	mol[0].x = 0.0e0;
-	mol[1].x = 1.0e0;
-	mol[2].x = 2.0e0;
-	mol[0].y = 0.0e0;
-	mol[1].y = 0.0e0;
-	mol[2].y = 0.0e0;
-	mol[0].z = 0.0e0;
-	mol[1].z = 0.0e0;
-	mol[1].z = 0.0e0;
-
-        writeInp_.createInput(mol);
-
-	return 0;
-
-	ReadQuantumOutput readQ_("mopac");
-	readQ_.readOutput("teste.out");
-	vector<CoordXYZ> mol2 = readQ_.getCoordinates();
-	for(size_t i = 0; i < mol.size(); i++)
-	{
-		cout << mol2[i].atomlabel << "  "
-			<< mol2[i].x << endl;
-	}
-	cout << "energy:  " << readQ_.getEnergy();
-	
-
-	return 0;
-	*/
-
 	Printing printing_;
 	string experimentMethod;
 	if (argc > 1)
@@ -381,4 +332,9 @@ vector<double> readXyz(string xyzName)
 }
 
 
-
+/* Marques example
+	MarquesEnantiomers marques_;
+	marques_.calculateMarquesEnantiomers(
+                "cluster-al9cu2-1",
+                "cluster-al9cu2-2");
+*/

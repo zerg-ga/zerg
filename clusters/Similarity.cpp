@@ -112,7 +112,6 @@ int Similarity::checkSimilarity(std::vector<double> &x)
 			mol1[i].y = x[i + nAtoms];
 			mol1[i].z = x[i + 2 * nAtoms];
 		}
-		MarquesEnantiomers mrq_;
 		for (size_t i = 0; i < targetIndividuals.size(); i++)
 		{
 			vector<CoordXYZ> mol2(nAtoms);
@@ -123,7 +122,7 @@ int Similarity::checkSimilarity(std::vector<double> &x)
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];
 			}
-			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
+			double distanceDiffererence = marqRmsd_.marquesRmsd(mol1, mol2);
 			if (distanceDiffererence < tolSimilarity)
 			{
 				if (printLevel > 0)
@@ -208,7 +207,6 @@ int Similarity::checkSimilarity(
 		}
 
 		vector<double> colectAllDifferences;
-		MarquesEnantiomers mrq_;
 		for (size_t i = 0; i < targedIndividuals.size(); i++)
 		{
 			vector<CoordXYZ> mol2(nAtoms);
@@ -219,7 +217,7 @@ int Similarity::checkSimilarity(
 				mol2[k].y = targedIndividuals[i][k + nAtoms];
 				mol2[k].z = targedIndividuals[i][k + 2 * nAtoms];
 			}
-			double distanceDiffererence = mrq_.marquesRmsd(mol1,mol2);
+			double distanceDiffererence = marqRmsd_.marquesRmsd(mol1,mol2);
 			colectAllDifferences.push_back(distanceDiffererence);
 			if (distanceDiffererence < tolSimilarity)
 			{
@@ -306,7 +304,6 @@ double Similarity::checkSimilarityIntoBfgs()
 		}
 
 		vector<double> colectAllDifferences;
-		MarquesEnantiomers mrq_;
 		for (size_t i = 0; i < targetIndividuals.size(); i++)
 		{
 			vector<CoordXYZ> mol2(nAtoms);
@@ -317,7 +314,8 @@ double Similarity::checkSimilarityIntoBfgs()
 				mol2[k].y = targetIndividuals[i][k + nAtoms];
 				mol2[k].z = targetIndividuals[i][k + 2 * nAtoms];
 			}
-			double distanceDiffererence = mrq_.marquesRmsd(mol1, mol2);
+			double distanceDiffererence = marqRmsd_.marquesRmsd(mol1, mol2);
+
 			colectAllDifferences.push_back(distanceDiffererence);
 			if (distanceDiffererence < tolSimilarity)
 			{

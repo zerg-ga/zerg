@@ -24,7 +24,9 @@ public:
 private:
 
 	float ran3(int * idum);
-
+	int inext, inextp;
+	long ma[56];
+	int iff;
 
 };
 }
