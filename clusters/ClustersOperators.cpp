@@ -209,6 +209,14 @@ bool ClustersOperators::check_similarity(int target)
 			for(size_t i = 0; i < corrections.size(); i++)
 				energy[fitnessRank[corrections[i]]] = 1.0e99;
 		}
+		else if(removeSimilarStructures == 0)
+		{
+			sim_.compareAllIndividuals(
+	        		x_vec,
+        			fitnessRank);
+		}
+
+
 		return false;
 	}
 

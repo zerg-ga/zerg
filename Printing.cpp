@@ -358,6 +358,16 @@ void Printing::printSimilarityDistances(vector<double> &distances)
 	similarityOutput_ << endl;
 }
 
+void Printing::printEqualStructures(vector<int> &equalStruct)
+{
+	similarityOutput_ << endl << "Equal structures:  ";
+	for(size_t i = 0; i < equalStruct.size();i++)
+		similarityOutput_ << equalStruct[i] << "  ";
+	
+	similarityOutput_ << endl;
+}
+
+
 void Printing::printSimilarityDistancesSelected(vector<double> &distances)
 {
 	similarityOutput_ << "selected structures" << endl;

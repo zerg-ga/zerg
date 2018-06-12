@@ -82,7 +82,7 @@ namespace zerg {
 		void printEndIntoBfgs();
 		void printSimTitle();
 		void printInitialSimTitle();
-
+		void printEqualStructures(std::vector<int> &equalStruct);
 
 	private:
 		std::ofstream mainOutput_;

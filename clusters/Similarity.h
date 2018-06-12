@@ -36,6 +36,11 @@ public:
 	void bestIndividualsCorrections(
         	std::vector<int> & corrections);
 
+	void compareAllIndividuals(
+        	std::vector< std::vector<double> > & x_vec,
+        	std::vector<int> & fitnessRank);
+
+
 	void printNewBfgsInd();
 
 	void printBfgsSteps();

@@ -383,6 +383,54 @@ void Similarity::bestIndividualsCorrections(
 }
 
 
+void Similarity::compareAllIndividuals(
+	std::vector< std::vector<double> > & x_vec,
+	std::vector<int> & fitnessRank)
+{
+	if(method == 1)
+	{
+		cout << "initial of comparissons" << endl;
+		vector<int> similarStructures;
+		vector<bool> areSimilar(fitnessRank.size());
+		for(size_t i = 0; i < areSimilar.size(); i++)
+			areSimilar[i] = false;
+
+		for(int i = 0; i < fitnessRank.size() - 1; i++)
+		{
+			if(areSimilar[i])
+				continue;
+			for(int j = i + 1; j < fitnessRank.size(); j++)
+			{
+				if(areSimilar[j])
+					continue;
+
+				vector< vector<double> > indI(1);
+				vector< vector<double> > indJ(1);
+				indI[0] = x_vec[fitnessRank[i]];
+				indJ[0] = x_vec[fitnessRank[j]];
+				int equal = checkSimilarity(
+						indI[0],
+						indJ);
+
+				if(equal != -1)
+				{
+					areSimilar[j] = true;
+					x_vec[fitnessRank[j]] = x_vec[fitnessRank[i]];
+					cout << i << " is equal to " << j << endl;
+				}
+			}
+		}
+		vector<int> equalStruct;
+		for(size_t i = 0; i < areSimilar.size(); i++)
+		{
+			if(areSimilar[i])
+				equalStruct.push_back(fitnessRank[i]);
+		}
+		pPrinting_->printEqualStructures(equalStruct);
+	}
+
+}
+
 
 
 void Similarity::appendTosimilarity()
