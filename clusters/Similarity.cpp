@@ -351,7 +351,20 @@ void Similarity::addTargetIndividuals(
 {
 	if (method == 1)
 	{
-		if (fitnessRank.size() != 0)
+		if(distinctStruct.size() != 0)
+		{
+			int size;
+			if(distinctStruct.size() < bestIndividualsSize)
+				size = distinctStruct.size();
+			else
+				size = bestIndividualsSize;
+
+			targetIndividuals.clear();
+			for (int i = 0; i < size; i++)
+				targetIndividuals.push_back(x_vec[distinctStruct[i]]);
+
+		}
+		else if (fitnessRank.size() != 0)
 		{
 			targetIndividuals.clear();
 			for (int i = 0; i < bestIndividualsSize; i++)
@@ -389,45 +402,47 @@ void Similarity::compareAllIndividuals(
 {
 	if(method == 1)
 	{
-		cout << "initial of comparissons" << endl;
-		vector<int> similarStructures;
-		vector<bool> areSimilar(fitnessRank.size());
-		for(size_t i = 0; i < areSimilar.size(); i++)
-			areSimilar[i] = false;
-
-		for(int i = 0; i < fitnessRank.size() - 1; i++)
+		distinctStruct.clear();
+		distinctStruct.push_back(fitnessRank[0]);
+		if(distinctStruct.size() == (size_t)bestIndividualsSize)
 		{
-			if(areSimilar[i])
-				continue;
-			for(int j = i + 1; j < fitnessRank.size(); j++)
-			{
-				if(areSimilar[j])
-					continue;
+			pPrinting_->printDistinctStructures(distinctStruct);
+			return;
+		}
 
+		for(int i = 1; i < fitnessRank.size() - 1; i++)
+		{
+			bool foundEqual = false;
+			for(int j = 0; j < distinctStruct.size(); j++)//check if any distinct is equal to i
+			{
 				vector< vector<double> > indI(1);
 				vector< vector<double> > indJ(1);
 				indI[0] = x_vec[fitnessRank[i]];
-				indJ[0] = x_vec[fitnessRank[j]];
+				indJ[0] = x_vec[distinctStruct[j]];
 				int equal = checkSimilarity(
 						indI[0],
 						indJ);
-
-				if(equal != -1)
+				if(equal != -1)//equal to some other structure
 				{
-					areSimilar[j] = true;
-					x_vec[fitnessRank[j]] = x_vec[fitnessRank[i]];
-					cout << i << " is equal to " << j << endl;
+					x_vec[fitnessRank[i]] = x_vec[distinctStruct[j]];
+					foundEqual = true;
+					break;
+				}
+			}
+			if(!foundEqual)
+			{
+				distinctStruct.push_back(fitnessRank[i]);
+				if(distinctStruct.size() == (size_t)bestIndividualsSize)
+				{
+					pPrinting_->printDistinctStructures(distinctStruct);
+					return;
 				}
 			}
 		}
-		vector<int> equalStruct;
-		for(size_t i = 0; i < areSimilar.size(); i++)
-		{
-			if(areSimilar[i])
-				equalStruct.push_back(fitnessRank[i]);
-		}
-		pPrinting_->printEqualStructures(equalStruct);
 	}
+
+	pPrinting_->printDistinctStructures(distinctStruct);
+
 
 }
 

@@ -75,6 +75,7 @@ private:
 	std::vector< std::vector<double> > allCoordinates;
 	std::vector< std::vector<double> > targetIndividuals;
 	std::vector<std::string> atomLabels; 
+	std::vector<int> distinctStruct;
 	
 	zerg::Printing * pPrinting_;
 	MarquesEnantiomers marqRmsd_;

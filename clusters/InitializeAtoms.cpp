@@ -81,6 +81,7 @@ vector<double> InitializeAtoms::generateClusterFred(int natm_in, double gamma_in
 	vector<double> x(3 * natm);
 	double r, teta, fi;
 	double xi, yi, zi;
+
 	for (int i = 0; i < natm; i++)
 	{
 		int k = 0;

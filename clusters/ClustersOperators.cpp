@@ -187,7 +187,7 @@ void ClustersOperators::appendTosimilarity(int ind_i)
 	{
 		if(removeSimilarStructures == 0)
 		{
-			energy[ind_i] = energy[fitnessRank[indSimilar]] + 1.0e-4;
+			energy[ind_i] = energy[fitnessRank[indSimilar]] + 1.0e-8;
 			x_vec[ind_i] = x_vec[fitnessRank[indSimilar]];
 		}
 		else if(removeSimilarStructures == 1)
@@ -211,11 +211,9 @@ bool ClustersOperators::check_similarity(int target)
 		}
 		else if(removeSimilarStructures == 0)
 		{
-			sim_.compareAllIndividuals(
-	        		x_vec,
-        			fitnessRank);
+			sim_.compareAllIndividuals(x_vec,fitnessRank);
+			sim_.addTargetIndividuals(x_vec,fitnessRank);
 		}
-
 
 		return false;
 	}
