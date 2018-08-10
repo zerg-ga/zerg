@@ -168,6 +168,12 @@ double Fitness::runGamess(
 
 	writeInp_.createInput(mol);
 
+	if(isFileExist(gamessScr+"/"+options[1]+".inp"))
+	{
+		cout << "Scr folder cant be current folder, please, change scr path" << endl;
+		exit(1);
+	}
+
 	system(("rm " + gamessScr + "/" + options[1] + "*").c_str());
 
 	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
@@ -214,6 +220,12 @@ double Fitness::runGamess(
 	}
 
 	writeInp_.createInput(mol);
+
+	if(isFileExist(gamessScr+"/"+options[1]+".inp"))
+	{
+		cout << "Scr folder cant be current folder, please, change scr path" << endl;
+		exit(1);
+	}
 
 	system(("rm " + gamessScr + "/" + options[1] + "*").c_str());
 
@@ -473,7 +485,11 @@ double Fitness::runMopac(
 	}
 }
 
-
+bool Fitness::isFileExist(const std::string& name) 
+{
+    ifstream f(name.c_str());
+    return f.good();
+}
 
 
 

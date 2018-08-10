@@ -118,7 +118,8 @@ double GamessIntoBfgs::runGamess(
 				if(!checkGamess())
 					break;
 			}
-			killGamess(child_pid);
+			if(checkGamess())
+				killGamess(child_pid);
 			sleep(1);
 			if(checkGamess())
 				killGamess(child_pid);

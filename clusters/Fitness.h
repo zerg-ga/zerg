@@ -72,6 +72,8 @@ private:
 
 	double lowestPossibleEnergy;
 
+	bool isFileExist(const std::string &name);
+
 };
 
 #endif
