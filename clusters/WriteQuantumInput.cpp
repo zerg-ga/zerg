@@ -220,7 +220,7 @@ void WriteQuantumInput::buildGamessInput(vector<CoordXYZ> &coordinates, string i
 				if(ecpUsed == "")
 					ecpUsed = atomEcp[i][0];
 				else if(ecpUsed != atomEcp[i][0])
-					ecpUsed = "";
+					ecpUsed = atomEcp[i][0];
 				else
 				{
 					stringstream convertEcp;
