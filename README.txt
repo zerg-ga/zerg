@@ -30,6 +30,7 @@ alfaMaxGeometricDisplacement = R       - parametro do GCDO
 wGeometricDisplacement = R             - parametro do GCDO
 tetaMinTwistOperator = R               - parametro do Twist
 tetaMaxTwistOperator = R               - parametro do Twist
+checkMinimum = flag                    - activated para ativar a checagem
 contractionMinMoveToCenter = R         - parametro do move to center
 contractionMaxMoveToCenter = R         - parametro do move to center
 %

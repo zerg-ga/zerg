@@ -114,6 +114,14 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.contractionMinMtco;
 		else if (type == "contractionMaxMoveToCenter")
 			convert >> gaParam.contractionMaxMtco;
+		else if (type == "checkMinimum"){
+			string checkMin;
+			convert >> checkMin;
+			if(checkMin == "activated")
+				gaParam.isToCheckMinimum = true;
+			else
+				gaParam.isToCheckMinimum = false;
+		}
 		else if (type == "activateIntoBfgs")
 		{
 			int readActivateBfgs;
@@ -596,6 +604,7 @@ void ReadGaInput::setDefaults()
 	gaParam.maxDistance = 1.0e99;
 	gaParam.minDistance = 0.2e0;
 	gaParam.printingDebug = 0;
+	gaParam.isToCheckMinimum = false;
 
 	AuxMath auxMath_;
 

@@ -38,6 +38,7 @@ struct GaParameters
 	double minDistance;
 	int insistOnSimilar;
 	int printingDebug;
+	bool isToCheckMinimum;
 	std::vector<double> initialCreationRate;
 
 	// system parameters

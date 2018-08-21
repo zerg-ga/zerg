@@ -28,6 +28,7 @@ private:
 	int generation;
 	int pop_size;
 	int maxGeneration;
+	bool isToCheckMinimum;
 	
 	bool checkHighlanderStop(int i);
 	double highlanderFitness;

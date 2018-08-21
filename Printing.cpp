@@ -63,6 +63,11 @@ void Printing::showAllParameters(
 	mainOutput_ << "Admin max percentage: " << gaParam.adminMaxCreationVariation << endl;
 	mainOutput_ << "Predator method: " << gaParam.predatorMethod << endl;
 	mainOutput_ << "Individuals predated: " << gaParam.numberOfKilling << endl;
+	if(gaParam.isToCheckMinimum)
+		mainOutput_ << "Check frequency: activated " << endl;
+	else
+		mainOutput_ << "Check frequency: deactivated " << endl;
+
 	mainOutput_ << "Mutation value: " << gaParam.mutationValue << endl;
 	mainOutput_ << "CrossoverWeight: " << gaParam.crossoverWeight << endl;
 	mainOutput_ << "Crossover probability: " << gaParam.corssoverProbability << endl;

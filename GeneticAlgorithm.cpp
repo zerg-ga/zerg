@@ -37,6 +37,7 @@ GeneticAlgorithm::GeneticAlgorithm(
 	highlanderFitness = gaParam.highlanderInitialFitness;
 	highlanderMaxIteration = gaParam.highlanderMaxIteration;
 	highlanderThreshold = gaParam.highlanderThreshold;
+	isToCheckMinimum = gaParam.isToCheckMinimum;
 
 	//initializing objects
 	pred_.initialize_predator(pop_size, gaParam.numberOfKilling, pPrinting_);
@@ -100,18 +101,20 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 
 	if((i - highlanderFirstAppearence) >= highlanderMaxIteration)
 	{
-		double firstFrequency = pop.checkMinimum(highlander);
-		if (firstFrequency < 0.0e0)
-		{
+		if(isToCheckMinimum){
+			double firstFrequency = pop.checkMinimum(highlander);
+			if (firstFrequency < 0.0e0)
+			{
+				pPrinting_->highlanderMessage(highlander, firstFrequency);
+				highlanderFitness = 1.0e99;
+				return false;	
+			}
 			pPrinting_->highlanderMessage(highlander, firstFrequency);
-			highlanderFitness = 1.0e99;
-			return false;	
 		}
 		else
-		{
-			pPrinting_->highlanderMessage(highlander, firstFrequency);
-			return true;
-		}
+			pPrinting_->highlanderMessage(highlander, 0.0e0);
+		
+		return true;
 	}
 	else
 		return false;
