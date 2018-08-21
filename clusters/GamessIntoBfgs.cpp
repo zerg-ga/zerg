@@ -34,8 +34,12 @@ double GamessIntoBfgs::runGamess(
 
 	if(checkGamess())
 	{
-		cout << "Don't work with multiple gamess runs - exiting" << endl;
-		exit(1);
+		killGamess();
+		if(checkGamess())
+		{
+			cout << "Don't work with multiple gamess runs - exiting" << endl;
+			exit(1);
+		}
 	} 
 
 	pid_t child_pid;
@@ -156,16 +160,22 @@ void GamessIntoBfgs::killGamess(pid_t child_pid)
 	kill(child_pid, SIGTERM);
 	int status;
 	wait(&status);
+	killGamess();
+}
+
+
+void GamessIntoBfgs::killGamess()
+{
 	system("ps ax | grep gamess.00.x > pidGamess.ga");
 	ifstream readPid_("pidGamess.ga");
 	string auxline;
 	getline(readPid_, auxline);
 	string pidGamess;
 	readPid_ >> pidGamess;
-	system(("kill " + pidGamess).c_str());
+	system(("kill -9 " + pidGamess).c_str());
 	readPid_.close();
 	remove("pidGamess.ga");
 	sleep(1);
-}
 
+}
 

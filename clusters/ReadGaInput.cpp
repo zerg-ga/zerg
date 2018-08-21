@@ -112,9 +112,8 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.tetaMaxTwisto;
 		else if (type == "contractionMinMoveToCenter")
 			convert >> gaParam.contractionMinMtco;
-		else if (type == "contractionMaxMoveToCenter")
-			convert >> gaParam.contractionMaxMtco;
-		else if (type == "checkMinimum"){
+		else if (type == "checkMinimum")
+		{
 			string checkMin;
 			convert >> checkMin;
 			if(checkMin == "activated")
@@ -122,6 +121,8 @@ void ReadGaInput::readGaInput()
 			else
 				gaParam.isToCheckMinimum = false;
 		}
+		else if (type == "contractionMaxMoveToCenter")
+			convert >> gaParam.contractionMaxMtco;
 		else if (type == "activateIntoBfgs")
 		{
 			int readActivateBfgs;

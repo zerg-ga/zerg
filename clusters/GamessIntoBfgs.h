@@ -36,6 +36,7 @@ private:
 	bool checkGamess();
 	
 	void killGamess(pid_t child_pid);
+	void killGamess();
 
 };
 
