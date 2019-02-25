@@ -77,6 +77,7 @@ double GamessIntoBfgs::runGamess(
 			for(int i = 0; i < 120; i++)
 			{
 				sleep(1);
+				bool check = checkGamess();
 				if(checkGamess())
 					break;
 			}
@@ -107,8 +108,6 @@ double GamessIntoBfgs::runGamess(
 					if(simFlag < -1.0e90)
 						killGamess(child_pid);
 		
-					/*	
-					cout << "NSERCH:  " << readQ_.getNserch() << endl;
 			        	for(size_t i = 0; i < mol.size(); i++)
        					{
           					     cout << mol[i].atomlabel << "  "
@@ -116,7 +115,7 @@ double GamessIntoBfgs::runGamess(
                      					  << mol[i].y << "  "
                        					  << mol[i].z << endl;
 		        		} 		
-					*/
+					
 
 				}
 				if(!checkGamess())
@@ -147,12 +146,16 @@ bool GamessIntoBfgs::checkGamess()
 	system("ps ax | grep gamess.00.x > pidGamess.ga");
 	ifstream readPid_("pidGamess.ga");
 	string auxline;
-	getline(readPid_, auxline);
-	readPid_.close();
-	remove("pidGamess.ga");
-	if(auxline.find("grep") != string::npos)
-		return false;
-	return true;
+	while(getline(readPid_, auxline))
+	{
+		if(auxline.find("grep") == string::npos)
+		{
+			readPid_.close();
+			remove("pidGamess.ga");
+			return true;
+		}
+	}
+	return false;
 }
 
 void GamessIntoBfgs::killGamess(pid_t child_pid)
@@ -169,13 +172,19 @@ void GamessIntoBfgs::killGamess()
 	system("ps ax | grep gamess.00.x > pidGamess.ga");
 	ifstream readPid_("pidGamess.ga");
 	string auxline;
-	getline(readPid_, auxline);
-	string pidGamess;
-	readPid_ >> pidGamess;
-	system(("kill -9 " + pidGamess).c_str());
+	while(getline(readPid_, auxline))
+	{
+		if(auxline.find("grep") == string::npos)
+		{
+			stringstream convert;
+			convert << auxline;
+			string pidGamess;
+			convert >> pidGamess;
+			system(("kill -9 " + pidGamess).c_str());
+		}
+	}
 	readPid_.close();
 	remove("pidGamess.ga");
 	sleep(1);
-
 }
 
