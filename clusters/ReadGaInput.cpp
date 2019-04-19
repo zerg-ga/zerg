@@ -454,59 +454,10 @@ void ReadGaInput::baseFilesOrdering(
 	}
 }
 
-
-/*
-void ReadGaInput::setExperimentDefaults(int seed)
-{
-	gaParam.seed = seed;
-	gaParam.restart = false;
-	gaParam.pop_size = 40;
-	gaParam.maxGeneration = 300;
-	gaParam.highlanderInitialFitness = 1.0e99;
-	gaParam.highlanderMaxIteration = 300;
-	gaParam.adminLargeEnergyVariation = 2.0e0;
-	gaParam.adminMaxCreationVariation = 0.0e0;
-	gaParam.insistOnSimilar = 50;
-	gaParam.predatorMethod = 0;
-	gaParam.n_process = 1;
-
-	gaParam.mutationValue = 0.1e0;
-	gaParam.crossoverWeight = 0.7e0;
-	gaParam.corssoverProbability = 0.7e0;
-	gaParam.numberOfParameters = 15;
-	gaParam.gammaInitializeAtoms = 0.4;
-	gaParam.rcaInitializeAtoms = 2.0;
-	gaParam.maxDistance = 1.0e99;
-	gaParam.minDistance = 0.2e0;
-
-	AuxMath auxMath_;
-	// OPERATORS PARAMETERS
-	gaParam.scdo = 0.2e0;
-	gaParam.alfaMinGcdo = 0.2e0;
-	gaParam.alfaMaxGcdo = 0.45e0;
-	gaParam.wGcdo = 2;
-	gaParam.tetaMinTwisto = auxMath_._pi / 6;
-	gaParam.tetaMaxTwisto = auxMath_._pi;
-	gaParam.contractionMinMtco = 0.1e0;
-	gaParam.contractionMaxMtco = 0.8e0;
-
-	gaParam.initialCreationRate.resize(7);
-	gaParam.initialCreationRate[0] = 0.0e0;
-	gaParam.initialCreationRate[1] = 0.0e0;
-	gaParam.initialCreationRate[2] = 0.0e0;
-	gaParam.initialCreationRate[3] = 0.0e0;
-	gaParam.initialCreationRate[4] = 0.0e0;
-	gaParam.initialCreationRate[5] = 0.0e0;
-	gaParam.initialCreationRate[6] = 0.0e0;
-}
-*/
-
 void ReadGaInput::setInputInformations(GaParameters gaParam_in)
 {
 	gaParam = gaParam_in;
 }
-
-
 
 vector<string> ReadGaInput::getOptions()
 {
@@ -613,7 +564,7 @@ void ReadGaInput::setDefaults()
 	gaParam.alfaMaxGcdo = 0.7e0;
 	gaParam.wGcdo = 2;
 	gaParam.tetaMinTwisto = 0.1e0 * auxMath_._pi;
-	gaParam.tetaMaxTwisto = 0.5e0 *auxMath_._pi;
+	gaParam.tetaMaxTwisto = 0.5e0 * auxMath_._pi;
 	gaParam.scdo = 0.2e0;
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
