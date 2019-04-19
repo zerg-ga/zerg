@@ -49,7 +49,6 @@ void Printing::showAllParameters(
 {
 	mainOutput_ << "END OF GA INPUT " << endl << endl << endl;
 	mainOutput_ << "Printing all run information: " << endl;
-
 	mainOutput_ << "Project name: " << projectName << endl;
 	mainOutput_ << "Seed:  " << gaParam.seed << endl;
 	mainOutput_ << "Restart: " << gaParam.restart << endl;
@@ -67,7 +66,6 @@ void Printing::showAllParameters(
 		mainOutput_ << "Check frequency: activated " << endl;
 	else
 		mainOutput_ << "Check frequency: deactivated " << endl;
-
 	mainOutput_ << "Mutation value: " << gaParam.mutationValue << endl;
 	mainOutput_ << "CrossoverWeight: " << gaParam.crossoverWeight << endl;
 	mainOutput_ << "Crossover probability: " << gaParam.corssoverProbability << endl;
@@ -87,6 +85,9 @@ void Printing::showAllParameters(
 	mainOutput_ << "MinMtco: " << gaParam.contractionMinMtco << endl;
 	mainOutput_ << "MaxMtco: " << gaParam.contractionMaxMtco << endl;
 	mainOutput_ << "activateIntoBfgs:  " << gaParam.activateIntoBfgs << endl;
+	mainOutput_ << "isToMakeExperiment:  " << gaParam.isToMakeExperiment << endl;
+	mainOutput_ << "experimentFinalEnergy:  " << gaParam.experimentFinalEnergy << endl;
+	mainOutput_ << "experimentMaxSteps:  " << gaParam.experimentMaxSteps << endl;
 	mainOutput_ << "Similarity method:  " << gaParam.similarityMethod << endl;
 	mainOutput_ << "Similarity Debug level:  " << gaParam.similarityDebugLevel << endl;
 	mainOutput_ << "Similirity tolerance:  " << gaParam.tolSimilarity << endl;

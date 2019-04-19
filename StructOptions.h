@@ -71,9 +71,13 @@ struct GaParameters
 	int removeSimilarStructures;
 	int bestIndividualSize;
 
+	//experiment parameters
+        bool isToMakeExperiment;
+        double experimentFinalEnergy;
+        int experimentMaxSteps;
+
 	//util
 	std::string experimentMethod;
-
 
 
 };

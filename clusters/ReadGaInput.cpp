@@ -55,11 +55,7 @@ void ReadGaInput::readGaInput()
 		if (type == "seed")
 			convert >> gaParam.seed;
 		else if (type == "restart")
-		{
-			string flagYes;
-			convert >> flagYes;
-			gaParam.restart = (flagYes == "yes");
-		}
+			gaParam.restart = convertInputToBool(convert);
 		else if (type == "number_of_cores")
 			convert >> gamessNproc;
 		else if (type == "project_name")
@@ -113,25 +109,11 @@ void ReadGaInput::readGaInput()
 		else if (type == "contractionMinMoveToCenter")
 			convert >> gaParam.contractionMinMtco;
 		else if (type == "checkMinimum")
-		{
-			string checkMin;
-			convert >> checkMin;
-			if(checkMin == "activated")
-				gaParam.isToCheckMinimum = true;
-			else
-				gaParam.isToCheckMinimum = false;
-		}
+			gaParam.isToCheckMinimum = convertInputToBool(convert);
 		else if (type == "contractionMaxMoveToCenter")
 			convert >> gaParam.contractionMaxMtco;
 		else if (type == "activateIntoBfgs")
-		{
-			int readActivateBfgs;
-			convert >> readActivateBfgs;
-			if (readActivateBfgs == 0)
-				gaParam.activateIntoBfgs = false;
-			else
-				gaParam.activateIntoBfgs = true;
-		}
+			gaParam.activateIntoBfgs = convertInputToBool(convert);
 		else if (type == "similarityMethod")
 			convert >> gaParam.similarityMethod;
 		else if (type == "removeSimilarStructures")
@@ -170,6 +152,16 @@ void ReadGaInput::readGaInput()
 			convert >> userMethod;
 			userDefinedSet(userMethod);
 		}
+		else if (type == "isToMakeExperiment")
+			gaParam.isToMakeExperiment = convertInputToBool(convert);
+		else if (type == "experimentFinalEnergy")
+			convert >> gaParam.experimentFinalEnergy;
+		else if (type == "experimentMaxSteps")
+			convert >> gaParam.experimentMaxSteps;
+		else if (type == "gamma_creation_radius")
+			convert >> gaParam.gammaInitializeAtoms;
+		else if (type == "gamma_creation_radius")
+			convert >> gaParam.gammaInitializeAtoms;
 		else if (type == "gamma_creation_radius")
 			convert >> gaParam.gammaInitializeAtoms;
 		else if (type == "radius_factor")
@@ -389,6 +381,13 @@ void ReadGaInput::readGaInput()
 		cout << "Interaction potential not found - exiting" << endl;
 		exit(1);
 	}
+}
+
+bool ReadGaInput::convertInputToBool(std::stringstream &convert)
+{
+	int readActivate;
+	convert >> readActivate;
+	return readActivate != 0;
 }
 
 void ReadGaInput::baseFilesOrdering(
@@ -638,6 +637,11 @@ void ReadGaInput::setDefaults()
 	gaParam.generationToChangeInteraction = -1;
 	for (int i = 0; i < nAtoms; i++)
 		gaParam.atomLabels.push_back("H");
+
+	// EXPERIMENT
+	gaParam.isToMakeExperiment = false;
+	gaParam.experimentFinalEnergy = 0;
+	gaParam.experimentMaxSteps = 0;
 
 	// INITIAL OPERATORS
 	int nOperators = 8;

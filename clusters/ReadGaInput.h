@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 class ReadGaInput
 {
@@ -48,6 +49,7 @@ private:
 		int & n1,
 		int & n2,
 		int & n3);
+	bool convertInputToBool(std::stringstream &convert);
 
 	zerg::Printing * pPrinting_;
 
