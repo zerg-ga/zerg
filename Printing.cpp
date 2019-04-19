@@ -18,6 +18,7 @@ namespace zerg {
 	
 Printing::Printing()
 {
+	startPrinting();
 }
 
 Printing::~Printing()
@@ -144,7 +145,7 @@ void Printing::setCreationDebug(int creationDebug)
 		creationOutput_.open("operators-debug.txt");
 }	
 
-void Printing::showExperimentMethod(string experimentMethod)
+void Printing::startPrinting()
 {
 	mainOutput_.open("ga-output.txt");
 	mainOutput_ << "//////////////////////////////////////////" << endl
@@ -161,8 +162,6 @@ void Printing::showExperimentMethod(string experimentMethod)
 	string dateI(buffer);
 	mainOutput_ << "Date:  " << dateI << endl << endl;
 #endif
-
-	mainOutput_ << "Chosen GA option:  " << experimentMethod << endl << endl;
 }
 
 void Printing::openSimilarityFile()

@@ -47,7 +47,6 @@ void Predator::get_dead_individuals(Population &pop)
 		dead_individuals[i_index] = fitness_rank[j];
 		i_index++;
 	}
-
 	pPrinting_->energyMessage(fitness_rank, dead_individuals,fitness_energies);
 
 }

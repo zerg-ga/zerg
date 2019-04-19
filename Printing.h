@@ -21,7 +21,7 @@ namespace zerg {
 
 
 		//main output - Read input
-		void showExperimentMethod(std::string experimentMethod);
+		void startPrinting();
 		void gaStartInputReading();
 		void showInputLines(std::string auxline);
         	void showAllParameters(
