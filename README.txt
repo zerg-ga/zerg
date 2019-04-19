@@ -30,9 +30,12 @@ alfaMaxGeometricDisplacement = R       - parametro do GCDO
 wGeometricDisplacement = R             - parametro do GCDO
 tetaMinTwistOperator = R               - parametro do Twist
 tetaMaxTwistOperator = R               - parametro do Twist
-checkMinimum = flag                    - activated para ativar a checagem
+checkMinimum = Bool                    - 1 para ativar um calculo de hessiana no fim da execucao
 contractionMinMoveToCenter = R         - parametro do move to center
 contractionMaxMoveToCenter = R         - parametro do move to center
+isToMakeExperiment = Bool              - 1 para realizar o experimento do SBQT (default=0)
+experimentFinalEnergy = R              - Quando o algoritmo atinge essa energia ele para.
+experimentMaxSteps = n                 - Numero maximo de passos do experimento.
 %
 %
 number_of_atoms = n                    - numero de atomos
