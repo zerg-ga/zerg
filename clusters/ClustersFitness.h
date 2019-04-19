@@ -21,19 +21,11 @@ public:
 		std::string gamessScr_in,
 		std::string nProc_in,
 		zerg::Printing * pPrinting_in);
-
 	~ClustersFitness();
-
 	void local_optimization(int ind_i);
-
 	void printAllIndividuals(std::string fileName);
-
 	int getNumberOfLocalMinimizations() { return numberOfLocalMinimizations; }
-
-	void setExperimentConditions(double globalMinimaEnergy_in, double maxMinimizations_in);
-
 	double checkMinimum(int ind_i);
-
 	void printBfgsSteps();
 
 private:
@@ -68,6 +60,7 @@ private:
 	double maxMinimizations;
 	int seed;
 	std::string experimentMethod;
+	void setExperimentConditions(zerg::GaParameters & gaParam);
 	void endExperimentConditions(double energy);
 
 

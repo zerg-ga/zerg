@@ -34,9 +34,8 @@ ClustersFitness::ClustersFitness(
 	iRestart = 0;
 	interactionChanged = false;
 	numberOfLocalMinimizations = 0;
-	makeExperiment = false;
 	atomLabels = gaParam.atomLabels;
-//	setExperimentConditions(-108.315e0, 3000); SBQT - EXPERIMENTOS
+	setExperimentConditions(gaParam); //SBQT - EXPERIMENTS
 	interactionType = gaParam.interactionPotentialType;
 	if(interactionType == 4)
 		changeInteraction(2);
@@ -69,10 +68,7 @@ ClustersFitness::ClustersFitness(
 
 	seed = gaParam.seed;
 	experimentMethod = gaParam.experimentMethod;
-
-	// estimated time . . .
 	bool aux;
-
 	if(sim_.printLevel > 1)
 		sim_.printLevel = 1;
 	sim_.printInitialTitle();
@@ -151,8 +147,6 @@ void ClustersFitness::optimize(int ind_i)
 			interactionParameters,
 			atomTypes,
 			&sim_);
-		//energy[ind_i] = fit_.optimizeEmpiricalPotential(x_vec[ind_i], 0);
-		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	}
 	else
 	{
@@ -277,11 +271,11 @@ void ClustersFitness::readRestartFile()
 	restart_.close();
 }
 
-void ClustersFitness::setExperimentConditions(double globalMinimaEnergy_in, double maxMinimizations_in)
+void ClustersFitness::setExperimentConditions(GaParameters &gaParam)
 {
-	globalMinimaEnergy = globalMinimaEnergy_in;
-	maxMinimizations = maxMinimizations_in;
-	makeExperiment = true;
+	makeExperiment = gaParam.isToMakeExperiment;
+	globalMinimaEnergy = gaParam.experimentFinalEnergy;
+	maxMinimizations = gaParam.experimentMaxSteps;
 }
 
 void ClustersFitness::endExperimentConditions(double energy)
