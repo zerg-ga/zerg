@@ -1,0 +1,37 @@
+% SYSTEM OPTIONS
+seed = 0
+project_name = lj26
+number_of_atoms = 26
+%
+%
+% INTERACTION OPTIONS
+interaction_potential = lennardjones
+%
+%
+% GA OPTIONS
+population_size = 40
+maximum_number_of_generations = 300
+%
+%
+% PARAMETERS
+gamma_creation_radius = 0.2
+radius_factor = 1.0
+max_distance_between_atoms = 1.0e99
+%
+%
+% EXPERIMENT
+user_defined_method = 18
+isToMakeExperiment = 1
+experimentFinalEnergy = -108.3156
+experimentMaxSteps = 3000
+%
+% MACHINE OPTIONS
+printing_debug = 1
+number_of_cores = 4
+restart = no
+gamess_executable_path = /home/vultor/gamess/rungms
+gamess_scr_path = /scr
+%
+%
+%
+%
