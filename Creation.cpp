@@ -100,12 +100,11 @@ void Creation::set_creation_methods(Predator &pred)
 	int numberToCreateOnCreationMethods = 0;
 	while (numberToCreateOnCreationMethods != pred.dead_individuals.size())
 	{
-		// gera um numero aleatorio de 0 a 1.
-		double randomWheel = rand_->randomNumber(0.0e0, 1.0e0);
+		double randomWheel = rand_->randomNumber(0.0e0, 1.0e0); //gere um numero
 		int sortedOperator = createWheel.size() - 1;
-		for (size_t i = 0; i < createWheel.size(); i++)
+		for (size_t i = 0; i < createWheel.size(); i++)//itere sobre todas os pontos da roda
 		{
-			if (randomWheel < createWheel[i])
+			if (randomWheel < createWheel[i])  //esta em ordem crescente, entao esse menor aponta para o operador certo
 			{
 				sortedOperator = i;
 				break;

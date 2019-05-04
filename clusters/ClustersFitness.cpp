@@ -26,6 +26,7 @@ ClustersFitness::ClustersFitness(
 :ClustersOperators(
 	gaParam.pop_size,
 	gaParam.numberOfParameters,
+	(int) gaParam.initialCreationRate.size(),
 	pPrinting_in)
 {
 	options = options_in;

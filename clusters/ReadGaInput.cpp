@@ -466,6 +466,8 @@ vector<string> ReadGaInput::getOptions()
 
 void ReadGaInput::userDefinedSet(int userMethod)
 {
+	int EXCHANGE_OPERATOR = 13;
+	gaParam.initialCreationRate.resize(EXCHANGE_OPERATOR + 1);
 	gaParam.adminMaxCreationVariation = 0.0e0;
 	gaParam.adminLargeEnergyVariation = 0.0e0;
 	for(size_t i = 0; i < gaParam.initialCreationRate.size(); i++)
@@ -475,7 +477,7 @@ void ReadGaInput::userDefinedSet(int userMethod)
 		case 1:
 			// Deaven and Ho genetic algorithm
         		gaParam.initialCreationRate[0] = 0.1e0;
-        		gaParam.initialCreationRate[1] = 0.1e0;
+        		gaParam.initialCreationRate[EXCHANGE_OPERATOR] = 0.1e0;
         		gaParam.initialCreationRate[4] = 0.7e0;
         		gaParam.initialCreationRate[7] = 0.1e0;
 			break;
@@ -595,7 +597,7 @@ void ReadGaInput::setDefaults()
 	gaParam.experimentMaxSteps = 0;
 
 	// INITIAL OPERATORS
-	int nOperators = 8;
+	int nOperators = 5;
 	double nOperatorsRate = 1.0e0 / (double)nOperators;
 	gaParam.initialCreationRate.resize(nOperators);
 	for(int i = 0; i < nOperators; i++)

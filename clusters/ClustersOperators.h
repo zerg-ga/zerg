@@ -17,6 +17,7 @@ public:
 	ClustersOperators(
 		int pop_size, 
 		int number_parameters,
+		int number_operators,
 		zerg::Printing * pPrinting_in);
 	~ClustersOperators();
 

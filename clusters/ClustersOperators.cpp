@@ -15,11 +15,12 @@ using namespace zerg;
 ClustersOperators::ClustersOperators(
 	int pop_size,
 	int number_parameters,
+	int number_operators,
 	Printing * pPrinting_in)
 :BasicOperators(pop_size, number_parameters)
 {
 	pPrinting_ = pPrinting_in;
-	number_of_creation_methods = 8;
+	number_of_creation_methods = number_operators;
 	generation = 0;
 }
 
@@ -60,58 +61,60 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		break;
 
 	case 1:
-		x_vec[target] = exchangeOperator(x_vec[parent1]);
-		if (x_vec[target].size() != 0)
-			break;
-
-	case 2:
 		x_vec[target] = rondinaTwistOperator(x_vec[parent1]);
 		break;
 
-	case 3:
+	case 2:
 		x_vec[target] = rondinaMoveToCenterOperator(x_vec[parent1]);
 		break;
 
-	case 4:
+	case 3:
 		x_vec[target] = deavenHoCutSplice(x_vec[parent1], x_vec[parent2]);
 		break;
 
-	case 5:
+	case 4:
 		x_vec[target] = rondinaAngularSurfaceOperator(x_vec[parent1]);
 		break;
 
-	case 6:
+	case 5:
 		x_vec[target] = rondinaAngularOperator(x_vec[parent1]);
 		break;
 
-	case 7:
+	case 6:
 		x_vec[target] = rondinaGeometricCenterDisplacementOperator(x_vec[parent1]);
 		break;
 
-	case 8:
+	case 7:
 		make_crossover_2_points(target, parent1, parent2);
 		break;
 
-	case 9:
+	case 8:
 		x_vec[target] = rondinaCartesianDisplacementOperator(x_vec[parent1]);
 		break;
 
-	case 10:
+	case 9:
 		if (!sphereCutAndSplice(target, parent1, parent2))
 			make_mutation(target, parent1);
 		break;
 
-	case 11:
+	case 10:
 		make_crossover_probability(target, parent1, parent2);
 		break;
 
-	case 12:
+	case 11:
 		make_crossover_mean(target,parent1,parent2);
 		break;
 
-	case 13:
+	case 12:
 		make_mutation(target, parent1);
 		break;
+
+	case 13:
+		x_vec[target] = exchangeOperator(x_vec[parent1]);
+		if (x_vec[target].size() != 0)
+			break;
+		else
+			throw "ERROR ON: exchangeOperator - report this bug to developers";
 
 	default:
 		cout << "Creation type not avaible" << endl;

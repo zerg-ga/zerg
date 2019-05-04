@@ -335,7 +335,7 @@ void Printing::histogramTitle(int seed)
 void Printing::histogramPrint(int method)
 {
 	if (creationOutputDebugLevel > 0)
-		creationOutput_ << method << "  ";
+		creationOutput_ << method << ";";
 }
 
 void Printing::histogramEndl()
