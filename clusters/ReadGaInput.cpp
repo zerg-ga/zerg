@@ -466,6 +466,29 @@ vector<string> ReadGaInput::getOptions()
 
 void ReadGaInput::userDefinedSet(int userMethod)
 {
+	if(userMethod == 17) {  // auto5
+		int nOperators = 5;
+		double nOperatorsRate = 1.0e0 / (double)nOperators;
+		gaParam.initialCreationRate.resize(nOperators);
+		for(int i = 0; i < nOperators; i++)
+			gaParam.initialCreationRate[i] = nOperatorsRate;
+		return;
+	} else if(userMethod == 18) {  // auto7
+		int nOperators = 7;
+		double nOperatorsRate = 1.0e0 / (double)nOperators;
+		gaParam.initialCreationRate.resize(nOperators);
+		for(int i = 0; i < nOperators; i++)
+			gaParam.initialCreationRate[i] = nOperatorsRate;
+		return;
+	} else  if(userMethod == 19) {  // auto13
+		int nOperators = 13;
+		double nOperatorsRate = 1.0e0 / (double)nOperators;
+		gaParam.initialCreationRate.resize(nOperators);
+		for(int i = 0; i < nOperators; i++)
+			gaParam.initialCreationRate[i] = nOperatorsRate;
+		return;
+	}
+
 	int EXCHANGE_OPERATOR = 13;
 	gaParam.initialCreationRate.resize(EXCHANGE_OPERATOR + 1);
 	gaParam.adminMaxCreationVariation = 0.0e0;
@@ -523,7 +546,7 @@ void ReadGaInput::userDefinedSet(int userMethod)
 		case 15:
         		gaParam.initialCreationRate[13] = 1.0e0;
 			break;
-		case 16:
+		case 16: // Previous genetic algorithm build
         		gaParam.initialCreationRate[0] = 0.1e0;
         		gaParam.initialCreationRate[9] = 0.7e0;
         		gaParam.initialCreationRate[12] = 0.2e0;
