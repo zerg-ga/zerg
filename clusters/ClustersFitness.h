@@ -61,7 +61,7 @@ private:
 	int seed;
 	std::string experimentMethod;
 	void setExperimentConditions(zerg::GaParameters & gaParam);
-	void endExperimentConditions(double energy);
+	void endExperimentConditions(int ind_i);
 
 
 };

@@ -182,7 +182,7 @@ void ClustersFitness::optimize(int ind_i)
 	numberOfLocalMinimizations++;
 
 	if (makeExperiment)
-		endExperimentConditions(energy[ind_i]);
+		endExperimentConditions(ind_i);
 }
 
 void ClustersFitness::printAllIndividuals(string fileName)
@@ -279,14 +279,16 @@ void ClustersFitness::setExperimentConditions(GaParameters &gaParam)
 	maxMinimizations = gaParam.experimentMaxSteps;
 }
 
-void ClustersFitness::endExperimentConditions(double energy)
+void ClustersFitness::endExperimentConditions(int ind_i)
 {
-	if (energy <= globalMinimaEnergy)
+	energyI = energy[ind_i];
+	if (energyI <= globalMinimaEnergy)
 	{
 		ofstream fileCsv_;
 		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
 		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
 		fileCsv_.close();
+		saveIndividual(ind_i);
 		exit(0);
 	}
 	else if (numberOfLocalMinimizations > maxMinimizations)
