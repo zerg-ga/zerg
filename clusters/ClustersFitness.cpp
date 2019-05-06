@@ -281,7 +281,7 @@ void ClustersFitness::setExperimentConditions(GaParameters &gaParam)
 
 void ClustersFitness::endExperimentConditions(int ind_i)
 {
-	energyI = energy[ind_i];
+	double energyI = energy[ind_i];
 	if (energyI <= globalMinimaEnergy)
 	{
 		ofstream fileCsv_;
