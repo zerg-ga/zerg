@@ -1,0 +1,15 @@
+
+Para executar este teste e necessario ter ase e atomistica instalados
+Alem disso, ase e atomsitica precisam estar carregados no ambiente
+python do terminal que sera executado.
+
+Digite o seguinte comando para compilar:
+g++ main.cpp RunAtomistica.cpp -o atomistica_test.x
+
+Para rodar, digite:
+./atomistica_test.x
+
+O resultado sera impresso na tela.
+
+
+

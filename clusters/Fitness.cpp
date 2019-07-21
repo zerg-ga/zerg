@@ -7,6 +7,7 @@
 #include <cmath>
 #include <sstream>
 #include <stdlib.h>
+#include <string>
 
 #include "WriteQuantumInput.h"
 #include "ReadQuantumOutput.h"
