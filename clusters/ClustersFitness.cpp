@@ -6,6 +6,8 @@
 #include "../Printing.h"
 #include "../Random.h"
 
+#include "RunAtomistica.h"
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -136,18 +138,27 @@ void ClustersFitness::optimize(int ind_i)
 	// x_vec[ind_i] is a vector<double> -> to be optimized
 	// I want:
 	// energy[ind_i] -> fitness function
+	// x_vec[ind_i] -> replaced after optimization
 
 	sim_.printNewBfgsInd();
 
 	Fitness fit_;
 	if (options.size() == 0)
 	{
+        	RunAtomistica runAtom_;
+		double atomistica_energy;
+        	vector<double> optimized = runAtom_.run(x_vec[ind_i], atomistica_energy);
+		energy[ind_i] = atomistica_energy;
+		x_vec[ind_i] = optimized;
+
+		/* NORMAL CODE
 		energy[ind_i] = fit_.optimizeEmpiricalPotential(
 			x_vec[ind_i],
 			interactionType,
 			interactionParameters,
 			atomTypes,
 			&sim_);
+		*/
 	}
 	else
 	{

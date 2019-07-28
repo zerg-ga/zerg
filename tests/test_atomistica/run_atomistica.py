@@ -36,7 +36,9 @@ try:
     file.write(str(e))
     file.close()
 except:
-    pass
+    file = open(fileOut,'a+')
+    file.write('0.0')
+    file.close()
 
 
 
