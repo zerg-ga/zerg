@@ -121,6 +121,7 @@ double Fitness::gupta(
 
 double Fitness::lennardJones(vector<double> &x)
 {
+	double THRESHOULD = 1e-1;
 	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
 	int natm = x.size() / 3;
 	double r, r2, r4, r6, r12;
@@ -138,7 +139,10 @@ double Fitness::lennardJones(vector<double> &x)
 			r4 = r2 * r2;
 			r6 = r4 * r2;
 			r12 = r6 * r6;
-			vlj += 4.0e0 * (-1 / r6 + 1 / r12);
+			if(r <  THRESHOULD)
+				vlj += 1e14;
+			else
+				vlj += 4.0e0 * (-1 / r6 + 1 / r12);
 		}
 	}
 	//if (isnan(vlj))

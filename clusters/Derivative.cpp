@@ -55,6 +55,7 @@ vector<double> Derivative::Dfit(
 vector<double> Derivative::DlennardJones(vector<double> &x)
 {
 	// x1 x2 x3 ... y1 y2 y3 ... z1 z2 z3
+	double THRESHOULD = 1e-1;
 	int natm = x.size() / 3;
 	double r, r2, r4, r8, r14;
 	double dvlj;
@@ -76,7 +77,10 @@ vector<double> Derivative::DlennardJones(vector<double> &x)
 			r8 = r4 * r4;
 			r14 = r8 * r4 * r2;
 
-			dvlj = 4.0e0 * (6.0e0 / r8 - 12.0e0 / r14);
+			if (r <  THRESHOULD)
+				dvlj = 0;
+			else
+				dvlj = 4.0e0 * (6.0e0 / r8 - 12.0e0 / r14);
 			dlj[i] += dvlj * (x[i] - x[j]);
 			dlj[i + natm] += dvlj * (x[i + natm] - x[j + natm]);
 			dlj[i + 2 * natm] += dvlj * (x[i + 2 * natm] - x[j + 2 * natm]);
