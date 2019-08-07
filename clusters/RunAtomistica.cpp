@@ -19,7 +19,7 @@ void RunAtomistica::writeXyz(vector<double> & atoms, string testName)
 {
         int natm = atoms.size() / 3;
         ofstream teste_;
-        teste_.open(testName.c_str(), std::ofstream::out | std::ofstream::app);
+        teste_.open(testName.c_str());
         teste_ << natm << endl << "t" << endl;
         for (int i = 0; i < natm; i++)
         {
