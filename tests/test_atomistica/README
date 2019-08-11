@@ -13,3 +13,38 @@ O resultado sera impresso na tela.
 
 
 
+INSTALACAO DO ATOMISTICA
+
+Download do miniconda
+
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+chmod +x (aplicacao disso no arquivo baixado)
+
+./(execucao do arquivo baixado)
+
+
+E bom criar o python com uma versao especifica, sera util posteriormente
+conda create -n ZERG python=3.6
+conda activate ZERG
+
+instalacao do ASE
+pip install ase
+
+download do atomistica
+git clone https://github.com/Atomistica/atomistica.git
+sudo apt-get install gfortran
+
+Dentro da pasta do atomistica
+python setup.py build
+
+SEMPRE QUE FOR USAR
+- Ative o ambiente
+conda activate ZERG
+- Dentro da pasta do atomistica
+source env.sh
+
+
+
+
+
